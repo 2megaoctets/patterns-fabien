@@ -1,0 +1,161 @@
+d1 $
+-- foldEvery [7, 9] (density "<0.5 0.35>") $
+whenmod 7 6 ((density "0.7 0.2 0.8 0.1") . (fast "2.5 1.5 3 1.2 4.3") . (|* release 0.125) . (# speed "<2 2.2 3 4.2 6>")) $
+every 9 (density 0.35) $
+stack [
+  -- kick1
+  stutWith 2 (0.125*3) (stutWith "4 5" (1) ((|+ shape 0.2) . (|* speed 1.2 ))) $
+    s "{~ 808bd:2(2, <5 7 9>, <2 1>)}%3.5"
+    # cut "-1 1"
+    # gain 0.9,
+  -- kick2
+  foldEvery [3, 5] ((fast 2) . (|* attack 4)) $
+    s "{~ _ 808bd:36(2, 9)}%<7 3.5>"
+      # attack "0.06 0.08"
+      # release "0.6 0.9 0.2"
+      # cut "1 2"
+      # gain 1,
+  -- voice
+  whenmod 5 3 ((0.5 <~) . (# bpf "100 1200 16000") . (slow 4)) $
+  plyWith "<3 9 2>" ((|* shape 0.5) . (|* release "2 4 8")) $
+    s "[h:6(7, 16), h:6 _ h:2 ~ h:4]"
+      # hpf 6000
+      # attack "0.2 1.2 2.1 0.4 0.5"
+      # release "0.03 0.01"
+      # pan (range 0.25 0.75 $ fast 2 sine)
+      # gain 0.85,
+  -- random
+  whenmod 8 4 ((degradeBy 0.25) . (slow 2)) $
+    n "1 8 [3 6] 5 7 [9 10 4] 2"
+    # s "future"
+    # cut "-1 2"
+    # gain 0.9,
+  -- snare
+  every 2 ((ghost) . (density 5)) $
+  every 4 (0.25 <~) $
+    s "{808sd:23}%1.75"
+      # speed 1.2
+      # release 0.05
+      # room "0.32 0.2 0.1 0.3"
+      # size "0.2 0.1 0.05 0.1"
+      # gain 1,
+  -- cowBell
+  s "808hc"
+    # room ((0.25 <~) $ range 0.2 0.6 $ rand)
+    # size (range 0 0.6 $ fast 3 square)
+    # gain 0.9,
+  -- clap
+  ghost $
+  every 3 (degradeBy 0.6) $
+  s "808:3(5, 9)"
+    # hpf 2600
+    # bpf 12000
+    # release "0.05 0.2 0.02 0.6"
+    # room (range 0.1 0.3 $ rand)
+    # size(range 0.05 0.2 $ rand)
+    # pan (range 0.15 0.85 $ fast 2.1 tri)
+    # gain (range 0.85 1 $ fast 2 $ rand)
+] # cps 0.6
+
+d1 silence
+
+d2 $ stack [
+  -- wave
+  every 3 ((0.5 <~) . (|+ speed 2)) $
+  loopAt 4.5 $
+  s "d:2"
+    # hpf 32
+    # gain 0.6,
+  -- voice1
+  every 4 (stutWith 4 0.25 ((0.25 ~>) . (|+ attack 0.2))) $
+  loopAt 2 $
+    s "ade:3(<2 5>, 9, 2)"
+      # legato (range 0.01 0.9 $ fast 2 rand)
+      # attack "0.8 0.2 0.01 0.02 0.4 0.9"
+      # release 1.2
+      # speed 0.2
+      # hpf 300
+      # cut (-1)
+      # pan (range 0.35 0.65 $ slow 2 sine)
+      # gain 0.8,
+  -- voice2
+  loopAt 18 $
+    s "pad"
+      # speed 0.4
+      # hpf 120
+      # lpf 1200
+      -- # attack 0.2
+      -- # release "0.86 1.2 0.8 0.9 1.4"
+      # pan (range 0.15 0.85 $ fast 3 square)
+      # gain 0.5,
+  -- hihat
+  every 2 rev $
+  stutWith 4 (1/3) ((density 0.1) . (fast 0.4)) $
+    s "{alex:0}%4.5"
+      # hpf 2360
+      # bpf 12000
+      # gain 0.85,
+  -- kick
+  whenmod 8 6 (density 0.7) $
+  every 8 (stutWith 4 (1/4) ((|* bpf 0.8) . (|* bpq 7) . (# gain 0.5))) $
+  s "[808bd:49(1, 12, 12), 808bd:43(2, 5, 2), 808bd:41(4, 9, 8)]"
+    # release 5.8
+    # bpf 96
+    # bpq 4.2
+    # gain 1,
+  -- clap
+  every 3 (density 1.4) $
+  s "{~@6 cp:1@3 ~@5}%9"
+    # hpf 1900
+    # size (range 0 1 $ sine)
+    # room (range 0 0.6 $ rand)
+    # gain 0.84
+] # cps 0.9
+
+d2 silence
+
+d3 $ whenmod 12 9 ((density "0.7 0.2 0.8 0.1") . (fast "2.5 1.5 3 1.2 4.3") . (|* release 0.125) . (# speed "<2 2.2 3 4.2 6>")) $
+every 10 (degradeBy 0.35) $
+stack [
+  -- kick
+  within (0.5, 0.75) (density 2.5) $
+  every 4 (slow 2) $
+  struct (binary 48) $
+    s "dr55:1"
+      # shape 0.8
+      # bpf "87 92 103"
+      # bpq "0.9 0.5 2.2"
+      # gain 1,
+  -- snare
+  every 2 (const $ s "~@3 e _") $
+  s "~@2 e@2"
+    # room "0.4 0.8 0.3"
+    # size "0.6 0.22 0.93"
+    # lpf 42
+    # hpf 14000
+    # gain 0.98,
+  -- woody
+  s "east(5, 11)"
+    # room "0.2 0.12 0.56 0.43 0.1"
+    # size "0.1 0.32 0.53 0.21 0.02"
+    # gain 0.95,
+  -- hihat
+  every 2 ((density 1.3) . ghost) $
+  s "{gretsch:5(2, 5)}%4"
+    # release 0.02
+    # pan (range 0.3 0.7 $ fast 2 sine)
+    # gain 1.1,
+  -- random
+  whenmod 6 2 ((density "0.1 0.01 0.4 1.2") . (hurry "6 0.5 3 0.2") . (stutWith 4 (1/4) (|+ shape 0.3)) . (|- gain 0.4)) $
+  chunk' 4 ((loopAt "1 2 4 7") . (# start 0.25)) $
+  s "dist"
+    # n (range 0 12 $ rand)
+    # unit "c"
+    # legato 4
+    # hpf 92
+    # gain 1
+] # cps 0.8
+
+d3 silence
+
+hush
