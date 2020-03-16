@@ -4,10 +4,10 @@ whenmod 7 6 ((density "0.7 0.2 0.8 0.1") . (fast "2.5 1.5 3 1.2 4.3") . (|* rele
 every 9 (density 0.35) $
 stack [
   -- kick1
-  stutWith 2 (0.125*3) (stutWith "4 5" (1) ((|+ shape 0.2) . (|* speed 1.2 ))) $
-    s "{~ 808bd:2(2, <5 7 9>, <2 1>)}%3.5"
-    # cut "-1 1"
-    # gain 0.9,
+  -- stutWith 2 (0.125*3) (stutWith "4 5" (1) ((|+ shape 0.2) . (|* speed 1.2 ))) $
+  --   s "{~ 808bd:2(2, <5 7 9>, <2 1>)}%3.5"
+  --   # cut "-1 1"
+  --   # gain 0.9,
   -- kick2
   foldEvery [3, 5] ((fast 2) . (|* attack 4)) $
     s "{~ _ 808bd:36(2, 9)}%<7 3.5>"
@@ -157,5 +157,273 @@ stack [
 ] # cps 0.8
 
 d3 silence
+
+d4 $ whenmod 7 5 ((hurry "2 <0.5 3 0.2>") . (|- gain 0.1)) $
+stack [
+  -- kick
+  fix (# gain 0.9) (s "ek:8") $
+  within' (0.25, 0.5) (# attack "<0.01 0.03>") $
+  every 3 (const $ s "[ek(3, 5, 4), ~ ek:8]") $
+  s "[ek(3, 5, <0 2>), ~ ek:8]"
+    # shape 0.3
+    # cut 1
+    # gain 1
+  ,
+  -- hihat
+  every 5 ((0.5 <~) . (|* speed "<3 4>") . rev) $
+   s "e(7, 10, <4 2 5>)"
+    # bpf 7000
+    # pan (range 0 1 $ rand)
+    # shape 0.7
+    # gain 0.92
+  ,
+  -- bass
+  foldEvery [3, 10] (hurry 0.8) $
+  s "~ sine:1 _ _ _"
+    # speed "0.8 0.86 0.9 1.2"
+    # gain 0.98
+  ,
+  -- snare
+  whenmod 5 4 (degradeBy 0.5) $
+  s "[v1:5(3, 10), v1:5(2, 5, <2 4 3>)]"
+    # rel 0.2
+    # gain 0.8
+  ,
+  -- melo
+  every 2 (|* speed "0.4 0.2 0.8") $
+  s "~ _ tables:0 _"
+    # shape (perlinWith (saw))
+    # speed (range 0.2 0.3 $ perlinWith (tri))
+    # cut 1
+    # gain 0.8
+] # cps 0.72
+
+d4 silence
+
+d5 $ whenmod 12 10 (chunk' 4 ((fast "0.45 0.7 1.3 0.8 2") . (density "0.2 2 0.9 0.87") . (|* gain 0.9))) $
+stack [
+  -- kick
+  every 8 (hurry 0.3) $
+  whenmod 4 3 (# release "0.08 0.06 2 0.05") $
+  s "[<~ v2:3 ~> _ v2*2, ~ v2 _ <v2:3 ~ v2> _ v2*2]"
+    # cut (wchoose[(-1, 0.75),(1, 0.25)])
+    # gain 0.9
+  ,
+  -- -- noise
+  ghost $
+  every 3 (loopAt (wchooseBy (range 0 1 $ slow 3 sine) [(2, 0.15),(4, 0.75), (8, 0.1)])) $
+  whenmod 3 2 ((slow "4 <6 2>") . (density "1.2 <3 6>") . (# triode "0.6 0.8 0.9 0.2")) $
+  stutWith 4 (1/24) (# n (fromTo 0 10)) $
+  s "v1"
+    # cut 1
+    # gain 0.8
+  ,
+  -- white
+  every 2 ((# release "<0.2 0.46 0.8 1.2 1.8 0.1>") . (stutWith 3 (1/3) (# vowel "{a y e i o u}%2"))) $
+  chunk 4 (# shape 0.9) $
+  s "ef:3*<5 2 9 1> <ef:9 ~ ef ~> ef:6"
+    # attack "0.6 0.4 0.9 1.2"
+    # gain 0.87
+  ,
+  -- snare
+  s "[~ v5:9, ~ v5:9@2 ~]"
+    # size "<0.1 0.4 0.6>"
+    # room (fromTo 0 0.3)
+    # gain 0.92
+  ,
+  -- hihat
+  sometimesBy 0.75 (superimpose (fast "<2 4 0.5>")) $
+  s "v1:13*8"
+    # rel "0.02 0.001 0.034"
+    # pan (range 0.2 0.8 $ perlin)
+    # gain 0.82
+] # cps 0.69
+
+d5 silence
+
+d6 $ someCyclesBy 0.3 (palindrome . (within (0.3, 0.85) (hurry "0.9 1.3 1.6 0.6")) . (# cut 1) . (# gain 0.84)) $
+stack [
+  -- kick
+  whenmod 6 5 (within' (0.5, 1) ((hurry "2 1.4 0.8 0.4 <1.2 0.2>") . (plyWith 6 ((# gain 0.69) . (# delay "0.5 0.32 [0.41 0.12] 0.08") . (# delayfb "0.4 0.23 0.62 [0.5 0.08 0.32]") . (# delaytime "0.5 1.2 0.1 0.06 0.013"))))) $
+  whenmod 5 4 (const $ s "[ek:5(<3 2>, 9, <7 9 12>)]*2") $
+  s "[ek:5(4, 9, <12 6>)]*2"
+    # lpf "19832*2 532 621 16000 738 18000"
+    # cut 1
+    # gain 0.98
+  ,
+  -- hihat
+  ghost $
+  s "[~ v2:2*2 _ ~ v2:2*3 ~@2 v2:2*5]"
+    # att (wchoose[(0.02, 0.25), (0.05, 0.25), (0.12, 0.5)])
+    # rel "0.2 0.013 0.043 0.05"
+    # distort "0.02 0.1 <0.3 0.01> 0.32"
+    # pan (range 0.4 0.6 $ rand)
+    # gain 0.84
+  ,
+  -- perc
+  sometimesBy 0.4 (# speed 0.4) $
+  whenmod 3 2 ((hurry 6) . (# gain 0.82)) $
+  every 2 (rev . (# rel 0.85)) $
+  s "[~@2 foleyperc:2]/2"
+    # gain 0.91
+  ,
+  -- snare
+  whenmod 4 3 (("0.25 0.5 <0.35 0.75>" <~) . (stut "6 2 4 <12 5>" 0.5 (-0.2))) $
+  every 3 (const $ s "~ _ hhh:4 _") $
+  s "hhh:4 _"
+    # cut 1
+    # gain 0.84
+  ,
+  -- tone
+  sometimesBy 0.5 (degradeBy 0.5) $
+  whenmod 6 5 (stutWith 4 (1/3) (# vowel "{i u}%9")) $
+  every 4 (within (0.25, 0.75) (const $ s "~")) $
+  s "[et:2(4, 9, 3)]*2"
+    # triode 0.6
+    # bpf 4320
+    # pan (range 0 1 $ rand)
+    # gain 0.94
+] # cps 0.32
+
+d6 silence
+
+d7 $ somecyclesBy 0.2 ((slow 5) . (hurry "<2 4.5 0.8 1.23>") . (# cut "<1 -1 -1 1 1>") . (# gain 0.82)) $
+stack [
+  -- nappe
+  loopAt 2 $
+  s "comb:1"
+    # lpf "200 800 <460 12005>"
+    # speed 0.12
+    # comb "0.56 0.4 0.2 <0.97 1.2>"
+    # cut (wchoose [(1, 0.6), (-1, 0.4)])
+    # gain 0.92
+  ,
+  -- kick
+  someCyclesBy 0.21 ((density 1.3) . (sometimesBy 0.64 ((hurry "0.6 0.3 1.7 <0.6 0.2 0.7> 0.2") . (# gain 0.86)))) $
+  someCyclesBy 0.32 (degradeBy 0.4) $
+  sometimesBy 0.19 (palindrome) $
+  fix (# gain 0.95) (s "v1:1") $
+  fix (# gain 0.92) (s "v1:0") $
+  s "~ ek:21@3 <v1:0 ~ v1:1> _ ek:21 _"
+    # cut 1
+    # gain 0.97
+  ,
+  -- hihat
+  whenmod 4 3 (hurry "<2 3 1.2> 0.4 <0.9 1.3 4>") $
+  sometimesBy 0.68 (ghost' 0.04) $
+  s "hats*7 _ hats"
+    # rel 0.001
+    # cutoff "8400 9321 12006 903"
+    # resonance "0.3 0.001 0.02 0.9"
+    # pan (range 0 1 $ perlin2 4)
+    # gain 1.6
+  ,
+  -- lofi
+  sometimesBy 0.65 (hurry "0.3 0.7 1.4") $
+  every 4 (wchoose [(0.25, 0.25), (0.5, 0.25), (0.75, 0.5)] <~) $
+  s "[if ~]/2"
+    # gain 0.82
+  ,
+  -- noise
+  every 2 ((# speed "0.8 0.2") . (# release "<1.6 0.5 [0.3 0.9]>")) $
+  s "{layer:13(2, 7, <1 2 7>)}/2"
+    # gain 0.72
+] # cps 0.92
+
+d7 silence
+
+d8 $ somecyclesBy 0.12 (rev) $
+whenmod 10 9 ((degradeBy 0.4) . (palindrome)) $
+stack [
+  -- woody
+  every 4 (degradeBy 0.5) $
+  sometimesBy 0.34 (within (0, 0.25) (stutWith 5 (1/rand) ((|* rel "0.41 0.2") . rev))) $
+  whenmod 6 5 ((|+ rel "1 0.9 0.2 0.001") . (|* (range 0 2 $ slow 2 sine))) $
+  s "[jpnperc:3 _ jpnperc:3, jpnperc:4 [jpnperc:4 jpnperc:4*2]]"
+    # att "<0 0.2 0 0 0.32>"
+    # rel "1 0.9 0.2 0.001"
+    # bpf "543 13098"
+    # cut "<-1 1>"
+    # pan (range 0.35 0.65 $ fast 2 rand)
+    # gain 1.3
+  ,
+  -- pad
+  loopAt 7 $
+  s "pads:1"
+    # rel 2.3
+    # cut (wchoose [(1, 0.3), (0, 0.7)])
+    # gain 0.74
+  ,
+  -- perc
+  someCyclesBy 0.3 (loopAt "<2 6>") $
+  s "{percs(6, 4, <3 2 6>)}%0.25"
+    # bpf (range 542 19780 $ fast 6 perlin)
+    # gain 0.93
+  ,
+  -- kick1
+  whenmod 4 2 (wchoose [(1, 0.7), (0.75, 0.3)] <~) $
+  s "[~ ek:6, ~ _ [ek:6*2 ek:7]]"
+    # cut (wchoose [(1, 0.4), (0, 0.6)])
+    # gain 1
+  ,
+  -- kick2
+  s "[~ _ _ clic:1 ~]/2"
+    # cut (wchoose [(1, 0.2), (0, 0.8)])
+    # gain 1
+  ,
+  -- melo
+  whenmod 6 4 (stutWith 4 (0.125) ((|* gain 0.9) . (hurry "[0.6 [4.2 0.3 4] 0.6]*2") . (# size "0.2 0.5 0.8") . (# room (range 0 0.5 $ slow 5 sine)))) $
+  loopAt (wchoose [(1, 0.65), (2, 0.35)]) $
+  s "~ ~ b:5"
+    # gain 1
+] # cps 0.72
+
+d8 silence
+
+d9 $ whenmod 8 6 ((fast "<0.4 7 4 0.22>") . (density "0.2 0.4 1.31 0.03 1.43") . (# cut 1) . (# gain 0.86)) $
+stack [
+  -- wave
+  whenmod 4 3 (# rel "0.02 0.3 0.7 1.2") $
+  every 3 (stutWith 3 (1/5) ((gap "<4 3 5>") . (|* gain 0.9))) $
+  s "{bf:4}%0.875"
+    # pan (range 0.45 0.55 $ slow 3 tri)
+    # gain 0.87
+  ,
+  -- wave low
+  s "~ _ ~ bf:8"
+    # gain 1
+  ,
+  -- white noise
+  whenmod 7 6 (# att "0.04 0.12 0.03 0.1") $
+  sometimes (# speed 0.3) $
+  s "bf:10*4"
+    # gain 0.95
+  ,
+  -- kick
+  fast 2 $
+  whenmod 13 12 (palindrome) $
+  whenmod 9 8 ((# accelerate "6 2 9 0.1 0.7") . (# shape "0.3 0.4 0.8") . (# gain "1 0.94 0.8") . (0.75 ~>)) $
+  every 2 (0.5 <~) $
+  s "[[~ bf:3 _ bf:3 _] bf:3, bf:1 _ ~ bf:1]"
+    # gain 1.16
+  ,
+  -- snare
+  whenmod 3 2 (hurry "0.12 7 5 <0.33 9>") $
+  every 4 (wchoose [(0.25, 0.65), (1.25, 0.35)] ~>) $
+  s "~ ag:9"
+    # speed 5
+    # gain 0.98
+  ,
+  -- hihat
+  whenmod 8 7 ((hurry "4 2 0.6 1.2") . (# gain 0.9)) $
+  sometimesBy 0.3 (palindrome . (# accelerate "<0 4>")) $
+  fast 3 $
+  s "bc:5(5, 14, <2 9 3>)"
+    # rel "0.1 0.02 1.2 0.4 0.01 0.6"
+    # pan (range 0.25 0.75 $ fast 1.5 tri)
+    # gain 0.92
+] # cps 0.49
+
+d9 silence
 
 hush
