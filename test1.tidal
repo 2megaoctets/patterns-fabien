@@ -1,0 +1,48 @@
+d1 $ stack [
+  -- drone
+  whenmod 4 3 ((wchoose [(0.25, 0.25), (1.75, 0.25), (1.5, 0.25), (1.25, 0.25)] <~) . (# size "0.16 0.36 0.48") . (# room "0.24 0.31 0.02 0.1 0.48")) $
+  every 3 (# speed "0.4 <0.32 0.26 0.16> 0.96 0.87") $
+  s "ag:6"
+    # unit "c"
+    # legato 0.6
+    # cutoff 900
+    # cut (wchoose [(2, 0.3), (0, 0.7)])
+    # gain 0.82
+  ,
+  -- metal
+  whenmod 3 2 ((hurry "0.2 0.5 2 6") . (# gain "1 1 0.92 0.86")) $
+  s "bm:6*4"
+    # gain 1
+  ,
+  -- hihat
+  every 3 ((superimpose rev) . (# cut 1)) $
+  within (0.2, 0.8) (ghost) $
+  s "[grprc:5 _ [grprc:5 grprc:3 ~] grprc:3 [grprc:5*2 ~] grprc:5]*2"
+    # speed "1.2 <3 2>"
+    # pan 0.66
+    # cut "0 1"
+    # gain 0.9
+  ,
+  -- kick1
+  sometimesBy 0.12 ((spin "4 6 2") . (slow "1.2 <5 3> 4")) $
+  whenmod 4 3 ((degradeBy "[0.22 0.2 [0.15 0.7]]") . (# end "0.25 <0.5 0.75>")) $
+  every 2 (fastappend (s "[tkc:5 sine:2 ~*2 tkc:5]*2" # cut 2 # gain 1.2)) $
+  s "[tkc:5 sine:2 tkc:5*2 ~]*2"
+    # cut 2
+    # gain 1.2
+  ,
+  -- kick2
+  whenmod 5 4 (within (0, 0.5) (stutWith "3 5 7" (range 0.125 56 $ rand) ((fastRepeatCycles 4) . (|* gain 0.8)))) $
+  every 3 (wchoose [(0.2, 0.65), (0.8, 0.35)] ~>) $
+  s "[~ d8k:7 ~ _ d8k:8]*4"
+    # gain 1
+  ,
+  -- snare
+  someCyclesBy 0.34 (densityGap "0.3 0.7 1.5") $
+  s "~ brf:2*3 ~ brf:2"
+    # gain 0.97
+] # cps 0.2
+
+d1 silence
+
+hush
