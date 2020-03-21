@@ -7,7 +7,7 @@ d1 $ every 7 (
   (# delayfb (range 0.1 0.33 $ perlin)) .
   (# size (fromTo 0 0.26)) .
   (# room "0.14 0.22")
-  ) $
+) $
 stack [
   -- voice
   sometimesBy 0.42 ((density 4) . (fastAppend (s "trp1_fx:13" # gain 0.45))) $
@@ -62,7 +62,21 @@ stack [
 
 d1 silence
 
-d2 $ stack [
+d2 $ every 10 (
+  fastAppend ( -- nappe
+    every 4 (superimpose ((# start 0.25) . (rev))) $
+    struct (ascii "<[a d] [c e h] f>") $
+    sometimesBy 0.21 (fast "2 <1.3 0.5>") $
+    fix ((# speed "<0.54 0.36>") . (# gain 0.48)) (s "trp1_fx:33") $
+    s "trp1_fx:43 trp1_fx:33"
+      # att 3.1
+      # speed 0.33
+      # hpf 118
+      # cut "0 1 1"
+      # gain 0.6
+    )
+) $
+stack [
   -- kick
   whenmod 5 4 ((within (0, 0.5) (# cut "<0 1>")) . (within (0.5, 1) (chop "6 8"))) $
   every 3 (within (0.25, 1) (rev)) $
@@ -95,11 +109,58 @@ d2 $ stack [
     # gain 0.58
   ,
   -- cloche folle
-  whenmod 4 3 (const $ s "~") $
-  s "trp3_fx:2*4"
-    # gain 0.6
+  whenmod 5 3 (const $ s "~") $
+  s "trp3_fx:2*2"
+    # rel 2
+    # gain 0.72
 ] # 0.99
 
 d2 silence
+
+d3 $ somecyclesBy 0.43 (slow "1.87 2.54 <1.2 3.12>") $
+stack [
+  -- ambi
+  whenmod 6 4 ((struct (binaryN 7 29)) . (# cut 1)) $
+  superimpose (loopAt 1) $
+  s "trp1_fx:26"
+    # speed 0.97
+    # end "0.7 0.8 0.3 0.2 0.01 0.04 0.6"
+    # room "0.1 0.3 0.24"
+    # size "0.03 0.07 0.2 0.36"
+    # gain 0.83
+  ,
+  -- kick
+  whenmod 5 3 (# cutoff (range 237 6554 $ fast 2.5 square)) $
+  every 3 (0.25 ~>) $
+  every 2 (1.5 <~) $
+  fix (# gain 0.92) (s "trp3_8:1") $
+  s "{[~ trp1_k:8 _ trp3_8:4 _, ~ trp1_k:31 _]}%3.5"
+    # cut 1
+    # gain 1.05
+  ,
+  -- woody
+  every 3 (stutWith 2 (1/32) (|* speed 0.6)) $
+  s "[east:2 east:9 _ east:14 ~ east:13]*2"
+    # size "0.2 0.4 0.02 0.6"
+    # room "0.1 0.5 0.03"
+    # gain 0.87
+  ,
+  -- hihat
+  sometimesBy 0.3 (superimpose ((0.75 ~>) . (# s "{[~ trp1_h:16 ~, trp1_h:16*3 _, trp1_h:16 ~ trp1_h:16*2 _ trp1_h:16*2]}%1.75") . (within (0.2, 0.8) (rev)))) $
+  s "{[~ trp1_h:16 ~ trp1_h:16*3 _, trp1_h:16 ~ trp1_h:16*2 _ trp1_h:16*2]}%1.75"
+    # pan (range 0.55 1 $ fast 3 cosine) -- 0.75
+    # rel 0.0098
+    # gain 0.95
+  ,
+  -- fx
+  whenmod 5 3 ((degradeBy 0.3) . (fast "2 0.7 0.4") . (spin "3 1.8 0.21")) $
+  every 4 ((fast 2) . (palindrome)) $
+  every 2 (rev) $
+  sometimesBy 0.65 (fix (# gain 0) (s "atm")) $
+  s "{atm _ af af:6 ~}%3.5"
+    # gain 0.67
+] # cps 0.27
+
+d3 silence
 
 hush
