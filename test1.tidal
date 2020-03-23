@@ -113,54 +113,160 @@ stack [
   s "trp3_fx:2*2"
     # rel 2
     # gain 0.72
-] # 0.99
+] # cps 0.2
 
 d2 silence
 
-d3 $ somecyclesBy 0.43 (slow "1.87 2.54 <1.2 3.12>") $
+d3 $ somecyclesBy 0.21 ((# squiz "2 4 10") . (# accelerate "1.87 2.54 <1.2 3.12>") . (# gain 0.72)) $
 stack [
   -- ambi
   whenmod 6 4 ((struct (binaryN 7 29)) . (# cut 1)) $
   superimpose (loopAt 1) $
-  s "trp1_fx:26"
+  s "{trp1_fx:26}%1.75"
     # speed 0.97
     # end "0.7 0.8 0.3 0.2 0.01 0.04 0.6"
     # room "0.1 0.3 0.24"
     # size "0.03 0.07 0.2 0.36"
-    # gain 0.83
+    # gain 0.76
   ,
   -- kick
   whenmod 5 3 (# cutoff (range 237 6554 $ fast 2.5 square)) $
+  every 12 (slow 2) $
   every 3 (0.25 ~>) $
   every 2 (1.5 <~) $
   fix (# gain 0.92) (s "trp3_8:1") $
   s "{[~ trp1_k:8 _ trp3_8:4 _, ~ trp1_k:31 _]}%3.5"
     # cut 1
-    # gain 1.05
+    # gain 1
   ,
-  -- woody
-  every 3 (stutWith 2 (1/32) (|* speed 0.6)) $
-  s "[east:2 east:9 _ east:14 ~ east:13]*2"
+  -- voice
+  every 5 (stutWith 3 (1/32) (|* speed 0.6)) $
+  (0.75 <~) $
+  s "{trp2_fx:10 ~ trp2_fx:8, ~ trp2_fx:8}%1.75"
     # size "0.2 0.4 0.02 0.6"
     # room "0.1 0.5 0.03"
-    # gain 0.87
+    # gain 0.65
   ,
   -- hihat
   sometimesBy 0.3 (superimpose ((0.75 ~>) . (# s "{[~ trp1_h:16 ~, trp1_h:16*3 _, trp1_h:16 ~ trp1_h:16*2 _ trp1_h:16*2]}%1.75") . (within (0.2, 0.8) (rev)))) $
   s "{[~ trp1_h:16 ~ trp1_h:16*3 _, trp1_h:16 ~ trp1_h:16*2 _ trp1_h:16*2]}%1.75"
     # pan (range 0.55 1 $ fast 3 cosine) -- 0.75
     # rel 0.0098
-    # gain 0.95
+    # gain 0.88
   ,
-  -- fx
+  -- nappe
   whenmod 5 3 ((degradeBy 0.3) . (fast "2 0.7 0.4") . (spin "3 1.8 0.21")) $
-  every 4 ((fast 2) . (palindrome)) $
-  every 2 (rev) $
-  sometimesBy 0.65 (fix (# gain 0) (s "atm")) $
-  s "{atm _ af af:6 ~}%3.5"
-    # gain 0.67
+  sometimesBy 0.65 (degradeBy 0.8) $
+  s "{~ atm ~*5}%3.5"
+    # att 1.32
+    # rel 3.7
+    # gain 0.65
 ] # cps 0.27
 
 d3 silence
+
+d4 $ whenmod 9 7 ((hurry "0.5 1.4 3 1.6 0.3") . (# binshift "0.2 0.7 0.52 0.34") . (# gain 0.7)) $
+stack [
+  -- nappe
+  every 4 (# speed "0.2 0.4 2.3") $
+  whenmod 5 4 (fast "2 1.7 1.9 4") $
+  s "trp2_fx:10"
+    # speed 0.1
+    # cut "1 0"
+    # gain 0.65
+  ,
+  -- perc
+  s "~ _ tempp:1"
+    # gain 1
+  ,
+  -- noise
+  whenmod 6 5 ((0.5 ~>) . (slow "2 1.8") . (# fshift "200 609 7341 509") . (# fshiftphase "3 0.2 0.5 4")) $
+  slow 2 $
+  every 5 rev $
+  fix (# gain 0.48) (s "trp4_fx:1") $
+  s "trp4_fx:1 _ ~ trp3_fx:22 _"
+    # att "0.01 2 1.8 0.3 1.4 0.23"
+    # rel "0.9 1.4 2.3 2.1 0.83"
+    # cut "1 0 1 0 0"
+    # gain 0.63
+  ,
+  -- kick
+  whenmod 7 5 ((hurry "0.3 0.2 1.7") . (density "<2 1.5>") . (# gain 0.9)) $
+  every 3 (wchoose [(0.25, 0.6), (0.5, 0.4)] <~) $
+  fix (# start 0.1) (s "trp2_k:25") $
+  s "[[trp2_b:2 ~ trp1_k:8] _ trp2_b:5 ~, ~ [trp3_k:26 ~] trp2_b ~, trp2_b:2 tempk:5]"
+    # cut 2
+    # gain 0.96
+  ,
+  -- snare
+  every 4 ((fast "<1.42 0.2>") . (randslice "<32 92> 28")) $
+  swingBy (1/6) 4 $
+  s "[~ claps:1 [trp2_p:6 claps:19] ~]"
+    # octer "1 1 2 1"
+    # octersub 3
+    # octersubsub 6
+    # rel 0.34
+    # gain 0.66
+  ,
+  -- hihat
+  whenmod 7 5 (degradeBy 0.4) $
+  every 5 (superimpose rev) $
+  every 4 palindrome $
+  every 3 (0.75 ~>) $
+  ghost $
+  s "[dgh:2 dgh:4*2 dgh:6 dgh:4 dgh:6*2]*2"
+    # rel "0.2 0.01 0.24 0.015 0.1 0.02"
+    # pan (range 0 1 $ fast 8 rand)
+    # gain 0.57
+] # cps 0.7
+
+d4 silence
+
+d5 $ stack [
+  -- kick
+  every 4 ((spin "0.5 <0.25 0.125>") . (# scram "<0.62 0.54> <0.76 0.83>") . (# gain 0.6)) $
+  every 5 ((fast "1 <4 0.5>") . rev) $
+  fix (# binshift 0.2) (s "ek") $
+  s "[trp2_b:2 _ ~ ek [trp2_b:7 ek:7]]"
+    # cut 1
+    # gain 1.1
+  ,
+  -- snare
+  sometimesBy 0.32 (within (0.25, 0.75) (hurry "4 2 3")) $
+  every 4 (0.125 ~>) $
+  swingBy (1/8) "0.3 <0.15 0.6>" $
+  ghost' 0.23 $
+  s "[~ trp2_p:18] _ ~"
+    # gain 0.79
+  ,
+  -- claps
+  every 4 (stutWith 6 (1/"<8 16>") (|* binshift 0.5)) $
+  every 3 (0.125 ~>) $
+  s "~ ugclap:17"
+    # shape 0.3
+    # gain 0.66
+  ,
+  -- hihat
+  loopAt 1 $
+  s "trp2_fx:5*4"
+   # hpf 560
+   # lpf 687
+   # gain 0.69
+  ,
+  -- ambi
+  someCyclesBy 0.4 (const $ s "~") $
+  fastCat [
+    (s "pl:27/4" # speed 0.4 # gain 0.67),
+    (
+    s "sphere:1"
+      # speed 1.2
+      # rel "0.9 1.4"
+      # cut (wchoose[(1, 0.6), (0, 0.4)])
+      # gain 0.76
+    )
+  ]
+] # cps 0.61
+
+d5 silence
 
 hush
