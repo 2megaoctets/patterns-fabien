@@ -474,7 +474,7 @@ stack [
   -- hihat
   listen 1 $
   whenmod 8 7 ((hurry "4 2 0.6 1.2") . (# gain 0.9)) $
-  sometimesBy 0.3 (palindrome . (# accelerate "<0 4>")) $
+  sometimesBy 0.3 (palindrome . (loopAt "<2 0.5> [4 0.7]") . (# gain 0.9)) $
   fast 3 $
   s "bc:5(5, 14, <2 9 3>)"
     # rel "0.1 0.02 1.2 0.4 0.01 0.6"
