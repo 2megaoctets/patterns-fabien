@@ -218,13 +218,14 @@ stack [
   ,
   -- kick
   listen 1 $
-  whenmod 7 5 ((hurry "0.3 0.2 1.7") . (density "<2 1.5>") . (# gain 0.9)) $
+  whenmod 7 5 ((hurry "0.3 0.2 1.7") . (density "<2 1.5>") . (# gain 0.88)) $
   every 3 (wchoose [(0.25, 0.6), (0.5, 0.4)] <~) $
-  fix (# gain 0.89) (s "trp2_b:1") $
-  fix (# gain 0.87) (s "dgk:6") $
-  s "[[dgk:6 ~ dgk:2] _ trp2_b:5 ~, ~ [tempk:5 ~] trp2_b ~, trp2_b:1 tempk:5]"
+  fix (# gain 0.88) (s "trp2_b:1") $
+  fix (# speed 0.9) (s "tempk:5") $
+  fix ((# gain 0.81) . (# speed 1.27)) (s "dgk:6") $
+  s "[[dgk:6 ~ tempk:5] _ trp2_b:5 ~, ~ [tempk:5 ~] trp2_b ~, trp2_b:1 tempk:5]"
     # cut 2
-    # gain 0.96
+    # gain 0.94
   ,
   -- snare
   listen 1 $
@@ -371,7 +372,7 @@ stack [
     # gain 0.92
   ,
   -- melo
-  listen 1 $
+  listen 0 $
   whenmod 6 5 ((chooseBy "0.5 0.25 0.25" [0.25, 0.75, 0.125]) ~>) $
   sometimesBy 0.33 ((# accelerate (perlin2 0.3)) . (# hpf 240)) $
   every 4 (slow 4) $
@@ -501,7 +502,7 @@ stack [
   -- kick
   listen 1 $
   sometimesBy 0.13 (degradeBy 0.4) $
-  whenmod 9 7 (# hpf "375 680 2210") $
+  whenmod 9 6 (# hpf "375 680 510") $
   every 8 (within (0.15, 0.75) ((fast "2 4") . (hurry 0.8) . (# binshift "0.21 0.25 0.12"))) $
   fix (# gain 0.89) (s "ak") $
   fix ((# att 0.12) . (# rel 1.9) . (# gain 1.2)) (s "d8k:7") $
@@ -512,11 +513,11 @@ stack [
   ,
   -- snare1
   listen 1 $
-  someCyclesBy 0.3 (superimpose (hurry "1.4 5 0.7 2.4")) $
+  someCyclesBy 0.3 (hurry "1.4 5 0.7 2.4") $
   whenmod 8 7 (# speed "0.7 0.3 1.5") $
   every 3 (fastAppend (s "")) $
   ghost' 0.42 $
-  s "ap:1(2, 5, <2 1>)"
+  s "{~@5 <ap@2 ~@2> ap:1}%2.5"
     # gain 0.78
   ,
   -- snare2
@@ -535,15 +536,16 @@ stack [
   ,
   -- nappe
   listen 1 $
-  someCyclesBy 0.42 (const $ s "") $
-  every 4 ((0.75 ~>) . (hurry 0.8)) $
-  s "atm/2"
-    # begin 0.2
-    # end 0.3
-    # speed 0.7
-    # hpf 90
+  whenmod 8 5 ((0.75 ~>) . (hurry 0.6)) $
+  whenmod 5 3 (const $ s "") $
+  slow 2 $
+  loopAt 4 $
+  s "atm"
+    # att 0.6
+    # rel 13
+    # speed 0.3
     # gain 0.7
-] # cps 1.4
+] # cps 1.6
 
 d9 silence
 
