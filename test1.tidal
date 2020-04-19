@@ -370,6 +370,7 @@ stack [
     # shape 0.21
     # cut 1
     # gain 0.92
+    # orbit 7
   ,
   -- melo
   listen 0 $
@@ -408,6 +409,7 @@ stack [
     # speed 0.47
     # cut 1
     # gain 0.76
+    # orbit 7
   ,
   -- nappe
   listen 1 $
