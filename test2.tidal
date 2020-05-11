@@ -1,5 +1,7 @@
+resetCycles
+
 d1 $ whenmod 22 20 ((degradeBy "0.5 0.8 1.4") . (chop "12 15") . (smash 12 [3, 4, 16])) $
-stack [ -- 5
+stack [ -- %5
   -- kick + snare
   listen 1 $
   whenmod 18 16 ((# cut 0) . (loopAt "<2 6> 0.5 0.72 5") . (# smear "0.8 2 <6 0.3>") . (# gain 0.56)) $
@@ -12,6 +14,7 @@ stack [ -- 5
     # octersubsub 6
     # cut 1
     # gain 0.64
+    # orbit 1
   ,
   -- noise
   listen 1 $
@@ -48,7 +51,7 @@ stack [ -- 5
   ghost $
   s "{[<grh:11 ~ grh:12> grh:5]}%5"
     # pan (range 0 1 $ fast 3 cosine)
-    # gain 0.67
+    # gain 0.66
   ,
   -- bass
   listen 1 $
@@ -60,6 +63,7 @@ stack [ -- 5
     # rate 0.3
     # accelerate 0.3
     # gain 0.64
+    # orbit 1
   ,
   -- ambi
   listen 1 $
@@ -73,8 +77,13 @@ stack [ -- 5
 
 d1 silence
 
-d2 $ someCyclesBy 0.13 ((0.25 <~) . (within (0.25, 0.5) (scramble "4 <2 7>")) . (# hpf "340 650 220")) $
-stack [ -- 7
+d2 $
+someCyclesBy 0.13 (
+  (0.25 <~) .
+  (within (0.25, 0.5) (scramble "4 <2 7>")) .
+  (# hpf "340 650 220")
+) $
+stack [ -- %7
   -- kick1
   listen 1 $
   whenmod 10 9 ((sparsity "0.3 0.5 0.3") . (# gain 0.96)) $
@@ -94,8 +103,8 @@ stack [ -- 7
   listen 1 $
   every 2 (0.75 ~>) $
   (0.5 <~) $
-  s "~@4 <hbg_p:3 ~> ~@2"
-    # gain 0.9
+  s "~@4 <<hbg_p:18 hbg_p:17> ~ hbg_p:17> ~@2"
+    # gain 0.8
   ,
   -- perc
   listen 1 $
@@ -133,33 +142,626 @@ stack [ -- 7
 
 d2 silence
 
-let mFrq = pF "mFrq"
+d3 $
+whenmod 18 16 (
+  (spread ($) [slow 2, palindrome, rev, degradeBy 0.25]) .
+  (# room 0.1) .
+  (# size 0.14)
+) $
+stack [ -- %7
+  -- kick1
+  listen 1 $
+  sometimesBy 0.3 (# envT2 "[0.25 0.17]") $
+  whenmod 12 10 (degradeBy 0.6) $
+  whenmod 7 5 ((# envT1 "0.001 0.002 0.01") . (# envT2 "0.1 0.3 0.7") . (# sweep1 34)) $
+  every 8 ((0.5 <~) . rev) $
+  swingBy 1.25 (1/24) $
+  s "[IkedaBassSd <IkedaBassSd [~ IkedaBassSd]> ~ IkedaBassSd _ IkedaBassSd ~]"
+    # sustain 1
+    # amp 2.3
+    # envL1 0
+    # envL2 0.25
+    # envL3 0.4
+    # envL4 0
+    # envT1 0.01
+    # envT2 0.2
+    # envT3 0.08
+    # envCurve "-5"
+    # freq 0
+    # sweep1 32.1
+    # sweep2 168.3
+    # vol1 2
+    # vol2 0.09
+    # hpf 102
+    # gain 1
+  ,
+  -- kick2
+  listen 1 $
+  every 3 (within (0.5, 1) (fast 2)) $
+  s "kick2newSd(<5 2>, 7, <2 5 6>)"
+    # amp 1.9
+    # gain 1
+  ,
+  -- hihat
+  listen 1 $
+  swingBy 0.75 (1/6) $
+  whenmod 6 5 ((# rf1Freq 845) . (# rf2Freq 12345) . (# rf1Rq 0.15) . (# rf2Rq 0.3)) $
+  every 3 (within (0.25, 0.5) ((density "2 4 12") . (ghost' 0.5))) $
+  every 4 (const $ "haty48Sd(3, 14, <2 3 4>)" # amp 0.7) $
+  s "{[haty48Sd ~, ~ <haty48Sd ~ haty48Sd haty48Sd>]}%7"
+    # amp 0.7
+    # envaT1 "0 0.01 0.00001 0.01 0.008 0 0.02"
+    # lpf 11000
+    # pan (range 0 1 $ fast "<2 3>" rand)
+    # gain 1.1
+    # orbit 3
+  ,
+  -- cymbal
+  listen 1 $
+  whenmod 9 7 (spread ($) [rev, palindrome, fast 2]) $
+  s "{~ cymnew1Sd*<3.5 1.75 2>}%<7 3.5>"
+    # amp 0.25
+    # att "0.0001 0.01 0.1 0.012 0.001"
+    # gain 1
+    # orbit 3
+  ,
+  -- noise
+  listen 1 $
+  sometimesBy 0.17 (const $ s "~") $
+  every 4 (# mFrq (range 0.0 0.09 $ slow 2 perlin)) $
+  s "{feedbackOsc _ feedbackOsc*2}%3.5"
+    # attack 0.1
+    # release 1.4
+    # mFrq 0.02
+    # mFB "<1.4 0.9>"
+    # freq "179 11000 230 1500 42"
+    # fB "0.99 0.1 4 0.9"
+    # width "0.1 0.2 0.6"
+    # ffreq "65 2346 11786 63"
+    # rq 0.2
+    # gain 0.74
+  ,
+  -- ambi
+  listen 0 $
+  whenmod 12 10 (const $ s "~") $
+  somecyclesBy 0.25 (densityGap "2 <0.5 6>") $
+  every "<8 16>" ((# freq 615) . (# hpf 1943)) $
+  s "ShaiSd/2"
+    # amp 0.22
+    # hpf 340
+    # cut 1
+    # gain 1
+    # orbit 3
+] # cps 0.88
+
+d3 silence
+
+d4 $ whenmod 19 17 (
+  within (2/5, 4/5) (
+    (# binshift "0.3 0.1 0.08 0.4") .
+    (slow "[2 4]")
+  )
+) $
+stack [ -- %5
+    -- kick1
+    listen 1 $
+    sometimesBy 0.25 (const $ s "~") $
+    whenmod 6 5 (-| tu (range 0 2 $ slow 2 sine)) $
+    (wchoose [(1, 0.5), (0.75, 0.5)] <~) $
+    s "~@3 <kick3Sd@2 ~@2> ~"
+      # amp 0.99
+      # atk 0.1
+      # rls 1.2
+      # att 0.01
+      # decay 1
+      # sustain 1
+      # rel 2
+      # hpf 40
+      # tu 1
+      # gain 1
+    ,
+    -- kick2
+    listen 1 $
+    whenmod 9 8 ((# sinFb 12) . (# sinDecDiv "12 18.8")) $
+    whenmod 8 6 ((# sawFreq "43 200") . (# envfL4 "21 42 54")) $
+    every 4 (within (0, 1/5) (# nudge 0.002)) $
+    every 2 (0.5 <~) $
+    s "[[~ ringkickSd _ ringkickSd _] <ringkickSd ~ ringkickSd>, ~ _ <~ ringkickSd> ~ <ringkickSd [~@2 ringkickSd]>]"
+      # amp 0.98
+      # dcy 1.8
+      # att 0.01
+      # decay 1
+      # sustain 1
+      # rel 2
+      # lpfFreq 13760
+      # freq "26 42 26"
+      # envfL1 0
+      # envfL2 6946.9
+      # envfL3 66.2
+      # envfL4 20
+      # envfL5 0
+      # envfT1 0.0002
+      # envfT2 0.0001
+      # envfT3 0.3
+      # envfT4 0.53
+      # curve "-4.92"
+      # envfAmt 0.32
+      # lfnFrq 59.2
+      # lfnAmt 0
+      # ringAmp 0.1
+      # sawFreq 22
+      # sawPh 6.19
+      # sawDecDiv 10
+      # sawAmp 0.16
+      # sinFreq 10010
+      # sinFb 9
+      # sinDecDiv 188
+      # sinAmp 0.29
+      # gain 0.94
+    ,
+    -- noise1
+    listen 1 $
+    every 8 ((density 1.15) . (# fm2 0.1)) $
+    s "{~ complexoscSd*2 complexoscSd ~ complexoscSd ~}%5"
+      # amp 0.2
+      # feedBack "0.43 <0.42 0.41>"
+      # envL1 0
+      # envL2 2
+      # envL3 0
+      # envL4 0.99
+      # envT1 "2 0.64"
+      # envT2 "0.52 2"
+      # envT3 "0.19 1 2.6"
+      # envCurve "-7.35 -21"
+      # freq1 "1"
+      # fm1 5000
+      # pm1 8.94
+      # amp1 0.8
+      # ring1 3.62
+      # offset1 "0 0.23 0.62"
+      # freq2 "32.09 12.3"
+      # fm2 0
+      # pm2 0.8
+      # amp2 0.27
+      # ring2 "1 0.03 0.07 0 0.01"
+      # offset2 "-1.96"
+      # fold 0.9
+      # wrap 0.82
+      # switch 2
+      # gain 0.89
+    ,
+    -- noise2
+    listen 1 $
+    sometimesBy 0.34 (const $ s "~") $
+    s "haten1Sd haten1Sd ~ haten1Sd ~"
+      # amp 0.2
+      # envT1 "0.2 0.1"
+      # pan ((0.25 <~) $ range 0 1 $ slow 2 rand)
+      # gain 0.97
+      # orbit 4
+    ,
+    -- hihat
+    listen 1 $
+    whenmod 7 6 ((degradeBy 0.6) . (# binshift 0.5)) $
+    swingBy 0.2 (1/3) $
+    s "~ kick3AwSd <kick3AwSd ~> [kick3AwSd _ <kick3AwSd ~> _] kick3AwSd"
+      # amp 0.7
+      # envL1 0
+      # envL2 2.21
+      # envL3 0
+      # envL4 5
+      # attack 0
+      # decay 0.3
+      # release 0.14
+      # punch 0.37
+      # envfLev1 369
+      # envfLev2 19951
+      # envfTime 0.01
+      # envfCurve "-90.47"
+      # pan (range 0 1 $ rand)
+      # gain 0.97
+      # orbit 4
+    ,
+    -- cymbal
+    listen 1 $
+    whenmod 8 6 (
+      (# envC1 "-12 -32 -3 67") .
+      (# envC2 "32 32 -3 67") .
+      (# envC3 "12 67 -2 -3")
+    ) $
+    whenmod 5 4 (within (2/5, 4/5) rev) $
+    every 4 (0.5 <~) $
+    s "<[cym1Sd ~ cym1Sd] ~ [~ cym1Sd]> cym1Sd _ cym1Sd*2 cym1Sd _ cym1Sd cym1Sd _ ~ cym1Sd"
+      # amp 0.23
+      # envL1 "0.76 0 0.2"
+      # envL2 0
+      # envL3 0.32
+      # envL4 0.72
+      # envT1 0.11
+      # envT2 0.13
+      # envT3 0.04
+      # envC1 "-4.1"
+      # envC2 "20"
+      # envC3 "-40"
+      # tu 0.91 -- 0.56
+      # pan ((0.75 ~>) $ range 0.25 0.75 $ slow 2 tri)
+      # gain 0.97
+    ,
+    -- flute
+    listen 0 $
+    sometimesBy 0.42 (const $ s "~") $
+    every 4 (within (0, 1/5) (# freq 120)) $
+    slow 2 $
+    s "[waveguideFluteSd _ waveguideFluteSd@3]"
+      # amp 0.2
+      # freq 320
+      # gain 0.97
+      # orbit 4
+    ,
+    -- nappe
+    listen 1 $
+    sometimesBy 0.28 (const $ s "~") $
+    whenmod 6 5 (wchoose [(1, 0.5), (0.5, 0.25), (2 ,0.25)] ~>) $
+    every 16 (# tu "1.6") $
+    slow 4 $
+    s "corman1Sd"
+      # amp 0.26
+      # tu 1
+      # attack 2
+      # release 16
+      # gain 1
+      # orbit 4
+] # cps 0.78
+
+d4 silence
+
+-- snapkickSd
+let bdFrqL1 = pF "bdFrqL1"
+    bdFrqL2 = pF "bdFrqL2"
+    bdFrqL3 = pF "bdFrqL3"
+    bdFrqT1 = pF "bdFrqT1"
+    bdFrqT2 = pF "bdFrqT2"
+    bdFrqC = pF "bdFrqC"
+    bdAmpAtt = pF "bdAmpAtt"
+    bdAmpSus = pF "bdAmpSus"
+    bdAmpRel = pF "bdAmpRel"
+    bdAmpLev = pF "bdAmpLev"
+    bdAmpCurve = pF "bdAmpCurve"
+    popFrqSt = pF "popFrqSt"
+    popFrqEnd = pF "popFrqEnd"
+    popFrqDur = pF "popFrqDur"
+    popAmpAtt = pF "popAmpAtt"
+    popAmpSus = pF "popAmpSus"
+    popAmpRel = pF "popAmpRel"
+    popAmpLev = pF "popAmpLev"
+    clkAmpAtt = pF "clkAmpAtt"
+    clkAmpRel = pF "clkAmpRel"
+    clkAmpLev = pF "clkAmpLev"
+    clkAmpCurve = pF "clkAmpCurve"
+    clkfFundFreq = pF "clkfFundFreq"
+    clkfFormFreq = pF "clkfFormFreq"
+    clkfBwFreq = pF "clkfBwFreq"
+    clkLpfFreq = pF "clkLpfFreq"
+-- drumkickSd
+    attSinFreq = pF "attSinFreq"
+    relSinFreq = pF "relSinFreq"
+    curveSinFreq = pF "curveSinFreq"
+    levSin = pF "levSin"
+    attBpfFreq = pF "attBpfFreq"
+    relBpfFreq = pF "relBpfFreq"
+    timeScaleBpf = pF "timeScaleBpf"
+    curveBpf = pF "curveBpf"
+    levBpf = pF "levBpf"
+    levScaleBpf = pF "levScaleBpf"
+    levBiasBpf = pF "levBiasBpf"
+    lineStartBpf = pF "lineStartBpf"
+    lineEndBpf = pF "lineEndBpf"
+    lineLevBpf = pF "lineLevBpf"
+-- fabHiSd
+    wamp = pF "wamp"
+    envNatt = pF "envNatt"
+    envNrel = pF "envNrel"
+    wbpfFreq = pF "wbpfFreq"
+    wbpfRq = pF "wbpfRq"
+    sinFrq1 = pF "sinFrq1"
+    sinFrq2 = pF "sinFrq2"
+    sinPh1 = pF "sinPh1"
+    sinPh2 = pF "sinPh2"
+    sinLev1 = pF "sinLev1"
+    sinLev2 = pF "sinLev2"
+    envSatt = pF "envSatt"
+    envSrel = pF "envSrel"
+    mix = pF "mix"
+-- newNoise48Sd
+    env0L1 = pF "env0L1"
+    env0L2 = pF "env0L2"
+    env0L3 = pF "env0L3"
+    env0L4 = pF "env0L4"
+    env0T1 = pF "env0T1"
+    env0T2 = pF "env0T2"
+    env0T3 = pF "env0T3"
+    env0T4 = pF "env0T4"
+    offset = pF "offset"
+    timeScale = pF "timeScale"
+    coeff = pF "coeff"
+    avar = pF "avar"
+    bvar = pF "bvar"
+    cvar = pF "cvar"
+    dvar = pF "dvar"
+    xi = pF "xi"
+    yi = pF "yi"
+-- cym1Sd
+    levScale = pF "levScale"
+    envC1 = pF "envC1"
+    envC2 = pF "envC2"
+    envC3 = pF "envC3"
+-- kick3Aw
+    punch = pF "punch"
+    envfLev1 = pF "envfLev1"
+    envfLev2 = pF "envfLev2"
+    envfTime = pF "envfTime"
+    envfCurve = pF "envfCurve"
+-- ringkickSd
+    lpfFreq = pF "lpfFreq"
+    envfL1 = pF "envfL1"
+    envfL2 = pF "envfL2"
+    envfL3 = pF "envfL3"
+    envfL4 = pF "envfL4"
+    envfL5 = pF "envfL5"
+    envfT3 = pF "envfT3"
+    envfT4 = pF "envfT4"
+    envfAmt = pF "envfAmt"
+    lfnFrq = pF "lfnFrq"
+    lfnAmt = pF "lfnAmt"
+    ringAmp = pF "ringAmp"
+    sawFreq = pF "sawFreq"
+    sawPh = pF "sawPh"
+    sawDecDiv = pF "sawDecDiv"
+    sawAmp = pF "sawAmp"
+    sinFreq = pF "sinFreq"
+    sinFb = pF "sinFb"
+    sinDecDiv = pF "sinDecDiv"
+    sinAmp = pF "sinAmp"
+-- complexoscSd
+    feedBack = pF "feedBack"
+    freq1 = pF "freq1"
+    fm1 = pF "fm1"
+    pm1 = pF "pm1"
+    amp1 = pF "amp1"
+    ring1 = pF "ring1"
+    offset1 = pF "offset1"
+    freq2 = pF "freq2"
+    fm2 = pF "fm2"
+    pm2 = pF "pm2"
+    amp2 = pF "amp2"
+    ring2 = pF "ring2"
+    offset2 = pF "offset2"
+    fold = pF "fold"
+    wrap = pF "wrap"
+    switch = pF "switch"
+-- feedbackOsc
+    mFrq = pF "mFrq"
     mFB = pF "mFB"
-    freq = pF "freq"
+    frq = pF "frq"
     fB = pF "fB"
     width = pF "width"
     ffreq = pF "ffreq"
     rq = pF "rq"
+-- IkedaBassSd
+    amp = pF "amp"
+    envL1 = pF "envL1"
+    envL2 = pF "envL2"
+    envL3 = pF "envL3"
+    envL4 = pF "envL4"
+    envT1 = pF "envT1"
+    envT2 = pF "envT2"
+    envT3 = pF "envT3"
+    envCurve = pF "envCurve"
+    sweep1 = pF "sweep1"
+    sweep2 = pF "sweep2"
+    vol1 = pF "vol1"
+    vol2 = pF "vol2"
+-- kick2newSd
+    envfT1 = pF "envfT1"
+    envfT2 = pF "envfT2"
+    tu = pF "tu"
+    bpeqf1 = pF "bpeqf1"
+    bpeqrq1 = pF "bpeqrq1"
+    bpeqamp1 = pF "bpeqamp1"
+    bpeqf2 = pF "bpeqf2"
+    bpeqrq2 = pF "bpeqrq2"
+    bpeqamp2 = pF "bpeqamp2"
+    hpff = pF "hpff"
+-- haty48Sd
+    curve = pF "curve"
+    envaL1 = pF "envaL1"
+    envaL2 = pF "envaL2"
+    envaL3 = pF "envaL3"
+    envaL4 = pF "envaL4"
+    envaL5 = pF "envaL5"
+    envaT1 = pF "envaT1"
+    envaT2 = pF "envaT2"
+    envaT3 = pF "envaT3"
+    envaT4 = pF "envaT4"
+    envaCrv = pF "envaCrv"
+    envpL1 = pF "envpL1"
+    envpL2 = pF "envpL2"
+    envpL3 = pF "envpL3"
+    envpL4 = pF "envpL4"
+    envpT1 = pF "envpT1"
+    envpT2 = pF "envpT2"
+    envpT3 = pF "envpT3"
+    envpT4 = pF "envpT4"
+    envpCrv = pF "envpCrv"
+    modFreq = pF "modFreq"
+    modAmt = pF "modAmt"
+    sinfAdd = pF "sinfAdd"
+    sinPhase = pF "sinPhase"
+    sinpAdd = pF "sinpAdd"
+    rf1Freq = pF "rf1Freq"
+    rf1Rq = pF "rf1Rq"
+    rf2Freq = pF "rf2Freq"
+    rf2Rq = pF "rf2Rq"
+    hpfFreq = pF "hpfFreq"
 
-d3 $ stack [ -- 7
-  listen 0 $
-  sometimesBy 0.17 (const $ s "~") $
-  every 4 (# mFrq (range 0.0 0.09 $ slow 2 perlin)) $
-  s "{feedbackOsc _ feedbackOsc*2}%3.5"
-    # attack 0.001
-    # release 2.8
-    # mFrq 0.02
-    # mFB "<1.4 0.9>"
-    # freq "0.1 12 25 0.4"
-    # fB "0.99 0.1 1.4 0.9"
-    # width "0.1 0.2 0.6"
-    # ffreq "65 2346 11786 63"
-    # rq 1.2
-    # gain 1
-  ,
+
+d5 $
+sometimesBy "<0.05 0.1 0.2>" (
+  (densityGap "6 2 4") .
+  (scramble "<5 10 15>") .
+  (# binshift "0.02 0.1 0.4")
+) $
+stack [ -- %5
+  -- kick1
   listen 1 $
-  s "{~ kickmedSd technokickSd triangleWaveBellsSd tweetBassLeakSd}%3.5"
-    # gain 1.4
-] # cps 0.88
+  someCyclesBy 0.15 (fastAppend (s "<~ ~@2>")) $
+  whenmod 9 8 (# curveBpf "-23 -12 3") $
+  every 8 ((# timeScaleBpf "2 1.2") . rev) $
+  every 2 (within (2/5, 3/5) (# nudge 0.1)) $
+  -- s "drumkickSd(3, 5, <7 9 5>)"
+  s "drumkickSd(4, 5, <1 6 5>)"
+    # amp 0.7
+    # attack 0.15
+    # decay 1
+    # sustain 1
+    # release 0.2
+    # curve "-39.7"
+    # attSinFreq 0.01
+    # relSinFreq 1.12
+    # curveSinFreq "-60"
+    # levSin 0.26
+    # attBpfFreq 0.02
+    # relBpfFreq 0.3
+    # timeScaleBpf 1.11
+    # curveBpf "-200"
+    # levBpf 0.18
+    # levScaleBpf 6000
+    # levBiasBpf 21.3
+    # lineStartBpf 0.3
+    # lineEndBpf 0
+    # lineLevBpf 0.15
+    # gain 0.98
+  ,
+  -- kick2
+  listen 1 $
+  whenmod 21 20 (# binshift 0.3) $
+  swingBy 0.75 (1/4) $
+  -- s "[[<snapkickSd ~> ~] <snapkickSd ~ [~@2 snapkickSd _]> _ ~ <[~ snapkickSd] [~ snapkickSd _]>]"
+  s "{<~ snapkickSd> <snapkickSd ~> <~ [~ snapkickSd]> _ snapkickSd}%5"
+    # amp 0.88
+    # attack 0.001
+    # decay 1
+    # sustain 1
+    # release 1
+    # bdFrqL1 241
+    # bdFrqL2 71
+    # bdFrqL3 48.5
+    # bdFrqT1 0.0001
+    # bdFrqT2 7
+    # bdFrqC "-48"
+    # bdAmpAtt 0.0001
+    # bdAmpSus 0.5
+    # bdAmpRel 0.02
+    # bdAmpLev 1.66
+    # bdAmpCurve 47.4
+    # popFrqSt 150
+    # popFrqEnd 241
+    # popFrqDur 4
+    # popAmpAtt 0.2
+    # popAmpSus 1
+    # popAmpRel 4
+    # popAmpLev 0.3
+    # clkAmpAtt 0
+    # clkAmpRel 0.01
+    # clkAmpLev 0.79
+    # clkAmpCurve "-14.9"
+    # clkfFundFreq 910
+    # clkfFormFreq 4760
+    # clkfBwFreq 12110
+    # clkLpfFreq 13140
+    # hpf 100
+    # gain 0.95
+  ,
+  -- snare
+  listen 1 $
+  someCyclesBy 0.5 (const $ s "~") $
+  sometimesBy 0.19 (# nudge "0 0 0.1 0 0") $
+  every 4 (0.5 <~) $
+  (0.25 ~>) $
+  s "{~ _ kraftySnareSd _ <~ kraftySnareSd>}%5"
+    # amp 0.79
+    # dec "0.03 0.02 0.04 0.06 0.034"
+    # gain 1
+    # orbit 5
+  ,
+  -- hihat
+  listen 1 $
+  sometimesBy "0.2 0.12 0.3" (# cvar "0.7 0.9 0.2") $
+  whenmod 6 5 ((within (2/5, 3/5) (fast "[2 4]")) . (# bvar "0.9 2.58 4")) $
+  every 4 ((wchoose [(1, 0.5), (0.5, 0.5)] <~) . (# env0T1 "0.2 0.18") . (# env0L2 "0.1 0.02")) $
+  every 2 (# avar "0.02 0.03") $
+  s "newNoise48(<3 4>, 5, <2 8 3 2>)"
+    # amp 1
+    # env0L1 0.35
+    # env0L2 0
+    # env0L3 2.68
+    # env0L4 0
+    # env0T1 0.12
+    # env0T2 2.11
+    # env0T3 0
+    # env0T4 0
+    # offset 0.79
+    # timeScale 0.26
+    # coeff 0.28
+    # avar 0.05
+    # bvar 3.8
+    # cvar 0.84
+    # dvar 2.54
+    # xi 1
+    # yi 0.07
+    # hpf 563
+    # gain 0.97
+    # orbit 5
+  ,
+  -- clickhi
+  listen 1 $
+  whenmod 19 17 ((# sinFrq1 (range 20 14000 $ slow 2 sine)) . (# sinLev1 6.6)) $
+  every 4 ((density 0.4) . (# mix 0.1)) $
+  every 2 (within (3/5, 1) (fast 2)) $
+  s "{[fabHiSd ~ [~ fabHiSd _ fabHiSd], ~ fabHiSd]}%1.25"
+    # amp 0.2
+    # wamp 0.84
+    # envNatt 0
+    # envNrel 0.26
+    # wbpfFreq 3182
+    # wbpfRq 1
+    # sinFrq1 1365
+    # sinFrq2 12423
+    # sinPh1 0
+    # sinPh2 0.02
+    # sinLev1 14.13
+    # sinLev2 5.56
+    # envSatt 0.24
+    # envSrel 0.2
+    # mix 0.6
+    # envL1 0
+    # envL2 1
+    # envL3 0.94
+    # envT1 0.04
+    # envT2 "0.02 0.06 0.01 0.018 0 0.02 0.06 0.01 0.018 3.11"
+    # envT3 "0.07 0.01 0.07 0.002 0.03 0.007"
+    # ffreq 10580
+    # pan (range 0.25 0.85 $ fast 2 rand)
+    # gain 0.9
+    # orbit 5
+  ,
+  -- tonal
+  listen 1 $
+  loopAt "5 2.5 1.125" $
+  s "{bf:4}%1.125"
+    # speed "-2 -3"
+    # gain 0.7
+    # orbit 5
+] # cps 1.27
 
-d3 silence
+d5 silence
