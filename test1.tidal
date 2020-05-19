@@ -155,7 +155,7 @@ stack [
   every 12 (slow 2) $
   every 3 (0.25 ~>) $
   every 2 (1.5 <~) $
-  fix ((# speed 0.983) . (# hpf 80) . (# distort 0.18) . (# gain 0.9)) (s "trp1_8:5") $
+  fix ((# speed 0.983) . (# hpf 80) . (# distort "0.18 0.02 0") . (# gain "0.93 0.97 0.98")) (s "trp1_8:5") $
   s "{[~ trp1_k:8 _ trp1_8:5 _, ~ trp1_k:31 _]}%3.5"
     # cut 1
     # gain 1

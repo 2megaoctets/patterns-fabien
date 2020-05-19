@@ -243,7 +243,7 @@ d4 $ whenmod 19 17 (
   )
 ) $
 stack [ -- %5
-    -- kick1
+    -- bass
     listen 1 $
     sometimesBy 0.25 (const $ s "~") $
     whenmod 6 5 (-| tu (range 0 2 $ slow 2 sine)) $
@@ -260,7 +260,7 @@ stack [ -- %5
       # tu 1
       # gain 1
     ,
-    -- kick2
+    -- kick
     listen 1 $
     whenmod 9 8 ((# sinFb 12) . (# sinDecDiv "12 18.8")) $
     whenmod 8 6 ((# sawFreq "43 200") . (# envfL4 "21 42 54")) $
@@ -755,7 +755,7 @@ stack [ -- %5
     # gain 0.9
     # orbit 5
   ,
-  -- tonal
+  -- woody
   listen 1 $
   loopAt "5 2.5 1.125" $
   s "{bf:4}%1.125"
