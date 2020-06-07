@@ -88,7 +88,7 @@ every 10 (
     )
 ) $
 stack [
-  -- kick
+  -- kick -- trp2_fx:11
   listen 1 $
   whenmod 5 4 ((within (0, 0.5) (# cut "<0 1>")) . (within (0.5, 1) (chop "6 8"))) $
   every 3 (within (0.25, 1) (rev)) $
@@ -136,7 +136,7 @@ stack [
 
 d2 silence
 
-d3 $ somecyclesBy 0.18 ((# squiz "2 4 10") . (# accelerate "1.87 2.54 <1.2 3.12>") . (# gain 0.72)) $
+d3 $ somecyclesBy 0.1 ((# squiz "2 4 10") . (# accelerate "1.87 2.54 <1.2 3.12>") . (# gain 0.72)) $
 stack [
   -- ambi
   listen 1 $
@@ -293,7 +293,7 @@ stack [
   ,
   -- ambi
   listen 1 $
-  someCyclesBy 0.4 (const $ s "~") $
+  someCyclesBy 0.6 (const $ s "~") $
   fastCat [
     (s "pl:27/4" # speed 0.4 # gain 0.67),
     (
@@ -336,7 +336,7 @@ stack [
   listen 1 $
   every 4 ((within (0.7, 1) (density 4)) . (0.125 ~>)) $
   s "~*2 ag:8"
-    # note (scale "minor" $ "<8 9 14>")
+    # note (scale "minor" $ "8 9 14")
     # gain 0.98
   ,
   -- kick1
@@ -439,6 +439,7 @@ stack [
     # triode 0.4
     # hpf 140
     # gain 1
+    # orbit 8
   ,
   -- kick2
   listen 1 $
@@ -449,6 +450,7 @@ stack [
   s "[~ [<[~ lmg_k:4@3] lmg_k:11> lmg_k:9] bf:9 <lmg_k:22 lmg_k:21>]"
     # cut 1
     # gain 1
+    # orbit 8
   ,
   -- noise
   listen 1 $
@@ -464,6 +466,7 @@ stack [
   s "<hbg_k:1 ~> hbg_b@3"
     # cut 1
     # gain 1
+    # orbit 8
   ,
   -- hihat
   listen 1 $
