@@ -553,4 +553,148 @@ stack [
 
 d9 silence
 
+d11 $
+whenmod 22 20
+((degradeBy "0.5 0.8 1.4") . (chop "12 15") . (smash 12 [3, 4, 16])) $
+stack [ -- %5
+  -- kick + snare
+  listen 1 $
+  whenmod 18 16 ((# cut 0) . (loopAt "<2 6> 0.5 0.72 5") . (# smear "0.8 2 <6 0.3>") . (# gain 0.56)) $
+  -- every 8 (append (s "{~ trp2_b:1@2 ~ dk:8}%5")) $
+  every 3 (# bpf "603 567 293 109 68 40") $
+  slow 2 $
+  s "dgs:1(4, 15)"
+    # octer "1 1 2 1"
+    # octersub 3
+    # octersubsub 6
+    # cut 1
+    # gain 0.64
+  ,
+  -- noise
+  listen 1 $
+  every 2 (striateBy "5 2 8" (1/4)) $
+  foldEvery [4, 6] (fast "[[1.5 2] 6]*2") $
+  s "~ supernoise@4"
+    # att "4 0.3 2.4"
+    # rel "0.3 1.4 2.2"
+    # voice 1
+    # speed 1.4
+    # n 0.9
+    # accelerate "0.2 0.7"
+    # speed "2.4 0.2"
+    # pitch1 "0.7 24 0.9 0.1 0.002 12"
+    # slide "0.02 0.5 2 0.3"
+    # resonance "[0.1 0.4 [0.02 3] 1.15]*2"
+    # shape 0.4
+    # cut 2
+    # gain 0.64
+  ,
+  -- clap
+  listen 1 $
+  every 6 (rot "<8 12 18>") $
+  every 3 (slow 2) $
+  s "ds:8(1, 15, 6)"
+    # shape 0.42
+    # gain 0.65
+  ,
+  -- hihat
+  listen 1 $
+  every 2 (superimpose ((0.5 <~) . (randslice "5 1.2 3.6") . (# gain 0.64))) $
+  whenmod 4 3 ((ghost' 0.3) . (# cut 2) . (# speed 1.8)) $
+  swingBy 3 (1/6) $
+  ghost $
+  s "{[<grh:11 ~ grh:12> grh:5]}%5"
+    # pan (range 0 1 $ fast 3 cosine)
+    # gain 0.66
+  ,
+  -- bass
+  listen 1 $
+  foldEvery [3, 4, 5, 6, 8] (listen 0) $
+  every 2 ((# rate 0.16) . (# accelerate 0.6) . (# freq 20)) $
+  s "~@2 superhex@3"
+    # sustain 0.8
+    # freq 19
+    # rate 0.3
+    # accelerate 0.3
+    # gain 0.64
+  ,
+  -- ambi
+  listen 1 $
+  whenmod 12 10 ((fast "2 6 9") . (# speed 0.2) . (spread ($) [gap 4, hurry "8 10 0.5"])) $
+  every 8 (const $ s "") $
+  every 3 (striateBy "<2 4 8>" (1/4)) $
+  s "<sphere ~ [~ sphere:1*2] ~@2>"
+    # cut "-1"
+    # gain 0.56
+] # cps 0.87
+
+d11 silence
+
+d12 $
+someCyclesBy 0.13
+(
+  (0.25 <~) .
+  (within (0.25, 0.5) (scramble "4 <2 7>")) .
+  (# hpf "340 650 220")
+) $
+stack [ -- %7
+  -- kick1
+  listen 1 $
+  whenmod 10 9 ((sparsity "0.3 0.5 0.3") . (# gain 0.96)) $
+  s "~ ek:5 d8k:21 ~ ek:6 [~ ek:19]"
+    -- # cut "<1 0>"
+    # gain 1
+  ,
+  -- kick2
+  listen 1 $
+  foldEvery [4, 6] (# smear "<2 0.8>") $
+  every 8 (0.25 <~) $
+  swingBy 0.5 (1/6) $
+  s "foleyperc:6"
+    # gain 0.87
+  ,
+  -- snare
+  listen 1 $
+  every 2 (0.75 ~>) $
+  (0.5 <~) $
+  s "~@4 <<hbg_p:18 hbg_p:17> ~ hbg_p:17> ~@2"
+    # gain 0.8
+  ,
+  -- perc
+  listen 1 $
+  every 2 rev $
+  fast 2 $
+  fix (# gain 0.75) (s "lmg_p:12") $
+  s "[~@3 _ lmg_p:12 ~@2]/2"
+    # pan 0.15
+    # gain 0.9
+  ,
+  -- fx
+  listen 1 $
+  someCyclesBy 0.63 (const $ s "~") $
+  whenmod 9 8 (# speed 0.12) $
+  degradeBy 0.5 $
+  loopAt 7 $
+  s "el:15@7"
+    # begin 0.14
+    # end 0.5
+    # speed 0.34
+    # gain 0.86
+  ,
+  -- noise
+  listen 1 $
+  every 4 ((# begin 0.12) . (# end 0.13)) $
+  every 3 ((fast "4 16 2") . (density "2 4 6") . (swingBy 2 (1/7))) $
+  loopAt 3.5 $
+  s "pss(1, 14, <3 4>)"
+    # speed 1.5
+    # begin "<0.03 <0.1 0.2>>"
+    # end "<<0.5 0.3> <0.2 0.9>>"
+    # pan (range 0 1 $ fast 2 rand)
+    # cut 2
+    # gain 1.2
+] # cps 1.04
+
+d12 silence
+
 hush

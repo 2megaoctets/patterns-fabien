@@ -1,0 +1,41 @@
+-- snowball takes a pattern, applies the function to it (the third argument),
+-- then applies it again to the result, and again to the result of that, and
+-- so on, the number of times given in the first argument. Then it
+-- combines all the results together pairwise, with the function given in
+-- the second argument.
+
+-- Lets start with a simple tom pattern:
+d1 $ s "trp1_h trp2_k trp2_b ~"
+
+-- Then apply 'hurry 2' to it each time, to a depth of 4 'recursions'
+d1 $ snowball 4 (overlay) (hurry 2) $ s "trp1_h trp2_k trp2_b ~"
+
+-- You can hear the 'hurried' layers built up. The first time you hear the
+-- original pattern, then that pattern combined with itself (so it sounds
+-- louder), then you start hearing the 'hurried' layers added over the third
+--  and fourth cycle.
+
+-- This doesn't work too well really - I don't think it should be combined
+-- with itself that second time. Here's an alternate version that doesn't
+-- do that:
+snowball' :: Int -> (Pattern a -> Pattern a -> Pattern a) -> (Pattern a -> Pattern a) -> Pattern a -> Pattern a
+snowball' depth combinationFunction f pattern = cat $ take depth $
+  scanl combinationFunction pattern $ drop 1 $ iterate f pattern
+
+d1 $ snowball' 4 (overlay) (hurry 2) $ s "trp1_h trp2_k trp2_b ~"
+
+-- Instead of 'overlay' to play the layers on top of each other, we
+-- can use a function to combine them. For example using '+' on a
+-- snowballed number pattern, to add the layers together:
+d1 $ n (scale "major" $ snowball 4 (+) (slow 1.5) "0 1 2 3")
+   # s "supermandolin"
+   # legato 3
+
+d1 $ n (snowball 4 (+) (slow 1.5) "0 1 2 3 4 5 6 7")
+  # s "cpu"
+  # speed 2
+
+d1 $ (note $ scale "hexPhrygian" $ "0 . 2 3 ~ . 0 1 . -1 -2") #s "gtr"
+
+d1 $ (note $ scale "hexPhrygian" $
+   snowball 4 (+) (slow 2) "0 . 2 3 ~ . 0 1 . -1 -2") #s "gtr"

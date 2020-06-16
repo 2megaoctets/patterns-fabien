@@ -1,0 +1,120 @@
+-- Function of the Week: "weave" !
+
+-- Weave is an interesting one. It's used to 'weave together' a list
+-- of patterns, using an additional control pattern. So it's a bit
+-- like the warp and weft of a textile weave.
+
+-- Lets start with some numbers:
+d1 $ n "0 1 2 3" # s "numbers"
+
+-- Lets first understand what happens if you use weave on a single
+-- pattern:
+d1 $ weave 4 (pan saw)
+  [n "0 1 2 3" # s "alphabet"]
+
+-- You can hear the pattern panning from left to right over four
+-- cycles.
+
+-- In the above, the '4' is used to slow down the 'pan saw' effect,
+-- before it's applied to the 'n "0 1 2 3" # s "numbers"' pattern. It
+-- sounds identical to the following:
+
+d1 $ n "0 1 2 3" # s "numbers"
+  # pan (slow 4 saw)
+
+-- So why not just do that - what's the point of the weave function?
+-- Lets hear what happens when you use it with two patterns:
+
+d1 $ weave 4 (pan saw)
+  [n "0 1 2 3" # s "numbers",
+   n "0 1 2 3" # s "alphabet"
+  ]
+
+-- Aha! You should be able to hear that the patterns are placed at
+-- different parts of the panning effect. So 'weave' is acting a bit
+-- like a wacked-out 'stack'. The patterns are stacked up, each with
+-- the 'pan' control pattern applied, but with the pan control shifted
+-- so that one is at the start of the pan, the other is halfway
+-- through. They're kind of chasing after each other across the pan.
+
+-- The following sounds identical to the above:
+
+d1 $ stack [n "0 1 2 3" # s "numbers"
+            # pan (slow 4 saw),
+            n "0 1 2 3" # s "alphabet"
+            # pan (2 <~ (slow 4 saw))
+           ]
+
+-- Here's a more musical example:
+d1 $ weave 4 (pan saw)
+  [n "[0*2 0*3, [~ 3]*2, 4(3,8,<0 2>)]" # s "cpu" # squiz 2,
+   fast 2 $ brak $ n "0 4 3 <[~ 3] 3>" # s "cpu2"
+  ]
+
+-- If we add another pattern, so that we now have 3, things go
+-- a bit off-kilter:
+d1 $ weave 4 (pan saw)
+  [n "[0*2 0*3, [~ 3]*2, 4(3,8,<0 2>)]" # s "cpu" # squiz 2,
+   fast 2 $ brak $ n "0 4 3 <[~ 3] 3>" # s "cpu2",
+   sound "~ clap:3*2" # speed 2
+  ]
+
+-- That's because three events are spreading out over four cycles, so
+-- they're out by four thirds of a cycle, which sounds like being out
+-- by a third of a cycle. Sounds interesting!
+
+-- Once we add a fourth, things fall back into a 4:4 structure:
+d1 $ weave 4 (crush saw)
+  [n "[0*2 0*3, [~ 3]*2, 4(3,8,<0 2>)]" # s "cpu" # squiz 2,
+   fast 2 $ brak $ n "0 4 3 <[~ 3] 3>" # s "cpu2",
+   sound "~ clap:3*2" # speed 2,
+   sound "bd(3,8,<0 2>)" # shape 0.85
+  ]
+
+-- 'saw' gives a smooth, linear movement from left to right. Some more
+-- to experiment with (replace `pan saw` for one of these):
+
+-- pan "0 0.25 0.5 0.75"
+-- pan sine
+
+-- It works for things other than panning, too, try:
+-- crush (saw * 8)
+-- vowel "a e i o u"
+
+-- It works with global effects like reverb too, but you have to put
+-- each pattern on its own 'orbit', so that they have separate global
+-- effects:
+d1 $ weave 8 (room saw # sz saw)
+  [n "[0*2 0*3, [~ 3]*2, 4(3,8,<0 2>)]" # s "cpu" # squiz 2 # orbit 0,
+   fast 2 $ brak $ n "0 4 3 <[~ 3] 3>" # s "cpu2" # orbit 1,
+   sound "~ clap:3*2" # speed 2 # orbit 2,
+   sound "bd(3,8,<0 2>)" # shape 0.85 # orbit 3
+  ]
+
+-- Things get especially weird when you swap things round so that it's
+-- the samples/notes that are being applied to effect patterns.
+
+d1 $ weave 8 (note "c e f g" # s "supermandolin" # legato 2)
+  [vowel "a e i"] # gain 1.3
+
+-- and with more patterns:
+d1 $ weave 8 (every 2 rev $ n (scale "ritusen" "0 .. 7")
+              # s "rash"
+             )
+  [vowel "a e i",
+   vowel "o(5,8,<0 2>)",
+   squiz "0 3*2 4 7"
+   room "0 0.25 0.7 0.99" # orbit 3
+  ] |+ n 24
+
+
+-- There's also a function 'weaveWith', which works with functions,
+-- rather than control patterns..
+d1 $ weaveWith 8 (every 2 rev $ n (scale "ritusen" "0 .. 7")
+                  # s "rash"
+                 )
+  [(+| vowel "a e i*2"),
+   (+| n "0 12*2 0 12"),
+   hurry 2,
+   off 0.25 (|+ n "-24") . struct "t(5,8,<0 2>)" . hurry 4
+  ] |+ n 24
