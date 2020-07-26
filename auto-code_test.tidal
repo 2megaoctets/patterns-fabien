@@ -1,0 +1,9 @@
+do
+   d1 $
+      whenmod 6 3 (|=| accelerate "-0.25") $
+      every 5 (slow 4) $
+      whenmod 7 5 (stut' 4 (0.0625/2) (|*| speed "1.5")) $
+      whenmod 7 4 (trunc (3/8)) $
+      slow 2 $ s "lmg_m*1 trp2_b*2 trp3_s*1 trp4_s*1 "
+      |=| n (every 1 (0.25 <~) $ "6")
+      |=| cut "-1"

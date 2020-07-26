@@ -3,8 +3,10 @@ resetCycles
 d1 $ stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
-  s "benjolisSd/2"
-    # amp 0.15
+  every 4 (# freq2 63) $
+  slow 2 $
+  s "benjolisSd benjolisSd@2.5"
+    # amp 0.13
     # sustain 1
     # fadeTime 0.01
     # freq1 37
@@ -19,9 +21,12 @@ d1 $ stack [ -- % 7
     # outSignal 6
     # hpf 60
     # gain 0.75
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
+  whenmod 10 8 ((# curve "12 <22 9 -53>") . (# envpL2 "42 24")) $
+  every 8 (bite 7 "2 5 6 1 0 3 4") $
   s "kick_oto309BrSd(3, 7, <3 8>)"
     # amp 0.4
     # sustain 1
@@ -44,19 +49,22 @@ d1 $ stack [ -- % 7
     # noiseAmp 1
     # sineAmp 1.2
     # gain 0.98
+    # orbit 1
   ,
   -- kick3
   listen (cF 1 "89") $
-  s "snarenewSd(2, 7, <9 3 7>)"
-    # amp 2.4
+  every 8 (density 1.2) $
+  s "snarenewSd(2, 7, 9)"
+    # amp 1.4
     # sustain 1
-    # tu 0.16
-    # envpL1 200
-    # envpL2 396.8
+    # release 1
+    # tu 1.16
+    # envpL1 20
+    # envpL2 96.8
     # envpL3 29
-    # envpT1 0
-    # envpT2 0.25
-    # curvep 90.93 -- "-4"
+    # envpT1 0.002
+    # envpT2 0.025
+    # curvep "-4"
     # envL1 0
     # envL2 3.33
     # envL3 4.39
@@ -66,22 +74,26 @@ d1 $ stack [ -- % 7
     # envT3 0.8
     # curve "-4"
     # mixNoise 0
-    # hpf 80
+    # hpFreq 100
     # rqhpf 1.2
     # freq1bpf 33
     # freq2bpf 3594
     # rq1bpf 0.65
     # rq2bpf 1
-    # lpf 1200
+    # lpf 12000
     # rqlpf 0.8
     # mixBpf 0.22
     # gain 1
+    # orbit 1
   ,
   -- noise
   listen (cF 1 "90") $
+  somecyclesBy 0.14 (zoom (3/7, 4/7)) $
   every 8 rev $
   s "~@1.5 bytebeatsSd*2 [~ bytebeatsSd]"
     # amp 0.2
+    # sustain 1
+    # release "<0.3 0.4 0.1>"
     # envL1 0
     # envL2 "0 2"
     # envL3 0.2
@@ -99,7 +111,7 @@ d1 $ stack [ -- % 7
     # counterMul 0.9
     # counterAdd 3.5
     # srDiv 0.1
-    # freq "27 31 234"
+    # frq "27 31 234"
     # pan (range 0.35 0.65 $ slow "<4 2.5>" cosine)
     # gain 1
   ,
@@ -107,6 +119,7 @@ d1 $ stack [ -- % 7
   listen (cF 1 "91") $
   s "hatenSd*7"
     # amp 0.41
+    # sustain 0.45
     # envL1 0
     # envL2 3
     # envL3 0
@@ -384,7 +397,7 @@ stack [ -- %5
     -- noise1
     listen 1 $
     every 8 ((density 1.15) . (# fm2 0.1)) $
-    s "{~ complexoscSd*2 complexoscSd ~ complexoscSd ~}%5"
+    s "{~ complexoscSd*2 complexoscSd ~ complexoscSd ~}%5"
       # amp 0.2
       # feedBack "0.43 <0.42 0.41>"
       # envL1 0
