@@ -759,6 +759,7 @@ let p = streamReplace tidal
     maxRel = pF "maxRel"
     clickRel = pF "clickRel"
     rls = pF "rls"
+    stn = pF "stn"
     envLev1 = pF "envLev1"
     envLev2 = pF "envLev2"
     envLev3 = pF "envLev3"

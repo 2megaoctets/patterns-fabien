@@ -1,6 +1,7 @@
 resetCycles
 
 d1 $
+(0.25 <~) $
 someCyclesBy 0.08
 (
   (zoom (3/7, 1))
@@ -240,18 +241,258 @@ stack [ -- % 7
 
 d1 silence
 
-d2 $ stack [
+d2 $ stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
-  s "technokickSd"
-    # amp 0.5
-    # atk 0.01
-    # rls 1.84
-    # freq 65.76
-    # dcy 0.28
-    # click 0.008
+  s "{technokickSd [technokickSd technokickSd@0.5] [~@0.5 <technokickSd ! ! ~>]}%7"
+    # amp 0.9
+    # sustain 1.3
+    # release 1.4
+    # atk 0.0001
+    # rls 0.5
+    # freq 54.76
+    # dcy 0.9
+    # click 0.25
     # damp 0.6
+    # hpf 94
+    # gain 0.95
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  s "[[~ kick_electroSd] ~ kick_electroSd ~@0.5]/2"
+    # amp 0.4
+    # sustain 2
+    # release 2
+    # atk 0.01
+    # rls 0.5
+    # envbfL1 261.8
+    # envbfL2 20
+    # envbfL3 51
+    # envbfRel 1.05
+    # envbfC "-7.61"
+    # envbaL1 0
+    # envbaL2 1
+    # envbaL3 0.79
+    # envbaL4 0.12
+    # envbaL5 0.38
+    # envbaT1 0.48
+    # envbaT2 0.12
+    # envbaT3 0.03
+    # envbaT4 0.14
+    # envbaC1 "-9.5"
+    # envbaC2 "-13.74"
+    # envbaC3 "15.08"
+    # envbAmp 1
+    # pfSt 20
+    # pfEnd 477.5
+    # pfDur 0.07
+    # envpaL1 0
+    # envpaL2 1.05
+    # envpaL3 0
+    # envpaL4 0.02
+    # envpaL5 0
+    # envpaT1 0.1
+    # envpaT2 0.4
+    # envpaT3 0.03
+    # envpaT4 0.2
+    # envpaC1 "-4"
+    # envpaC2 "-12"
+    # envpaC3 "6"
+    # envpAmp 1
+    # envcaAtt 0
+    # envcaRel 0.01
+    # envcAmp 3.52
+    # cFundFreq 12025.1
+    # cFormFreq 16478.5
+    # cBwFreq 6667.1
+    # lpfFreq 20000
     # gain 1
+  ,
+  -- kick3
+  listen (cF 1 "89") $
+  s "ringkickSd@0.5 ~@0.5 ringkickSd ~@0.5 ringkickSd"
+    # amp 0.9
+    # attack 0.0001
+    # sustain 1
+    # release 0.4
+    # atk 0.01
+    # dcy 2.63
+    # lpfFreq 13760
+    # frq 26
+    # envfL1 6416.9
+    # envfL2 0
+    # envfL3 66.2
+    # envfL4 20
+    # envfL5 0
+    # envfT1 0
+    # envfT2 0.04
+    # envfT3 0.53
+    # envfT4 2.37
+    # curve "-4.92"
+    # envfAmt 0.32
+    # lfnFrq 59.2
+    # lfnAmt 0
+    # ringAmp 0.04
+    # sawFreq 20.7
+    # sawPh 6.18
+    # sawDecDiv 7
+    # sawAmp 0.18
+    # sinFreq 10010
+    # sinFb 0
+    # sinDecDiv 188
+    # sinAmp 0.29
+    # gain 1
+  ,
+  -- kick4
+  listen (cF 1 "90") $
+  s "~ batuhanSd@0.5 ~ batuhanSd"
+    # amp 0.5
+    # sustain 1.8
+    # release 1.8
+    # eSawDec 0.02
+    # eSinL1 0
+    # eSinL2 1
+    # eSinL3 2.55
+    # eSinL4 "0 0 0.06 0"
+    # eSinT1 0.15
+    # eSinT2 "0.05 0.02 0.2"
+    # eSinT3 0.11
+    # eSinC1 "-2.91"
+    # eSinC2 "-7.08"
+    # eSinC3 "-8.03"
+    # sinFreq 307
+    # sawMix 0.87
+    # sawFreq 0
+    # bpfFreq 49
+    # bpfRq 1
+    # bpfMix 0.34
+    # brfFreq1 42
+    # brfFreq2 43.5
+    # brfRq 0.01
+    # gain 1
+  ,
+  -- snare1
+  listen (cF 1 "91") $
+  s "[~ plouxSd*2]"
+    # amp 0.3
+    # atk 0
+    # dec 0
+    # stn 1.32
+    # rls 0.25
+    # feedBack (range 7.48 8 rand)
+    # fbPost 1
+    # dustfreq 24.6
+    # dustdecay 0.69
+    # frq 574.4
+    # fmfreq 64.25
+    # folAtt (range 0.1 0.53 rand)
+    # folDec (range 0.2 3.16 rand)
+    # sinMix 1
+    # a 0.24
+    # b 3
+    # c 1.95
+    # d 0.52
+    # xi 1.9
+    # yi 3.41
+    # gain 0.9
+  ,
+  -- noise1
+  listen (cF 1 "92") $
+  s "feedbackOscSd*7"
+    # amp 0.6
+    # sustain 1
+    # atk 0
+    # rls 1
+    # mFrq 16939
+    # mFB 7.38
+    # frq 0.4
+    # fB 0.7
+    # width 0.01
+    # mul "187 <187 167>"
+    # ffreq 1000
+    # rq 0.7
+    # fadeTime 0.01
+    # gain 1
+  ,
+  -- noise2
+  listen (cF 1 "93") $
+  s "attWindSd/2"
+    # amp 0.3
+    # atk 0.01
+    # rls "2 1.3 3.8 0.9"
+    # seq1 0.18
+    # seq2 3.33
+    # seq3 0.74
+    # seq4 0.8
+    # seq5 2
+    # seqDiv "21 8 12"
+    # freq1 234
+    # freq2 9000
+    # bwrLo 0
+    # bwrHi 1
+    # gain 1
+  ,
+  -- hi1
+  listen (cF 1 "94") $
+  s "newNoise48Sd*14"
+    # amp 1
+    # env0L1 0.35
+    # env0L2 0
+    # env0L3 2.68
+    # env0L4 0
+    # env0T1 0.12
+    # env0T2 2.11
+    # env0T3 0
+    # env0T4 0.79
+    # timeScale 0.26
+    # coeff 0.28
+    # avar 0.05
+    # bvar "-3"
+    # cvar 0.5
+    # dvar 1.5
+    # xi 0.5
+    # yi 0.5
+    # hpf 563
+    # pan (range 0 1 $ fast "<2 4> 8" cosine)
+    # gain 1
+  ,
+  -- hi2
+  listen (cF 1 "48") $
+  (0.25 ~>) $
+  s "haty48Sd*14"
+    # amp 0.75
+    # curve "-4"
+    # envaL1 1.81
+    # envaL2 0
+    # envaL3 2.52
+    # envaL4 0.85
+    # envaL5 0
+    # envaT1 0.01
+    # envaT2 0.02
+    # envaT3 0
+    # envaT4 0
+    # envaCrv 3.54
+    # envpL1 0
+    # envpL2 16936
+    # envpL3 1279
+    # envpL4 0
+    # envpT1 0
+    # envpT2 0.33
+    # envpT3 0
+    # envpT4 0.53
+    # envpCrv "-0.64"
+    # modFreq 1
+    # modAmt 1.4
+    # sinfAdd 1.7
+    # sinPhase 0.28
+    # sinpAdd 1.7
+    # rf1Freq 16938.8
+    # rf1Rq 0.26
+    # rf2Freq 765
+    # rf2Rq 0.62
+    # hpfFreq 3699
+    # pan (range 0.25 0.75 $ (0.25 <~) $ fast "8 <4 2>" cosine)
+    # gain 0.9
 ] # cps 0.38
 
 d2 silence
