@@ -241,7 +241,17 @@ stack [ -- % 7
 
 d1 silence
 
-d2 $ stack [ -- % 7
+d2 $
+someCyclesBy 0.24
+(
+  chunk 2 (iter "<2 3> 4")
+  . someCyclesBy 0.37 (# fshift "<-21.5 -42>")
+  . (# fshiftphase 3.14)
+  . (# fshiftnote "2 4 1.7")
+  . fast "2 0.5 3"
+  . degradeBy "<0.6 0.9>"
+) $
+stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
   someCyclesBy 0.34 (# rls "2 0.21 0.02") $
@@ -430,7 +440,7 @@ d2 $ stack [ -- % 7
   someCyclesBy 0.3 (degradeBy 0.5) $
   fast "4 <0.25 2> 0.5" $
   s "attWindSd?"
-    # amp 0.14
+    # amp 0.2
     # sustain 0.7
     # release 1.8
     # atk 0.01
@@ -450,7 +460,7 @@ d2 $ stack [ -- % 7
   -- hi1
   listen (cF 1 "94") $
   someCyclesBy 0.14 (const $ s "~") $
-  someCyclesBy 0.18 (density 1.6) $
+  someCyclesBy 0.18 (density 1.75) $
   s "newNoise48Sd(6, 7, <1 2>)"
     # amp 1
     # env0L1 0.35
