@@ -242,14 +242,14 @@ stack [ -- % 7
 d1 silence
 
 d2 $
-someCyclesBy 0.24
+someCyclesBy 0.16
 (
   chunk 2 (iter "<2 3> 4")
   . someCyclesBy 0.37 (# fshift "<-21.5 -42>")
   . (# fshiftphase 3.14)
   . (# fshiftnote "2 4 1.7")
   . fast "2 0.5 3"
-  . degradeBy "<0.6 0.9>"
+  . degradeBy "0.4?0.4 <0.7 0.9>"
 ) $
 stack [ -- % 7
   -- kick1
@@ -273,6 +273,72 @@ stack [ -- % 7
   ,
   -- kick2
   listen (cF 1 "88") $
+  s "<[ringkickSd ~@1.4285714285714286 ringkickSd] ringkickSd(2, 7, <2 3>)>"
+    # amp 1.1
+    # attack 0.0001
+    # sustain 1
+    # release 0.4
+    # atk 0.01
+    # dcy 2.63
+    # lpfFreq 13760
+    # frq 26
+    # envfL1 6416.9
+    # envfL2 0
+    # envfL3 66.2
+    # envfL4 20
+    # envfL5 0
+    # envfT1 0
+    # envfT2 0.04
+    # envfT3 0.53
+    # envfT4 2.37
+    # curve "-4.92"
+    # envfAmt 0.32
+    # lfnFrq 59.2
+    # lfnAmt 0
+    # ringAmp 0.04
+    # sawFreq 20.7
+    # sawPh 6.18
+    # sawDecDiv 7
+    # sawAmp 0.18
+    # sinFreq 10010
+    # sinFb 0
+    # sinDecDiv 188
+    # sinAmp 0.29
+    # gain 1
+    # orbit 2
+  ,
+  -- kick3
+  listen (cF 1 "89") $
+  slow 2 $
+  s "~@0.5 batuhanSd ~ batuhanSd"
+    # amp 0.55
+    # sustain 1.8
+    # release 1.8
+    # eSawDec 0.02
+    # eSinL1 0
+    # eSinL2 1
+    # eSinL3 2.55
+    # eSinL4 "0 0 0.06 0"
+    # eSinT1 0.15
+    # eSinT2 "0.05 0.02 0.2"
+    # eSinT3 0.11
+    # eSinC1 "-2.91"
+    # eSinC2 "-7.08"
+    # eSinC3 "-8.03"
+    # sinFreq 307
+    # sawMix 0.87
+    # sawFreq 0
+    # bpfFreq 49
+    # bpfRq 1
+    # bpfMix 0.34
+    # brfFreq1 42
+    # brfFreq2 43.5
+    # brfRq 0.01
+    # gain 1
+    # orbit 2
+  ,
+  -- kick4
+  listen (cF 1 "90") $
   someCyclesBy 0.3 (const $ s "~") $
   slow 2 $
   s "[~ kick_electroSd](1, 7)"
@@ -323,72 +389,6 @@ stack [ -- % 7
     # cBwFreq 6667.1
     # lpfFreq 20000
     # gain 1
-  ,
-  -- kick3
-  listen (cF 1 "89") $
-  s "<[ringkickSd ~@1.4285714285714286 ringkickSd] ringkickSd(2, 7, <2 3>)>"
-    # amp 1.1
-    # attack 0.0001
-    # sustain 1
-    # release 0.4
-    # atk 0.01
-    # dcy 2.63
-    # lpfFreq 13760
-    # frq 26
-    # envfL1 6416.9
-    # envfL2 0
-    # envfL3 66.2
-    # envfL4 20
-    # envfL5 0
-    # envfT1 0
-    # envfT2 0.04
-    # envfT3 0.53
-    # envfT4 2.37
-    # curve "-4.92"
-    # envfAmt 0.32
-    # lfnFrq 59.2
-    # lfnAmt 0
-    # ringAmp 0.04
-    # sawFreq 20.7
-    # sawPh 6.18
-    # sawDecDiv 7
-    # sawAmp 0.18
-    # sinFreq 10010
-    # sinFb 0
-    # sinDecDiv 188
-    # sinAmp 0.29
-    # gain 1
-    # orbit 2
-  ,
-  -- kick4
-  listen (cF 1 "90") $
-  slow 2 $
-  s "~@0.5 batuhanSd ~ batuhanSd"
-    # amp 0.55
-    # sustain 1.8
-    # release 1.8
-    # eSawDec 0.02
-    # eSinL1 0
-    # eSinL2 1
-    # eSinL3 2.55
-    # eSinL4 "0 0 0.06 0"
-    # eSinT1 0.15
-    # eSinT2 "0.05 0.02 0.2"
-    # eSinT3 0.11
-    # eSinC1 "-2.91"
-    # eSinC2 "-7.08"
-    # eSinC3 "-8.03"
-    # sinFreq 307
-    # sawMix 0.87
-    # sawFreq 0
-    # bpfFreq 49
-    # bpfRq 1
-    # bpfMix 0.34
-    # brfFreq1 42
-    # brfFreq2 43.5
-    # brfRq 0.01
-    # gain 1
-    # orbit 2
   ,
   -- snare1
   listen (cF 1 "91") $
