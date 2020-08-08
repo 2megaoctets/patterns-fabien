@@ -258,7 +258,7 @@ stack [ -- % 7
   every 8 (bite 5 "2 1 4 0 3") $
   ((1/7) ~>) $
   s "[~@2 technokickSd ~@2 technokickSd@2]"
-    # amp 0.77
+    # amp 0.9
     # sustain 1.3
     # release 1.6
     # atk 0.01
@@ -274,7 +274,7 @@ stack [ -- % 7
   -- kick2
   listen (cF 1 "88") $
   s "<[ringkickSd ~@1.4285714285714286 ringkickSd] ringkickSd(2, 7, <2 3>)>"
-    # amp 1.1
+    # amp 1.3
     # attack 0.0001
     # sustain 1
     # release 0.4
@@ -311,7 +311,7 @@ stack [ -- % 7
   listen (cF 1 "89") $
   slow 2 $
   s "~@0.5 batuhanSd ~ batuhanSd"
-    # amp 0.55
+    # amp 0.58
     # sustain 1.8
     # release 1.8
     # eSawDec 0.02
@@ -342,7 +342,7 @@ stack [ -- % 7
   someCyclesBy 0.3 (const $ s "~") $
   slow 2 $
   s "[~ kick_electroSd](1, 7)"
-    # amp 0.4
+    # amp 0.5
     # sustain 2
     # release 2
     # atk 0.01
@@ -395,7 +395,7 @@ stack [ -- % 7
   every 8 ((2/7) <~) $
   slow 2 $
   s "[~@2 plouxSd]"
-    # amp 0.4
+    # amp 0.55
     # atk 0
     # dec 0
     # stn 1.32
@@ -440,7 +440,7 @@ stack [ -- % 7
   someCyclesBy 0.3 (degradeBy 0.5) $
   fast "4 <0.25 2> 0.5" $
   s "attWindSd?"
-    # amp 0.2
+    # amp 0.25
     # sustain 0.7
     # release 1.8
     # atk 0.01
@@ -462,7 +462,7 @@ stack [ -- % 7
   someCyclesBy 0.14 (const $ s "~") $
   someCyclesBy 0.18 (density 1.75) $
   s "newNoise48Sd(6, 7, <1 2>)"
-    # amp 1
+    # amp 1.2
     # env0L1 0.35
     # env0L2 0
     # env0L3 2.68
@@ -487,7 +487,7 @@ stack [ -- % 7
   listen (cF 1 "48") $
   ((4/7) ~>) $
   s "haty48Sd*7"
-    # amp 0.75
+    # amp 0.6
     # curve "-4"
     # envaL1 1.81
     # envaL2 0
@@ -532,7 +532,7 @@ whenmod 18 16 (
 ) $
 stack [ -- %7
   -- kick1
-  listen 1 $
+  listen (cF 1 "87") $
   sometimesBy 0.3 (# envT2 "[0.25 0.17]") $
   whenmod 12 10 (degradeBy 0.6) $
   whenmod 7 5 ((# envT1 "0.001 0.002 0.01") . (# envT2 "0.1 0.3 0.7") . (# sweep1 34)) $
@@ -558,14 +558,14 @@ stack [ -- %7
     # gain 1
   ,
   -- kick2
-  listen 1 $
+  listen (cF 1 "88") $
   every 3 (within (0.5, 1) (fast 2)) $
   s "kick2newSd(<5 2>, 7, <2 5 6>)"
     # amp 1.9
     # gain 1
   ,
   -- hihat
-  listen 1 $
+  listen (cF 1 "89") $
   swingBy 0.75 (1/6) $
   whenmod 6 5 ((# rf1Freq 845) . (# rf2Freq 12345) . (# rf1Rq 0.15) . (# rf2Rq 0.3)) $
   every 3 (within (0.25, 0.5) ((density "2 4 12") . (ghost' 0.5))) $
@@ -579,7 +579,7 @@ stack [ -- %7
     # orbit 3
   ,
   -- cymbal
-  listen 1 $
+  listen (cF 1 "90") $
   whenmod 9 7 (spread ($) [rev, palindrome, fast 2]) $
   s "{~ cymnew1Sd*<3.5 1.75 2>}%<7 3.5>"
     # amp 0.25
@@ -588,7 +588,7 @@ stack [ -- %7
     # orbit 3
   ,
   -- noise
-  listen 1 $
+  listen (cF 1 "91") $
   sometimesBy 0.17 (const $ s "~") $
   every 4 (# mFrq (range 0.0 0.09 $ slow 2 perlin)) $
   s "{feedbackOsc _ feedbackOsc*2}%3.5"
@@ -604,7 +604,7 @@ stack [ -- %7
     # gain 0.74
   ,
   -- ambi
-  listen 0 $
+  listen (cF 1 "92") $
   whenmod 12 10 (const $ s "~") $
   somecyclesBy 0.25 (densityGap "2 <0.5 6>") $
   every "<8 16>" ((# freq 615) . (# hpf 1943)) $
@@ -618,15 +618,18 @@ stack [ -- %7
 
 d3 silence
 
-d4 $ whenmod 19 17 (
-  within (2/5, 4/5) (
-    (# binshift "0.3 0.1 0.08 0.4") .
-    (slow "[2 4]")
+d4 $
+whenmod 19 17
+(
+  within (2/5, 4/5)
+  (
+    (# binshift "0.3 0.1 0.08 0.4")
+    . slow "[2 4]"
   )
 ) $
 stack [ -- %5
     -- bass
-    listen 1 $
+    listen (cF 1 "87") $
     sometimesBy 0.25 (const $ s "~") $
     whenmod 6 5 (-| tu (range 0 2 $ slow 2 sine)) $
     (wchoose [(1, 0.5), (0.75, 0.5)] <~) $
@@ -636,14 +639,14 @@ stack [ -- %5
       # rls 1.2
       # att 0.01
       # decay 1
-      # sustain 1
+      # sustain 1.6
       # rel 2
       # hpf 40
       # tu 1
       # gain 1
     ,
     -- kick
-    listen 1 $
+    listen (cF 1 "88") $
     whenmod 9 8 ((# sinFb 12) . (# sinDecDiv "12 18.8")) $
     whenmod 8 6 ((# sawFreq "43 200") . (# envfL4 "21 42 54")) $
     every 4 (within (0, 1/5) (# nudge 0.002)) $
@@ -653,10 +656,10 @@ stack [ -- %5
       # dcy 1.8
       # att 0.01
       # decay 1
-      # sustain 1
+      # sustain 1.8
       # rel 2
       # lpfFreq 13760
-      # freq "26 42 26"
+      # frq "26 42 26"
       # envfL1 0
       # envfL2 6946.9
       # envfL3 66.2
@@ -681,11 +684,48 @@ stack [ -- %5
       # sinAmp 0.29
       # gain 0.94
     ,
+    -- clap
+    listen (cF 1 "89") $
+    every 8 palindrome $
+    slow 2 $
+    s "~@<2 1> t1kick2Sd ~@<1 2> t1kick2Sd"
+      # amp 0.68
+      # attack 0.00001
+      # sustain 0.8
+      # release 0.9
+      # envaT1 0.53
+      # envaL1 1
+      # envaT2 0.6
+      # envaL2 1.85
+      # envaT3 0.2
+      # envaL3 0.5
+      # envaT4 0.2
+      # envaL4 0
+      # envaCurve "-4"
+      # envfT1 0
+      # envfL1 9752
+      # envfT2 0.002
+      # envfL2 20
+      # envfT3 0.1
+      # envfL3 0
+      # envfT4 1
+      # envfL4 4
+      # envfCurve "-4"
+      # pitch 1.05
+      # hpfFreq 597
+      # hpfRq 1
+      # verbMix 0.5
+      # verbRoom 6.27
+      # verbTime 4.75
+      # verbDamp 0.65
+      # gain 1
+    ,
     -- noise1
-    listen 1 $
+    listen (cF 1 "90") $
     every 8 ((density 1.15) . (# fm2 0.1)) $
     s "{~ complexoscSd*2 complexoscSd ~ complexoscSd ~}%5"
       # amp 0.2
+      # sustain 0.3
       # feedBack "0.43 <0.42 0.41>"
       # envL1 0
       # envL2 2
@@ -713,21 +753,23 @@ stack [ -- %5
       # gain 0.89
     ,
     -- noise2
-    listen 1 $
+    listen (cF 1 "91") $
     sometimesBy 0.34 (const $ s "~") $
     s "haten1Sd haten1Sd ~ haten1Sd ~"
-      # amp 0.2
+      # amp 0.18
+      # sustain 0.4
       # envT1 "0.2 0.1"
       # pan ((0.25 <~) $ range 0 1 $ slow 2 rand)
       # gain 0.97
       # orbit 4
     ,
     -- hihat
-    listen 1 $
+    listen (cF 1 "92") $
     whenmod 7 6 ((degradeBy 0.6) . (# binshift 0.5)) $
     swingBy 0.2 (1/3) $
     s "~ kick3AwSd <kick3AwSd ~> [kick3AwSd _ <kick3AwSd ~> _] kick3AwSd"
       # amp 0.7
+      # sustain 0.4
       # envL1 0
       # envL2 2.21
       # envL3 0
@@ -745,7 +787,7 @@ stack [ -- %5
       # orbit 4
     ,
     -- cymbal
-    listen 1 $
+    listen (cF 1 "93") $
     whenmod 8 6 (
       (# envC1 "-12 -32 -3 67") .
       (# envC2 "32 32 -3 67") .
@@ -755,6 +797,7 @@ stack [ -- %5
     every 4 (0.5 <~) $
     s "<[cym1Sd ~ cym1Sd] ~ [~ cym1Sd]> cym1Sd _ cym1Sd*2 cym1Sd _ cym1Sd cym1Sd _ ~ cym1Sd"
       # amp 0.23
+      # sustain 0.2
       # envL1 "0.76 0 0.2"
       # envL2 0
       # envL3 0.32
@@ -770,7 +813,7 @@ stack [ -- %5
       # gain 0.97
     ,
     -- flute
-    listen 0 $
+    listen (cF 0 "94") $
     sometimesBy 0.42 (const $ s "~") $
     every 4 (within (0, 1/5) (# freq 120)) $
     slow 2 $
@@ -781,7 +824,7 @@ stack [ -- %5
       # orbit 4
     ,
     -- nappe
-    listen 1 $
+    listen (cF 0 "48") $
     sometimesBy 0.28 (const $ s "~") $
     whenmod 6 5 (wchoose [(1, 0.5), (0.5, 0.25), (2 ,0.25)] ~>) $
     every 16 (# tu "1.6") $
