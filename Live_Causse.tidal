@@ -1,7 +1,7 @@
 resetCycles
 
 d1 $
-(0.25 <~) $
+-- (0.25 <~) $
 someCyclesBy 0.08
 (
   (zoom (3/7, 1))
@@ -36,7 +36,7 @@ stack [ -- % 7
     # rq 0.02
     # filterType 0
     # outSignal 6
-    # hpf 60
+    # hpf 100
     # gain 0.75
     # orbit 1
   ,
@@ -65,6 +65,7 @@ stack [ -- % 7
     # pulseAmp 0.5
     # noiseAmp 1
     # sineAmp 1.2
+    # hpf 100
     # gain 0.98
     # orbit 1
   ,
@@ -100,6 +101,7 @@ stack [ -- % 7
     # lpf 12000
     # rqlpf 0.8
     # mixBpf 0.22
+    # hpf 110
     # gain 1
     # orbit 1
   ,
@@ -258,7 +260,7 @@ stack [ -- % 7
   every 8 (bite 5 "2 1 4 0 3") $
   ((1/7) ~>) $
   s "[~@2 technokickSd ~@2 technokickSd@2]"
-    # amp 0.9
+    # amp 1.2
     # sustain 1.3
     # release 1.6
     # atk 0.01
@@ -267,14 +269,14 @@ stack [ -- % 7
     # dcy 0.28571428571429
     # click 0.008
     # damp 0.6
-    # hpf 110
+    # hpf 180
     # gain 0.95
     # orbit 2
   ,
   -- kick2
   listen (cF 1 "88") $
   s "<[ringkickSd ~@1.4285714285714286 ringkickSd] ringkickSd(2, 7, <2 3>)>"
-    # amp 1.3
+    # amp 1.5
     # attack 0.0001
     # sustain 1
     # release 0.4
@@ -304,7 +306,8 @@ stack [ -- % 7
     # sinFb 0
     # sinDecDiv 188
     # sinAmp 0.29
-    # gain 1
+    # hpf 120
+    # gain 0.96
     # orbit 2
   ,
   -- kick3
@@ -334,6 +337,7 @@ stack [ -- % 7
     # brfFreq1 42
     # brfFreq2 43.5
     # brfRq 0.01
+    # hpf 110
     # gain 1
     # orbit 2
   ,
@@ -388,7 +392,8 @@ stack [ -- % 7
     # cFormFreq 16478.5
     # cBwFreq 6667.1
     # lpfFreq 20000
-    # gain 1
+    # hpf 120
+    # gain 0.96
   ,
   -- snare1
   listen (cF 1 "91") $
@@ -525,7 +530,7 @@ stack [ -- % 7
 d2 silence
 
 d3 $
-bite 7 "3 1 5 6 0 2 4" $
+-- bite 7 "3 1 5 6 0 2 4" $
 whenmod 18 16
 (
   spread ($) [
@@ -561,7 +566,7 @@ stack [ -- %7
     # sweep2 168.3
     # vol1 2
     # vol2 0.09
-    # hpf 102
+    # hpf 112
     # gain 1
     # orbit 3
   ,
@@ -571,6 +576,7 @@ stack [ -- %7
   s "kick2newSd(<5 2>, 7, <2 5 6>)"
     # amp 1.9
     # gain 1
+    # hpf 120
     # orbit 3
   ,
   -- hihat
@@ -645,14 +651,14 @@ stack [ -- %5
     whenmod 6 5 (-| tu (range 0 2 $ slow 2 sine)) $
     (wchoose [(1, 0.5), (0.75, 0.5)] <~) $
     s "~@3 <kick3Sd@2 ~@2> ~"
-      # amp 0.99
+      # amp 1
       # atk 0.1
       # rls 1.2
       # att 0.01
       # decay 1
       # sustain 1.6
       # rel 2
-      # hpf 40
+      # hpf 80
       # tu 1
       # gain 1
       # orbit 4
@@ -664,7 +670,7 @@ stack [ -- %5
     every 4 (within (0, 1/5) (# nudge 0.002)) $
     every 2 (0.5 <~) $
     s "[[~ ringkickSd _ ringkickSd _] <ringkickSd ~ ringkickSd>, ~ _ <~ ringkickSd> ~ <ringkickSd [~@2 ringkickSd]>]"
-      # amp 0.98
+      # amp 1
       # dcy 1.8
       # att 0.01
       # decay 1
@@ -694,10 +700,11 @@ stack [ -- %5
       # sinFb 9
       # sinDecDiv 188
       # sinAmp 0.29
+      # hpf 100
       # gain 0.94
       # orbit 4
     ,
-    -- snare
+    -- rim
     listen (cF 1 "89") $
     every 12 ((6/7) <~) $
     s "[~@2 feedbackOscSd?0.56]/2"
@@ -714,7 +721,9 @@ stack [ -- %5
       # ffreq 1500
       # rq 2.7
       # fadeTime 0.01
-      # gain 1
+      # room 0.3
+      # size (range 0.03 0.3 sine)
+      # gain 0.97
     ,
     -- clap
     listen (cF 1 "90") $
@@ -873,7 +882,7 @@ stack [ -- %5
 d4 silence
 
 d5 $
--- (chop 2 . iter "2 4") $
+-- (chop "1 3?" . iter "2 4") $
 sometimesBy "<0.05 0.1 0.2>"
 (
   densityGap "6 2 4"
@@ -889,7 +898,7 @@ stack [ -- %5
   every 2 (within (2/5, 3/5) (# nudge 0.1)) $
   -- s "drumkickSd(3, 5, <7 9 5>)"
   s "drumkickSd(4, 5, <1 6 5>)"
-    # amp 0.7
+    # amp 1
     # attack 0.15
     # decay 1
     # sustain 1
@@ -909,6 +918,7 @@ stack [ -- %5
     # lineStartBpf 0.3
     # lineEndBpf 0
     # lineLevBpf 0.15
+    # hpf 120
     # gain 0.98
     # orbit 5
   ,
@@ -918,7 +928,7 @@ stack [ -- %5
   swingBy 0.75 (1/4) $
   -- s "[[<snapkickSd ~> ~] <snapkickSd ~ [~@2 snapkickSd _]> _ ~ <[~ snapkickSd] [~ snapkickSd _]>]"
   s "{<~ snapkickSd> <snapkickSd ~> <~ [~ snapkickSd]> _ snapkickSd}%5"
-    # amp 0.88
+    # amp 1.1
     # attack 0.001
     # decay 1
     # sustain 1
@@ -949,7 +959,7 @@ stack [ -- %5
     # clkfFormFreq 4760
     # clkfBwFreq 12110
     # clkLpfFreq 13140
-    # hpf 100
+    # hpf 120
     # gain 0.95
     # orbit 5
   ,
@@ -960,7 +970,7 @@ stack [ -- %5
   every 4 (0.5 <~) $
   (0.25 ~>) $
   s "{~ _ kraftySnareSd _ <~ kraftySnareSd>}%5"
-    # amp 0.82
+    # amp 0.86
     # dec "0.03 0.02 0.04 0.06 0.034"
     # gain 1
   ,
@@ -1028,7 +1038,7 @@ stack [ -- %5
   loopAt "5 2.5 1.125" $
   s "{bf:4}%1.125"
     # speed "-2 -3"
-    # gain 0.7
+    # gain 0.8
 ] # cps 1.27
 
 d5 silence
@@ -1050,6 +1060,8 @@ stack [ -- %7
   whenmod 5 4 ((# freqenvL1 "222 812") . (# freqenvT1 "5 3")) $
   every 8 (# ampenvT2 "1.3 1.2") $
   s "[kicklaserbeamSd _] ~@2 [~ kicklaserbeamSd ~] ~ <kicklaserbeamSd [~ kicklaserbeamSd ~@2]> _"
+    # sustain 1.3
+    # release 0.5
     # freqenvL1 3.97
     # freqenvL2 5
     # freqenvL3 0
@@ -1069,7 +1081,8 @@ stack [ -- %7
     # attack 0
     # sustain 1
     # release 1
-    # gain 0.9
+    # hpf 130
+    # gain 0.89
     # orbit 6
   ,
   -- kick2
@@ -1078,7 +1091,9 @@ stack [ -- %7
   every 3 ((# enfL2 "341 732") . (# enfL3 "130 69") . (# enfT1 "<1 2>")) $
   ((1/14) <~) $
   s "~ _ kick808newSd@2 ~ <<[~ kick808newSd] [kick808newSd _]> ~> _"
-    # amp 0.85
+    # amp 0.8
+    # sustain 0.3
+    # release 0.6
     # envL1 1.33
     # envL2 0.99
     # envL3 0
@@ -1094,7 +1109,7 @@ stack [ -- %7
     # tu 2
     # sin2Frq 10
     # sin2Amp 48
-    # hpf 80
+    # hpf 120
     # gain 1
     # orbit 6
   ,
@@ -1104,7 +1119,9 @@ stack [ -- %7
   every 4 (# kharm1 "100 <3999 429>") $
   ((4/7) ~>) $
   s "~@4 kickParallaxSd _@2"
-    # amp 0.4
+    # amp 0.5
+    # sustain 1
+    # release 0.5
     # envAmpAtt 0
     # envAmpRel 0.3
     # envFrqAtt 0
@@ -1124,6 +1141,7 @@ stack [ -- %7
     # frqScale 1
     # decScale 1
     # resoMix 0.5
+    # hpf 110
     # gain 1
     # orbit 6
   ,
@@ -1154,7 +1172,7 @@ stack [ -- %7
     # frqScale 1
     # decScale 1
     # resoMix 0
-    # gain 1.05
+    # gain 1
   ,
   -- cymbal
   listen (cF 1 "91") $
@@ -1298,8 +1316,8 @@ stack [ -- % 4
     # sweep2 168.3
     # vol1 2
     # vol2 0.09
-    # hpf 80
-    # gain 1.12
+    # hpf 100
+    # gain 1.2
     # orbit 7
   ,
   -- kick2
@@ -1330,6 +1348,7 @@ stack [ -- % 4
     # env1T2 0.29
     # curve1_1 "-4"
     # curve1_2 "-5"
+    # hpf 110
     # gain 0.68
     # orbit 7
   ,
@@ -1350,7 +1369,7 @@ stack [ -- % 4
     # bpeqf2 800
     # bpeqrq2 10
     # bpeqamp2 "-6"
-    # hpff 81
+    # hpff 150
     # gain 0.97
     # orbit 7
   ,
@@ -1487,7 +1506,7 @@ someCyclesBy 0.14
   . chop "<7 3.5 2 14>"
 ) $
 stack [ -- % 7
-  -- noise
+  -- kick noise
   listen (cF 1 "87") $
   -- sometimesBy 0.3 (const $ s "~") $
   someCyclesBy 0.27 (slow "<2 4>") $
@@ -1496,6 +1515,8 @@ stack [ -- % 7
   (0.75 <~) $
   s "snaremedSd snaremedSd@0.5 _ snaremedSd*3 ~@0.5 _@3"
     # level 1
+    # sustain 0.2
+    # release 1.2
     # noise 1
     # dc 1
     # env0L1 0.06
@@ -1526,8 +1547,9 @@ stack [ -- % 7
   every 8 ((# h1harmonic "32 1 27 2") . (bite 7 "0 1 3 5 2 4 6")) $
   every 4 (# h1freq "100 231 3298") $
   s "[kickBlocksSd ~ <kickBlocksSd*2 [~ kickBlocksSd]>] <kickBlocksSd ~> kickBlocksSd"
-    # amp 0.74
-    # sustain 1.1
+    # amp 0.8
+    # sustain 1.2
+    # release 1.72
     # curve "-10.92"
     # t1freq 64.6
     # t1harmonic 16
@@ -1565,7 +1587,7 @@ stack [ -- % 7
     # cfreq 6100
     # crq 1
     # camp 1.41
-    # hpf 100
+    # hpf 160
     # gain 0.97
     # orbit 8
   ,
@@ -1583,6 +1605,7 @@ stack [ -- % 7
     # inAmt 61.2
     # coef1 0.99
     # coef2 0.18
+    # hpf 280
     # gain 0.85
     # orbit 8
   ,
@@ -1679,8 +1702,9 @@ stack [ -- % 7
     # lineStartBpf 1
     # lineEndBpf 13
     # lineLevBpf 5
+    # hpf 160
     # gain 0.458
-    -- # orbit 9
+    # orbit 9
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -1723,7 +1747,7 @@ stack [ -- % 7
     # beaterT3 0
     # clkffreq 4850
     # clkres 4
-    # hpf 70
+    # hpf 120
     # gain 0.88
     # orbit 9
   ,
@@ -1746,7 +1770,7 @@ stack [ -- % 7
     # delTime 0 -- 0.00978
     # delDecay 0.53
     # brfRq 0
-    # hpf 110
+    # hpf 120
     # gain 0.97
     # orbit 9
   ,
@@ -1821,7 +1845,7 @@ stack [ -- % 7
     # beltmass 31.19
     # source 2
     # hpfFreq 24
-    # hpf 80
+    # hpf 120
     # pan (range 0.4 0.6 $ slow "<2.5 4>" cosine)
     # gain 1
   ,
@@ -1848,7 +1872,7 @@ stack [ -- % 7
     # size 0
     # mix 0
     # damp 0.5
-    # hpf 90
+    # hpf 140
     # pan (range 0.3 0.7 $ fast "<4 2.5 4>" cosine)
     # gain 0.98
 ] # cps 0.91
