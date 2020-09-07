@@ -1,7 +1,6 @@
 resetCycles
 
 d1 $
--- (0.25 <~) $
 someCyclesBy 0.08
 (
   (zoom (3/7, 1))
@@ -11,8 +10,8 @@ someCyclesBy 0.08
 ) $
 someCyclesBy 0.09
 (
-  -- (|* gain 0.96)
-  (bite 7 (segment "3 7" $ irand 7))
+  (|* gain 0.96)
+  . (bite 7 (segment "3 7" $ irand 7))
   . juxBy 0.3 rev
   . chop "1 2 1"
   . degradeBy "0.3 0.8 0.4"
@@ -73,7 +72,7 @@ stack [ -- % 7
   listen (cF 1 "89") $
   every 8 (density 1.2) $
   s "snarenewSd(2, 7, 9)"
-    # amp 1.3
+    # amp 1.15
     # sustain 1
     # release 0.8
     # tu 1.16
@@ -260,7 +259,7 @@ stack [ -- % 7
   every 8 (bite 5 "2 1 4 0 3") $
   ((1/7) ~>) $
   s "[~@2 technokickSd ~@2 technokickSd@2]"
-    # amp 1.2
+    # amp 1
     # sustain 1.3
     # release 1.6
     # atk 0.01
@@ -269,7 +268,7 @@ stack [ -- % 7
     # dcy 0.28571428571429
     # click 0.008
     # damp 0.6
-    # hpf 180
+    # hpf 140
     # gain 0.95
     # orbit 2
   ,
@@ -898,7 +897,7 @@ stack [ -- %5
   every 2 (within (2/5, 3/5) (# nudge 0.1)) $
   -- s "drumkickSd(3, 5, <7 9 5>)"
   s "drumkickSd(4, 5, <1 6 5>)"
-    # amp 1
+    # amp 0.82
     # attack 0.15
     # decay 1
     # sustain 1
@@ -928,7 +927,7 @@ stack [ -- %5
   swingBy 0.75 (1/4) $
   -- s "[[<snapkickSd ~> ~] <snapkickSd ~ [~@2 snapkickSd _]> _ ~ <[~ snapkickSd] [~ snapkickSd _]>]"
   s "{<~ snapkickSd> <snapkickSd ~> <~ [~ snapkickSd]> _ snapkickSd}%5"
-    # amp 1.1
+    # amp 1
     # attack 0.001
     # decay 1
     # sustain 1
@@ -1008,7 +1007,7 @@ stack [ -- %5
   every 4 ((density 0.4) . (# mix 0.1)) $
   every 2 (within (3/5, 1) (fast 2)) $
   s "{[fabHiSd ~ [~ fabHiSd _ fabHiSd], ~ fabHiSd]}%1.25"
-    # amp 0.2
+    # amp 0.16
     # wamp 0.84
     # envNatt 0
     # envNrel 0.26
@@ -1295,14 +1294,13 @@ someCyclesBy 0.08
   (loopAt "1 0.5")
   . (chop "4 <8 2>")
 ) $
-whenmod 16 14
-((# delayfb 0.6) . (# delayt "<q s 3q>") . (# delay 0.3) . (fast 2) . (iter' 4)) $
-stack [ -- % 4
+stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
-  s "~@3 [IkedaBassSd ~ IkedaBassSd@0.5 ~@0.5]"
-    # amp 1
-    # sustain 1.2
+  every 4 rev $
+  s "<IkedaBassSusSd [~@2 IkedaBassSusSd ~]> ~ IkedaBassSusSd ~@0.5"
+    # amp 1.3
+    # sustain 1.3
     # envL1 0
     # envL2 0.25
     # envL3 0.4
@@ -1316,17 +1314,21 @@ stack [ -- % 4
     # sweep2 168.3
     # vol1 2
     # vol2 0.09
-    # hpf 100
+    # hpf 120
     # gain 1.2
     # orbit 7
   ,
   -- kick2
   listen (cF 1 "88") $
-  cat [
-    (s "~ kickMistSd ~ <kickMistSd <[~ kickMistSd] ~>>"),
-    (s "kickMistSd ~ <~ [kickMistSd ~@2]> ~")
-  ]
-    # level 1
+  whenmod 12 8
+  (
+    (degradeBy (range 0.2 0.6 $ saw))
+    . (# curve1_1 "-22 -4 <1.6 8> -4 -2.2")
+    . (bite 7 (segment "<7 14> 7" (irand 14)))
+    -- . (# tu "1.6 0.8 2.2")
+  ) $
+  s "[kickMistSusSd(1, 7, <1 2>), kickMistSusSd(2, 7, <6 7>)]"
+    # level 0.8
     # sustain 2.3
     # release 1
     # tu 0.8
@@ -1349,14 +1351,15 @@ stack [ -- % 4
     # curve1_1 "-4"
     # curve1_2 "-5"
     # hpf 110
-    # gain 0.68
+    # gain 0.63
     # orbit 7
   ,
   -- kick3
   listen (cF 1 "89") $
-  sometimesBy 0.1 ((# bpeqamp1 "-14") . (# gain 0.9)) $
-  every 8 ((# tu "<24 33>") . (# gain 0.86)) $
-  cat [(s "kick2new(3, 5)"), (s "kick2new(2, 3, <2 4>)")]
+  sometimesBy 0.1 ((# bpeqamp1 "-14") . (# gain 0.88)) $
+  every 8 ((# tu "<24 33>") . (# gain 0.8)) $
+  every 4 (bite 4 "3 0 1 2") $
+  s "[~ kick2newSusSd] kick2newSusSd@0.5 ~ kick2newSusSd"
     # amp 2
     # sustain 1.1
     # envfT1 0.002
@@ -1375,22 +1378,23 @@ stack [ -- % 4
   ,
   -- echo
   listen (cF 1 "90") $
-  s "tweetFogAttackSd? ~ ! tweetFogAttackSd@0.5 _@0.5"
-    # amp 1
-    # attack 0.01
-    # release 2.5
+  (0.75 <~) $
+  s "tweetFogAttackSusSd? ~ ! <tweetFogAttackSusSd ~> <~ [~ tweetFogAttackSusSd]>"
+    # amp 0.95
     # sigatt 0
     # sigdec 2.11
     # feedBack "0.04 0.04 0.025"
     # freq "1.42 1.03 0.91"
     # gain 0.87
   ,
-  -- snare1
+  -- noise
   listen (cF 1 "91") $
+  whenmod 12 8 (density (range 0.2 0.4 cosine)) $
   whenmod 8 6 (# fm1 5000) $
   every 4 (# feedBack "0.3 0.2 1 0.4") $
-  s "<complexoscSd*8 [complexoscSd@0.5 complexoscSd/2 complexoscSd*2 _]>"
-    # amp 1
+  (0.5 ~>) $
+  s "<complexoscSd*7 [complexoscSd@1.5 complexoscSusSd*2 _]>"
+    # amp 0.95
     # feedBack "0.3 1 0.2 1 0.4" -- 0.2
     # envL1 0
     # envL2 2
@@ -1417,36 +1421,39 @@ stack [ -- % 4
     # switch 4
     # gain 0.65
   ,
-  -- snare2
+  -- snare
   listen (cF 1 "92") $
-  every 4 (within (1/4, 1) (palindrome . (fast "<2 3>"))) $
+  someCyclesBy 0.36 (degradeBy 0.3) $
+  someCyclesBy 0.54 (slow "<2 4>") $
+  every 4 (within (0, 4/7) (chunk 3 (fast "2 <4 8>"))) $
   (0.25 ~>) $
-  s "~ cymbalicMcldSd <cymbalicMcldSd ~ [~ cymbalicMcldSd@0.5]> _"
+  s "cymbalicMcldSusSd(<1 2>, 7, 1)"
     # amp 0.5
     # sustain 2
-    # attLowf 0.5
-    # relLowf 5
-    # lowNoiseLev 0.1
-    # attHif 1
-    # relHif 3
-    # hiNoiseLev 0.1
-    # attHi 1
+    # attLowf 0.25
+    # relLowf 12
+    # lowNoiseLev 0.2
+    # attHif 3
+    # relHif 4
+    # hiNoiseLev 1.1
+    # attHi 1.3
     # relHi 2
     # hiLev 0.25
-    # attTh 0.001
+    # attTh "0.001 0.2"
     # relTh "0.001 0.02 0.00"
-    # freq1 460
-    # freq2 540
-    # freq3 13807
-    # freq4 476
+    # freq1 560
+    # freq2 831
+    # freq3 1244
+    # freq4 576
     # gain 0.8
   ,
   -- hihat
   listen (cF 1 "93") $
-  sometimesBy 0.34 (ghost' 0.8) $
-  swingBy 0.7 (1/4) $
-  s "fabHi1Sd*8"
-    # amp 0.12
+  someCyclesBy 0.4
+  (swingBy (5/7) (2/7)) $
+  ghost' (3/7) $
+  s "fabHi1SusSd*7"
+    # amp 0.3
     # wamp 1
     # envNatt 0
     # envNrel 0.105
@@ -1458,7 +1465,7 @@ stack [ -- % 4
     # sinPh2 0
     # sinLev1 5.56
     # sinLev2 15.25
-    # envSatt "0 0.1 0.2 0.21"
+    # envSatt "0.1 <0.02 0.084>"
     # envSrel 0.07
     # mix "-0.11"
     # envL1 0
@@ -1474,7 +1481,7 @@ stack [ -- % 4
   ,
   -- ambi
   listen (cF 1 "94") $
-  s "talters1Sd talters1Sd@3"
+  s "talters1SusSd talters1SusSd@2.5"
     # amp 1
     # attack 0.01
     # release 9
@@ -1547,7 +1554,7 @@ stack [ -- % 7
   every 8 ((# h1harmonic "32 1 27 2") . (bite 7 "0 1 3 5 2 4 6")) $
   every 4 (# h1freq "100 231 3298") $
   s "[kickBlocksSd ~ <kickBlocksSd*2 [~ kickBlocksSd]>] <kickBlocksSd ~> kickBlocksSd"
-    # amp 0.8
+    # amp 0.7
     # sustain 1.2
     # release 1.72
     # curve "-10.92"
@@ -1587,7 +1594,7 @@ stack [ -- % 7
     # cfreq 6100
     # crq 1
     # camp 1.41
-    # hpf 160
+    # hpf 120
     # gain 0.97
     # orbit 8
   ,
@@ -1663,6 +1670,7 @@ stack [ -- % 7
   listen (cF 1 "94") $
   fix (# gain 0.7) (s "lmg_r:2") $
   s "lmg_r:2 <~ lmg_d? ~> ~@1.5"
+    # hpf 50
     # gain 1
 ] # cps 0.8
 
@@ -1704,7 +1712,7 @@ stack [ -- % 7
     # lineLevBpf 5
     # hpf 160
     # gain 0.458
-    # orbit 9
+    -- # orbit 9
   ,
   -- kick2
   listen (cF 1 "88") $

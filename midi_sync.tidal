@@ -4,6 +4,6 @@ once $ midicmd "stop" # s "midi"
 
 once $ midicmd "start" # s "midi"
 
-p "midictl" $ midicmd "start/4" # s "midi"
+-- p "midictl" $ midicmd "start/4" # s "midi"
 
-p "midictl" $ silence
+-- p "midictl" $ silence
