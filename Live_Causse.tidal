@@ -1289,10 +1289,18 @@ stack [ -- %7
 d6 silence
 
 d7 $
-someCyclesBy 0.08
+someCyclesBy 0.16
 (
-  (loopAt "1 0.5")
-  . (chop "4 <8 2>")
+  spread ($) [
+    (
+      (loopAt "1 0.5")
+      . someCyclesBy 0.5 rev
+      . chop "4 <2 8>"
+      -- . gap "2 4"
+    )
+    , loopAt "2 4 1"
+    , (stut "5 4" (range 0.4 0.9 (cat [square, sine])) (range 0.1 0.5 (cat [square, isaw])))
+  ]
 ) $
 stack [ -- % 7
   -- kick1
