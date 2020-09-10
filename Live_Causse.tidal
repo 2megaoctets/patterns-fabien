@@ -1302,6 +1302,7 @@ someCyclesBy 0.16
     , (stut "5 4" (range 0.4 0.9 (cat [square, sine])) (range 0.1 0.5 (cat [square, isaw])))
   ]
 ) $
+-- loopAt "4 3.5 6 3.5" $
 stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
@@ -1322,8 +1323,8 @@ stack [ -- % 7
     # sweep2 168.3
     # vol1 2
     # vol2 0.09
-    # hpf 120
-    # gain 1.2
+    # hpf 280
+    # gain 1.24
     # orbit 7
   ,
   -- kick2
