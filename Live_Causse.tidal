@@ -1095,7 +1095,7 @@ stack [ -- %7
     # owhich2 3
     # ochoose 1
     # hpf 110
-    # gain 0.95
+    # gain 0.91
     # orbit 6
   ,
   -- kick2
@@ -1122,7 +1122,7 @@ stack [ -- %7
     # sin2Frq 150
     # sin2Amp 48
     # hpf 180
-    # gain 0.9
+    # gain 0.88
     # orbit 6
   ,
   -- kick3
@@ -1157,7 +1157,7 @@ stack [ -- %7
     # decScale 1
     # resoMix 0.5
     # hpf 120
-    # gain 0.98
+    # gain 0.96
     # orbit 6
   ,
   -- snare
@@ -1210,7 +1210,7 @@ stack [ -- %7
     # tonehi 330
     # toneamp 0.5
     # blend 0.25
-    # gain 0.98
+    # gain 0.96
   ,
   -- clap
   listen (cF 1 "91") $
@@ -1242,7 +1242,7 @@ stack [ -- %7
     # verbRoom 6.27
     # verbTime 4.75
     # verbDamp 0.65
-    # gain 1.06
+    # gain 1.04
   ,
   -- breath
   listen (cF 1 "92") $
@@ -1262,7 +1262,7 @@ stack [ -- %7
     # freqMin 250
     # freqMax 800
     # bwrMod "0.5 0.1 0.2"
-    # gain 1
+    # gain 0.98
   ,
   -- click
   listen (cF 1 "93") $
@@ -1292,7 +1292,7 @@ stack [ -- %7
     # decScale 1
     # resoMix 0
     # pan (range 0.25 0.75 $ fast "<2 4 6>" $ cat [sine, isaw])
-    # gain 1
+    # gain 0.98
   ,
   -- cymbal
   listen (cF 1 "94") $
@@ -1312,7 +1312,7 @@ stack [ -- %7
     # envT3 0.32
     # envCurve "-4"
     # pan (range 0.35 0.65 $ fast "<2 4 6>" $ cat [sine, isaw])
-    # gain 1
+    # gain 0.98
 ] # cps 1.4
 
 d6 silence
@@ -1457,7 +1457,7 @@ stack [ -- % 7
     # fold 1.9
     # wrap 0.82
     # switch 4
-    # gain 0.65
+    # gain 0.6
   ,
   -- snare
   listen (cF 1 "92") $
