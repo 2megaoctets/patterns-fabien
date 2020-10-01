@@ -1166,39 +1166,6 @@ stack [ -- %7
     # orbit 6
   ,
   -- snare
-  -- listen (cF 1 "90") $
-  -- sometimesBy 0.38 (const $ s "~") $
-  -- every 8 (((4/7) ~>) . (# envT1 0.02) . (# envT2 0.05)) $
-  -- ((1/7) <~) $
-  -- s "jungleSnareSd/2"
-  --   # amp 0.4
-  --   # envL1 1
-  --   # envL2 0
-  --   # envL3 1
-  --   # envL4 0
-  --   # envT1 0.04
-  --   # envT2 0.5
-  --   # envT3 0.34
-  --   # envCurve "-2"
-  --   # envfL1 92.29
-  --   # envfL2 295.44
-  --   # envfL3 4962.07
-  --   # envfL4 144.33
-  --   # envfT1 0.03
-  --   # envfT2 0
-  --   # envfT3 0
-  --   # envfCurve "-18"
-  --   # envnAtt 0
-  --   # envnRel 0.27
-  --   # envnCurve "-2.45"
-  --   # noiseAmp 0.08
-  --   # tu 1 -- 1.43
-  --   # kracter 5.38
-  --   # hpfRq 1
-  --   # lpfRq 0.5
-  --   # gain 0.98
-  -- ,
-  -- snare
   listen (cF 1 "90") $
   sometimesBy 0.38 (const $ s "~") $
   every 8 (((4/7) ~>) . (# tonerel 0.8) . (# curve "-29")) $
@@ -1725,48 +1692,42 @@ someCyclesBy 0.2
   (# legato "1 0.5 2 4")
   . (# squiz "1 2 1.4")
   . (densityGap "<2 1> 1 2")
-  . (# beaterAmp 0)
 ) $
-sometimesBy 0.1
-(append (s "~ trp2_k:11 drumkickSd@1.5")) $
 stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
-  snowball' 2 (+) ((0.25 <~) . (slow 2)) $
-  s "~ drumkickSd drumkickSd _@0.5"
-    # amp 0.4
-    # attack 0.0001
+  someCyclesBy 0.2
+  (degradeBy 0.34) $
+  whenmod 8 6
+  (stutWith 3 (3/7) (+| squiz "2 1.2")) $
+  struct "<t(<4 3>, 7, 1) t(3, 7, 2)>" $ s "tabassSusSd"
+    # amp 0.6
     # sustain 1
-    # release 0.79
-    # curve 7.26
-    # attSinFreq 0.0001
-    # relSinFreq 0.58
-    # curveSinFreq "5 -200"
-    # levSin 0.05
-    # attBpfFreq 0.36
-    # relBpfFreq 0.91
-    # timeScaleBpf 0.02
-    # curveBpf 14
-    # levBpf 0.03
-    # levScaleBpf 2058
-    # levBiasBpf 9
-    # lineStartBpf 1
-    # lineEndBpf 13
-    # lineLevBpf 5
-    # hpf 160
-    # gain 0.458
-    -- # orbit 9
+    # atk 0.001
+    # rls 1
+    # frq 1
+    # lfnFrq 0.5
+    # hpf 130
+    # gain 0.9
+    # orbit 9
   ,
   -- kick2
   listen (cF 1 "88") $
   whenmod 14 12 (# lpf "<3500 2590>") $
   someCyclesBy 0.16 ((# drumRel 0.1) . (# drumAtt 0.7)) $
   someCyclesBy 0.27 ((# beaterHarmonic "180 90") . (# beaterFreq "264 237")) $
-  cat [s "sosKickSd(3, 7, <2 0>)", s "sosKickSd(<3 3.5>, 7, <1 0 2>)"]
+  every 8
+  rev $
+  someCyclesBy 0.5
+  (degradeBy 0.6) $
+  -- s "<sosKickSusSd(<3 5>, 7, <1 2 0>) sosKickSusSd(3, 3.5, <1 0>)>"
+  struct "<f(<4 3>, 7, 1) f(3, 7, 2)>" $ s "sosKickSusSd"
     # amp 1
-    # att 0.01
-    # sustain 1
-    # rel 2.63
+    # attack 0.001
+    # sustain 1 -- "1 0.4"
+    # release "0.9 <0.4 <0.7 0.2>>"
+    # atk 0.001
+    # rls 0.63
     # subamp 1.54
     # drumAmp 1.38
     # beaterAmp 0.04
@@ -1788,45 +1749,57 @@ stack [ -- % 7
     # beaterFreq 1001
     # beaterHarmonic 100
     # beaterSweep 0.97
-    # noiseMod 3606
+    # noiseMod "3606 20 64"
     # beaterL1 15.79
     # beaterL2 1
     # beaterL3 11.23 -- 2.4
     # beaterL4 0
     # beaterT1 0.01
-    # beaterT2 "0.2 0.09 0.3"
+    # beaterT2 "0.05 0.1 0.09 0.02 0.3"
     # beaterT3 0
-    # clkffreq 4850
-    # clkres 4
-    # hpf 120
-    # gain 0.88
+    # clkffreq 2850
+    # clkres 1.2
+    # hpf 160
+    # gain 0.93
     # orbit 9
   ,
-  -- soft kick
+  -- kick3
   listen (cF 1 "89") $
-  s "ambitekSd@2 ambitekSd@1.5"
-    # amp 0.6
-    # attack 0.06
-    # sustain 1
-    # release 0.83
-    # envSL1 0
-    # envSL2 0
-    # envSL3 0.5
-    # envSL4 0
-    # envST1 0.01
-    # envST2 "<0 0.6? 0>"
-    # envST3 0
-    # envSCurve "-4"
-    # sawFreq 50
-    # delTime 0 -- 0.00978
-    # delDecay 0.53
-    # brfRq 0
-    # hpf 120
-    # gain 0.97
+  someCyclesBy 0.31
+  (
+    (# levSin 1)
+    . (# relSinFreq "0.04 0.02")
+  ) $
+  every 16
+  (rev . (bite 3 "<<2 0> <1 3> <3 2>>")) $
+  ((1/7) <~) $
+  s "[drumkickSusSd ~@2] ~ <[~@1.2 drumkickSusSd] drumkickSusSd> ~@0.5"
+    # amp 0.7
+    # atk 0.00001
+    # rls 0.09
+    # curve 8
+    # attSinFreq 0.0001
+    # relSinFreq 0.1
+    # curveSinFreq "-200 -122"
+    # levSin "0.2 0.5 0.4"
+    # attBpfFreq 0.00001
+    # relBpfFreq 0.3
+    # timeScaleBpf 4.5
+    # curveBpf "-200 -300"
+    # levBpf "1 2 0.5 1 2.2"
+    # levScaleBpf "6000 1200 200"
+    # levBiasBpf "20 3 14 20 3"
+    # lineStartBpf "0.3 0.35"
+    # lineEndBpf 0
+    # lineLevBpf 0.1
+    # hpf 60
+    # gain 1
     # orbit 9
   ,
   -- snare
   listen (cF 1 "90") $
+  every 6
+  (chop "3 4") $
   s "<~@2.25 ~@2> <clappingSd@1.25 clappingSd@1.5>"
     # amp 0.7
     # att 0
@@ -1849,83 +1822,88 @@ stack [ -- % 7
     # delDecR 0.06
     # gain 0.87
   ,
-  -- hi
+  -- pitch snare
   listen (cF 1 "91") $
-  every 3 (fast "2 2.5") $
-  s "kick3AwSd(5, 7, <0 1>)"
-    # amp 0.5
-    # envL1 0
-    # envL2 2.21
-    # envL3 0
-    # envL4 0.3
-    # punch 0.37
-    # envfLev1 369
-    # envfLev2 19951
-    # envfTime 0.01
-    # envfCurve "-9.47"
-    # pan (range 0.1 0.9 $ slow "<4 2.5>" cosine)
-    # gain 0.95
-  ,
-  -- cym
-  listen (cF 0 "92") $
-  s "cymnewSd*7"
-    # amp 0.34
-    # att 0
-    # rel "0.58 0.32 0.12 0.58 0.32 0.12 0.92"
-    # curve "-11.66"
-    # tu 6.08
-    # pan (range 0.25 0.75 $ fast "<2 4 6>" sine)
-    # gain 0.96
-  ,
-  -- noise1
-  listen (cF 1 "93") $
-  every 4 (# spec1 "<0.04 0.2 0.03>") $
-  s "~@1.5 mutantFricSd mutantFricSd?"
-    # amp 0.9
-    # atk 0.44
-    # sustain 2
-    # rls 0.4
-    # attack 0.01
-    # release 1
-    # spec1 0
-    # spec2 0.06
-    # noiseFreq 1.5
-    # sigFreq 50
-    # spring "0.11 0.06 0.06 0.11 0.06"
-    # damp 4.54
-    # beltmass 31.19
-    # source 2
-    # hpfFreq 24
-    # hpf 120
-    # pan (range 0.4 0.6 $ slow "<2.5 4>" cosine)
-    # gain 1
-  ,
-  -- noise2
-  listen (cF 1 "94") $
   every 4 rev $
   s "~ oneclapThorBrSd@1.5 oneclapThorBrSd"
     # amp 0.23
     # sustain 1
     # atk 0
     # rls 5
-    # atkT 0.26
+    # atkT 0.026
     # relT 0.04
     # tone 0.53
-    # noiseAmp 0.08
-    # freq 85
-    # rq 0.07
-    # echohz1 0
-    # echohz2 0
-    # curve "-10"
-    # shelfFreq 8060
-    # rs 0.45
-    # db 6
-    # size 0
-    # mix 0
+    # noiseAmp 1
+    # freq (range 385 654 $ slow 4 $ cat [sine, tri])
+    # rq "0.1 0.04 0.2"
+    # echohz1 "130 24 1609"
+    # echohz2 "60 670 214"
+    # curve "-139"
+    # shelfFreq 3600
+    # rs 1
+    # db 12
+    # size (range 0.23 0.36 $ (((6/7) ~>) . zoom (2/7, 1)) $ slow "0.5 2" $ square)
+    # mix (range 0.2 0.6 $ fast "2 0.5" $ square)
     # damp 0.5
     # hpf 140
     # pan (range 0.3 0.7 $ fast "<4 2.5 4>" cosine)
+    # gain 0.84
+  ,
+  -- pitch noise
+  listen (cF 1 "92") $
+  every 4
+  ((# gain "<0.75 0.58 0.6>") . (# spec1 "<0.014 0.005 0.009>")) $
+  s "~@1.5 mutantFricSusSd mutantFricSusSd?"
+    # amp 1
+    # atk 0.001
+    # sustain 2
+    # rls 0.8
+    # attack 0.01
+    # release 1
+    # spec1 0.012
+    # spec2 2
+    # noiseFreq 19.3
+    # sigFreq ((range 45 52 $ slow 2 $ cat [tri, square]) * 0.8)
+    # spring "<1 8 0.8> <18 32>"
+    # damp "450 540"
+    # beltmass (range 0.1 19 $ ((6/7) <~) $ slow 3 $ cat [tri, square])
+    # source 3
+    # hpfFreq 44
+    # hpf 140
+    # pan (range 0.4 0.6 $ slow "<2.5 4>" cosine)
+    # gain 0.75
+  ,
+  -- hi
+  listen (cF 1 "93") $
+  foldEvery [4, 6]
+  (swingBy (4/7) (3/7)) $
+  degradeBy 0.3 $
+  s "kick3AwSd*7"
+    # amp 0.5
+    # envL1 0
+    # envL2 2.21
+    # envL3 0
+    # envL4 0.3
+    # punch "0.37 0.21 0.49 0.45 0.12"
+    # envfLev1 "<369 12000>"
+    # envfLev2 19951
+    # envfTime "0.01 0.001 0.02 0.012"
+    # envfCurve "-9.47"
+    # pan (range 0.2 0.8 $ fast "2 [2 1] 1" $ cat [cosine, square])
     # gain 0.98
-] # cps 0.91
+  ,
+  -- cym
+  listen (cF 0 "94") $
+  sometimesBy 0.31
+  ((bite 7 (segment "<<4 <3 6>> <<7 2> 5>>" (irand 7))) . (fast "2 4")) $
+  s "[cymnewSd _ <cymnewSd ~> <~ cymnewSd> ! cymnewSd _]"
+    # amp 0.38
+    # att "0 0.012 0.02 0.0097"
+    # rel "{0.058 0.032 0.12 0.058 0.032 0.12 0.092}*10"
+    # curve "-11.66"
+    # tu 6.08
+    # pan (range 0.25 0.75 $ fast "<2 4 6>" sine)
+    # gain 1
+] # cps 0.99
 
 d9 silence
