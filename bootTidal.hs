@@ -992,6 +992,9 @@ let p = streamReplace tidal
     sweep2 = pF "sweep2"
     vol1 = pF "vol1"
     vol2 = pF "vol2"
+    syncEgTop = pF "syncEgTop"
+    syncRatio = pF "syncRatio"
+    syncDcy = pF "syncDcy"
 :}
 
 :{
