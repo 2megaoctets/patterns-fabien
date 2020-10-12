@@ -427,22 +427,22 @@ stack [ -- % 7
     # gain 0.9
   ,
   -- noise1
-  listen (cF 1 "92") $
+  listen (cF 0 "92") $
   s "feedbackOscSd*3.5"
     # amp 0.3
-    # sustain 1
+    # sustain 0.6
+    # fadeTime 0.01
     # atk 0
-    # rls 1
+    # rls 0.65
     # mFrq "16939 130 361"
     # mFB 7.38
     # frq "0.4 0.2 0.5"
-    # fB 0.7
-    # width 0.01
+    # fB 0.9
+    # width 0
     # mul "187 <187 167>"
     # ffreq 1000
-    # rq 0.7
-    # fadeTime 0.01
-    # gain 1
+    # rq 0.78
+    # gain 1.05
   ,
   -- noise2
   listen (cF 1 "93") $
@@ -929,7 +929,7 @@ stack [ -- %5
     # lineEndBpf 0
     # lineLevBpf 0.15
     # hpf 130
-    # gain 0.9
+    # gain 0.89
     # orbit 5
   ,
   -- kick2
@@ -971,7 +971,7 @@ stack [ -- %5
     # clkfBwFreq 12110
     # clkLpfFreq 13140
     # hpf 120
-    # gain 0.97
+    # gain 0.96
     # orbit 5
   ,
   -- snare
@@ -983,14 +983,14 @@ stack [ -- %5
   s "{~ _ kraftySnareSd _ <~ kraftySnareSd>}%5"
     # amp 0.86
     # dec "0.03 0.02 0.04 0.06 0.034"
-    # gain 1.03
+    # gain 1.02
   ,
   -- woody
   listen (cF 1 "90") $
   loopAt "5 2.5 1.125" $
   s "{bf:4}%1.125"
     # speed "-2 -3"
-    # gain 0.8
+    # gain 0.79
   ,
   -- hihat
   listen (cF 1 "91") $
@@ -1018,7 +1018,7 @@ stack [ -- %5
     # xi 1
     # yi 0.07
     # hpf 563
-    # gain 0.97
+    # gain 0.96
   ,
   -- clickhi
   listen (cF 1 "92") $
@@ -1049,7 +1049,7 @@ stack [ -- %5
     # envT3 "0.07 0.01 0.07 0.002 0.03 0.007"
     # ffreq 10580
     # pan (range 0.25 0.85 $ fast 2 rand)
-    # gain 0.9
+    # gain 0.89
 ] # cps 1.27
 
 d5 silence
@@ -1100,7 +1100,7 @@ stack [ -- %7
     # owhich2 3
     # ochoose 1
     # hpf 110
-    # gain 0.91
+    # gain 0.88
     # orbit 6
   ,
   -- kick2
@@ -1127,7 +1127,7 @@ stack [ -- %7
     # sin2Frq 150
     # sin2Amp 48
     # hpf 180
-    # gain 0.88
+    # gain 0.87
     # orbit 6
   ,
   -- kick3
@@ -1162,7 +1162,7 @@ stack [ -- %7
     # decScale 1
     # resoMix 0.5
     # hpf 120
-    # gain 0.96
+    # gain 0.95
     # orbit 6
   ,
   -- snare
@@ -1182,7 +1182,7 @@ stack [ -- %7
     # tonehi 330
     # toneamp 0.5
     # blend 0.25
-    # gain 0.99
+    # gain 0.98
   ,
   -- clap
   listen (cF 1 "91") $
@@ -1214,7 +1214,7 @@ stack [ -- %7
     # verbRoom 6.27
     # verbTime 4.75
     # verbDamp 0.65
-    # gain 1.06
+    # gain 1.05
   ,
   -- breath
   listen (cF 1 "92") $
@@ -1234,7 +1234,7 @@ stack [ -- %7
     # freqMin 250
     # freqMax 800
     # bwrMod "0.5 0.1 0.2"
-    # gain 1
+    # gain 0.99
   ,
   -- click
   listen (cF 1 "93") $
@@ -1264,7 +1264,7 @@ stack [ -- %7
     # decScale 1
     # resoMix 0
     # pan (range 0.25 0.75 $ fast "<2 4 6>" $ cat [sine, isaw])
-    # gain 1
+    # gain 0.99
   ,
   -- cymbal
   listen (cF 1 "94") $
@@ -1284,7 +1284,7 @@ stack [ -- %7
     # envT3 0.32
     # envCurve "-4"
     # pan (range 0.35 0.65 $ fast "<2 4 6>" $ cat [sine, isaw])
-    # gain 1
+    # gain 0.99
 ] # cps 1.4
 
 d6 silence
@@ -1568,7 +1568,7 @@ stack [ -- % 7
     # crq 1
     # camp 1.41
     # hpf 120
-    # gain 1.01
+    # gain 0.98
     # orbit 8
   ,
   -- kick2
@@ -1587,7 +1587,7 @@ stack [ -- % 7
     # coef1 0.39
     # coef2 1
     # hpf 280
-    # gain 0.87
+    # gain 0.84
     # orbit 8
   ,
   -- kick3
@@ -1622,13 +1622,13 @@ stack [ -- % 7
     # decScale 1
     # resoMix 0.3
     # hpf 120
-    # gain 0.92
+    # gain 0.89
     # orbit 8
   ,
   -- woody
   listen (cF 1 "90") $
   s "~@0.5 <~ hbg_p:3 [~@2 hbg_p:3]> _@2"
-    # gain 0.865
+    # gain 0.835
   ,
   -- ambi1
   listen (cF 1 "91") $
@@ -1640,14 +1640,14 @@ stack [ -- % 7
     # release 2
     # tu 193.68
     # dur "3.5 7 3.5 3.5 7 3.5"
-    # gain 0.82
+    # gain 0.79
   ,
   -- ambi2
   listen (cF 1 "92") $
   fix (# gain 0.7) (s "lmg_r:2") $
   s "lmg_r:2 <~ lmg_d? ~> ~@1.5"
     # hpf 60
-    # gain 0.99
+    # gain 0.96
   ,
   -- cymbal
   listen (cF 1 "93") $
@@ -1673,7 +1673,7 @@ stack [ -- % 7
     # curve "-220" -- "-5.02 -2.46 -5.02 -10 -2" -- "-8"
     # tu 16
     # pan (range 0.25 0.75 $ slow "<1 0.5 2>" sine)
-    # gain 0.95
+    # gain 0.92
   ,
   -- hi
   listen (cF 1 "94") $
@@ -1689,7 +1689,7 @@ stack [ -- % 7
     # filterfreq "1000 12000"
     # rq "0.8 1 0.2"
     # pan (range 0.1 0.9 $ fast "<2 4 6>" sine)
-    # gain 0.91
+    # gain 0.88
 ] # cps 0.8
 
 d8 silence
@@ -1717,7 +1717,7 @@ stack [ -- % 7
     # frq 1
     # lfnFrq 0.5
     # hpf 130
-    # gain 0.86
+    # gain 0.85
     # orbit 9
   ,
   -- kick2
@@ -1766,7 +1766,7 @@ stack [ -- % 7
     # clkffreq 2850
     # clkres 1.2
     # hpf 160
-    # gain 0.9
+    # gain 0.89
     # orbit 9
   ,
   -- kick3
@@ -1800,7 +1800,7 @@ stack [ -- % 7
     # lineEndBpf 0
     # lineLevBpf 0.1
     # hpf 80
-    # gain 0.97
+    # gain 0.96
     # orbit 9
   ,
   -- snare
@@ -1827,7 +1827,7 @@ stack [ -- % 7
     # delDecL 0.031
     # delTimeR 0
     # delDecR 0.06
-    # gain 0.85
+    # gain 0.84
   ,
   -- pitch snare
   listen (cF 1 "91") $
@@ -1854,7 +1854,7 @@ stack [ -- % 7
     # damp 0.5
     # hpf 140
     # pan (range 0.3 0.7 $ fast "<4 2.5 4>" cosine)
-    # gain 0.81
+    # gain 0.8
   ,
   -- pitch noise
   listen (cF 0 "92") $
@@ -1878,7 +1878,7 @@ stack [ -- % 7
     # hpfFreq 44
     # hpf 140
     # pan (range 0.4 0.6 $ slow "<2.5 4>" cosine)
-    # gain 0.72
+    # gain 0.71
   ,
   -- hi
   listen (cF 1 "93") $
@@ -1897,7 +1897,7 @@ stack [ -- % 7
     # envfTime "0.01 0.001 0.02 0.012"
     # envfCurve "-9.47"
     # pan (range 0.2 0.8 $ fast "2 [2 1] 1" $ cat [cosine, square])
-    # gain 0.96
+    # gain 0.95
   ,
   -- cym
   listen (cF 0 "94") $
@@ -1910,7 +1910,7 @@ stack [ -- % 7
     # curve "-11.66"
     # tu 6.08
     # pan (range 0.25 0.75 $ fast "<2 4 6>" sine)
-    # gain 0.97
+    # gain 0.96
 ] # cps 0.99
 
 d9 silence
