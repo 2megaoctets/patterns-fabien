@@ -1,6 +1,6 @@
 resetCycles
 
-d1 $
+d1 $ -- % 7 jungle to come
 someCyclesBy 0.08
 (
   (zoom (3/7, 1))
@@ -16,7 +16,7 @@ someCyclesBy 0.09
   . chop "1 2 1"
   . degradeBy "0.3 0.8 0.4"
 ) $
-stack [ -- % 7
+stack [
   -- kick1
   listen (cF 0 "87") $
   every 8 (# freq2 63) $
@@ -242,7 +242,7 @@ stack [ -- % 7
 
 d1 silence
 
-d2 $
+d1 $ -- % 7 dispersion
 someCyclesBy 0.16
 (
   chunk 2 (iter "<2 3> 4")
@@ -252,7 +252,7 @@ someCyclesBy 0.16
   . fast "2 0.5 3"
   . degradeBy "0.4?0.4 <0.7 0.9>"
 ) $
-stack [ -- % 7
+stack [
   -- kick1
   listen (cF 1 "87") $
   someCyclesBy 0.34 (# rls "2 0.21 0.02") $
@@ -270,7 +270,7 @@ stack [ -- % 7
     # damp 0.6
     # hpf 160
     # gain 0.95
-    # orbit 2
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -312,7 +312,7 @@ stack [ -- % 7
     # sinAmp 0.29
     # hpf 120
     # gain 0.96
-    # orbit 2
+    # orbit 1
   ,
   -- kick3
   listen (cF 1 "89") $
@@ -343,7 +343,7 @@ stack [ -- % 7
     # brfRq 0.01
     # hpf 110
     # gain 1
-    # orbit 2
+    # orbit 1
   ,
   -- kick4
   listen (cF 1 "90") $
@@ -531,9 +531,9 @@ stack [ -- % 7
     # gain 0.9
 ] # cps 1.19
 
-d2 silence
+d1 silence
 
-d3 $
+d1 $ -- %7 bao
 -- bite 7 "3 1 5 6 0 2 4" $
 whenmod 18 16
 (
@@ -546,7 +546,7 @@ whenmod 18 16
   . (# room 0.1)
   . (# size 0.14)
 ) $
-stack [ -- %7
+stack [
   -- kick1
   listen (cF 1 "87") $
   sometimesBy 0.3 (# envT2 "[0.25 0.17]") $
@@ -572,7 +572,7 @@ stack [ -- %7
     # vol2 0.09
     # hpf 222
     # gain 1
-    # orbit 3
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -582,7 +582,7 @@ stack [ -- %7
     # sustain 2
     # gain 1
     # hpf 120
-    # orbit 3
+    # orbit 1
   ,
   -- hihat
   listen (cF 1 "89") $
@@ -633,9 +633,9 @@ stack [ -- %7
     # gain 1
 ] # cps 0.88
 
-d3 silence
+d1 silence
 
-d4 $
+d1 $ -- %5 sans forme
 -- someCyclesBy 0.4
 -- (
 --   spread ($) [
@@ -653,7 +653,7 @@ whenmod 19 17
     . slow "[2 4 0.5 2 3]"
   )
 ) $
-stack [ -- %5
+stack [
     -- bass
     listen (cF 1 "87") $
     sometimesBy 0.25 (const $ s "~") $
@@ -670,7 +670,7 @@ stack [ -- %5
       # hpf 90
       # tu 1
       # gain 0.98
-      # orbit 4
+      # orbit 1
     ,
     -- kick
     listen (cF 1 "88") $
@@ -711,7 +711,7 @@ stack [ -- %5
       # sinAmp 0.29
       # hpf 100
       # gain 0.92
-      # orbit 4
+      # orbit 1
     ,
     -- rim
     listen (cF 1 "89") $
@@ -890,9 +890,9 @@ stack [ -- %5
       # gain 0.93
 ] # cps 0.78
 
-d4 silence
+d1 silence
 
-d5 $
+d1 $ -- %5 minimum hardcore
 -- (chop "1 3?" . iter "2 4") $
 sometimesBy "<0.05 0.1 0.2>"
 (
@@ -900,7 +900,7 @@ sometimesBy "<0.05 0.1 0.2>"
   . scramble "<5 10 15>"
   . (# binshift "0.02 0.1 0.4")
 ) $
-stack [ -- %5
+stack [
   -- kick1
   listen (cF 1 "87") $
   someCyclesBy 0.1 (fastAppend (s "<~ ~@2>")) $
@@ -930,7 +930,7 @@ stack [ -- %5
     # lineLevBpf 0.15
     # hpf 130
     # gain 0.89
-    # orbit 5
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -970,9 +970,9 @@ stack [ -- %5
     # clkfFormFreq 4760
     # clkfBwFreq 12110
     # clkLpfFreq 13140
-    # hpf 120
+    # hpf 150
     # gain 0.96
-    # orbit 5
+    -- # orbit 1
   ,
   -- snare
   listen (cF 1 "89") $
@@ -1052,9 +1052,9 @@ stack [ -- %5
     # gain 0.89
 ] # cps 1.27
 
-d5 silence
+d1 silence
 
-d6 $
+clutchIn 1 8 $ -- %7 mal entendu
 -- someCyclesBy 0.019
 -- (
 --   (loopAt "2 3 7")
@@ -1067,7 +1067,7 @@ whenmod 20 18
   . (off 1.125 ((slow "16 32") . (iter "<7 28> 14")))
   . (splice 7 (segment "<<5 6> <4 5>>" (irand 7)))
 ) $
-stack [ -- %7
+stack [
   -- kick1
   listen (cF 1 "87") $
   every 4 ((5/7) <~) $
@@ -1101,7 +1101,7 @@ stack [ -- %7
     # ochoose 1
     # hpf 110
     # gain 0.88
-    # orbit 6
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -1128,7 +1128,7 @@ stack [ -- %7
     # sin2Amp 48
     # hpf 180
     # gain 0.87
-    # orbit 6
+    # orbit 1
   ,
   -- kick3
   listen (cF 1 "89") $
@@ -1163,7 +1163,7 @@ stack [ -- %7
     # resoMix 0.5
     # hpf 120
     # gain 0.95
-    # orbit 6
+    # orbit 1
   ,
   -- snare
   listen (cF 1 "90") $
@@ -1287,9 +1287,9 @@ stack [ -- %7
     # gain 0.99
 ] # cps 1.4
 
-d6 silence
+d1 silence
 
-d7 $
+d1 $ -- % 7 mad snare
 someCyclesBy 0.16
 (
   spread ($) [
@@ -1304,7 +1304,7 @@ someCyclesBy 0.16
   ]
 ) $
 -- loopAt "4 3.5 6 3.5" $
-stack [ -- % 7
+stack [
   -- kick1
   listen (cF 1 "87") $
   every 4 rev $
@@ -1326,7 +1326,7 @@ stack [ -- % 7
     # vol2 0.09
     # hpf 280
     # gain 1.26
-    # orbit 7
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -1362,7 +1362,7 @@ stack [ -- % 7
     # curve1_2 "-5"
     # hpf 110
     # gain 0.65
-    # orbit 7
+    # orbit 1
   ,
   -- kick3
   listen (cF 1 "89") $
@@ -1384,7 +1384,7 @@ stack [ -- % 7
     # bpeqamp2 "-6"
     # hpff 150
     # gain 0.99
-    # orbit 7
+    # orbit 1
   ,
   -- echo
   listen (cF 1 "90") $
@@ -1510,9 +1510,9 @@ stack [ -- % 7
     # gain 0.82
 ] # cps 1.04
 
-d7 silence
+d1 silence
 
-d8 $
+d1 $ -- % 7 interfer kick
 -- loopAt "6 <2 5> 7" $
 -- bite 7 "1 3 0 4 5 2 6" $
 someCyclesBy 0.016
@@ -1521,7 +1521,7 @@ someCyclesBy 0.016
   . slow ("[2 1] 2" * (range 0.1 2 $ cat [cosine, isaw]))
   . rev
 ) $
-stack [ -- % 7
+stack [
   -- kick1
   listen (cF 1 "87") $
   whenmod 18 17 (bite 7 "0 1 5 3 2 6 4") $
@@ -1570,7 +1570,7 @@ stack [ -- % 7
     # camp 1.41
     # hpf 120
     # gain 0.98
-    # orbit 8
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -1589,7 +1589,7 @@ stack [ -- % 7
     # coef2 1
     # hpf 280
     # gain 0.84
-    # orbit 8
+    # orbit 1
   ,
   -- kick3
   listen (cF 1 "89") $
@@ -1624,7 +1624,7 @@ stack [ -- % 7
     # resoMix 0.3
     # hpf 120
     # gain 0.89
-    # orbit 8
+    # orbit 1
   ,
   -- woody
   listen (cF 1 "90") $
@@ -1693,9 +1693,9 @@ stack [ -- % 7
     # gain 0.88
 ] # cps 0.8
 
-d8 silence
+d1 silence
 
-d9 $
+d1 $ -- % 7 satu kick
 -- loopAt "[1 5 2]" $
 someCyclesBy 0.1
 (
@@ -1703,7 +1703,7 @@ someCyclesBy 0.1
   . (# squiz "1 2 1.4")
   . (densityGap "<2 1> 1 2")
 ) $
-stack [ -- % 7
+stack [
   -- kick1
   listen (cF 1 "87") $
   someCyclesBy 0.2
@@ -1719,7 +1719,7 @@ stack [ -- % 7
     # lfnFrq 0.5
     # hpf 130
     # gain 0.85
-    # orbit 9
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -1768,7 +1768,7 @@ stack [ -- % 7
     # clkres 1.2
     # hpf 160
     # gain 0.89
-    # orbit 9
+    # orbit 1
   ,
   -- kick3
   listen (cF 1 "89") $
@@ -1802,7 +1802,7 @@ stack [ -- % 7
     # lineLevBpf 0.1
     # hpf 80
     # gain 0.96
-    # orbit 9
+    # orbit 1
   ,
   -- snare
   listen (cF 1 "90") $
@@ -1914,4 +1914,4 @@ stack [ -- % 7
     # gain 0.96
 ] # cps 0.99
 
-d9 silence
+d1 silence
