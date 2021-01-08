@@ -8,7 +8,7 @@ someCyclesBy 0.08
   . (# ringf (range 230 241 sine))
   . (# ringdf "0.2 0.7")
 ) $
--- someCyclesBy 0.09
+someCyclesBy 0.09
 (
   (|* gain 0.96)
   . (bite 7 (segment "3 7" $ irand 7))
@@ -81,7 +81,7 @@ stack [
     # rqlpf 0.8
     # mixBpf 0.22
     # hpf 110
-    # gain 1
+    # gain 0.99
     # orbit 1
   ,
   -- kick3
@@ -163,7 +163,7 @@ stack [
     # gain 1
   ,
   -- bass
-  listen (cF 0 "92") $
+  listen (cF 1 "92") $
   degradeBy (cF 0 "21") $
   s "~@1 kickbassSd@2.5"
     # level 1
@@ -251,15 +251,15 @@ stack [
 d1 silence
 
 d1 $ -- % 7 dispersion
-someCyclesBy 0.16
-(
-  chunk 2 (iter "<2 3> 4")
-  . someCyclesBy 0.37 ((# hpf 240) . (# fshift "<-21.5 -42>"))
-  . (# fshiftphase 3.14)
-  . (# fshiftnote "2 4 1.7")
-  . fast "2 0.5 3"
-  . degradeBy "0.4?0.4 <0.7 0.9>"
-) $
+-- someCyclesBy 0.16
+-- (
+--   chunk 2 (iter "<2 3> 4")
+--   . someCyclesBy 0.37 ((# hpf 240) . (# fshift "<-21.5 -42>"))
+--   . (# fshiftphase 3.14)
+--   . (# fshiftnote "2 4 1.7")
+--   . fast "2 0.5 3"
+--   . degradeBy "0.4?0.4 <0.7 0.9>"
+-- ) $
 stack [
   -- kick1
   listen (cF 1 "87") $
@@ -409,7 +409,7 @@ stack [
     # cBwFreq 6667.1
     # lpfFreq 20000
     # hpf 120
-    # gain 0.96
+    # gain 0.94
   ,
   -- snare1
   listen (cF 1 "91") $
@@ -440,7 +440,7 @@ stack [
     # gain 0.9
   ,
   -- noise1
-  listen (cF 0 "92") $
+  listen (cF 1 "92") $
   degradeBy (cF 0 "21") $
   s "feedbackOscSd*3.5"
     # amp 0.3
@@ -550,6 +550,7 @@ stack [
 d1 silence
 
 d1 $ -- %7 bao
+-- loopAt "7 3.5" $
 -- bite 7 "3 1 5 6 0 2 4" $
 whenmod 18 16
 (
@@ -659,15 +660,15 @@ d1 silence
 
 d1 $ -- %5 sans forme
 -- loopAt "5 2.5" $
--- someCyclesBy 0.4
--- (
---   spread ($) [
---       slow "2 4 0.5",
---       loopAt "2 3 6 1"
---   ]
---   . (bite 5 "4 0 1 3 2")
---   . sometimesBy 0.57 (degradeBy "0.25 0.4")
--- ) $
+someCyclesBy 0.4
+(
+  spread ($) [
+      slow "2 4 0.5",
+      loopAt "2 3 6 1"
+  ]
+  . (bite 5 "4 0 1 3 2")
+  . sometimesBy 0.57 (degradeBy "0.25 0.4")
+) $
 whenmod 19 17
 (
   within (2/5, 4/5)
@@ -739,7 +740,7 @@ stack [
     # orbit 1
   ,
   -- snare
-  listen (cF 0 "89") $
+  listen (cF 1 "89") $
   degradeBy (cF 0 "18") $
   sometimesBy 0.34 (listen "0 1 0 0 1") $
   s "<~ haten1SusSd> <haten1SusSd [~ haten1SusSd]> ~ haten1SusSd? !"
@@ -1343,13 +1344,13 @@ d1 silence
 
 d1 $ -- % 7 mad snare
 -- loopAt "[1.25 3.5]" $
--- someCyclesBy 0.16
+-- someCyclesBy 0.016
 -- (
 --   spread ($) [
 --     (
 --       (loopAt "1 0.5 1.25 3")
 --       . someCyclesBy 0.5 rev
---       -- . chop "4 <2 8>"
+--       . chop "4 <2 8>"
 --       . gap "3 <2 4>"
 --     )
 --     , loopAt "2 4 1"
@@ -1573,7 +1574,7 @@ stack [
 d1 silence
 
 d1 $ -- % 7 interfer kick
--- loopAt "6 <2 5> 7" $
+loopAt "6 <2 5> 7" $
 -- bite 7 "1 3 0 4 5 2 6" $
 someCyclesBy 0.016
 (
@@ -1932,7 +1933,7 @@ stack [
     # gain 0.8
   ,
   -- pitch noise
-  listen (cF 0 "92") $
+  listen (cF 1 "92") $
   degradeBy (cF 0 "21") $
   every 4
   ((# gain "<0.75 0.58 0.6>") . (# spec1 "<0.014 0.005 0.009>")) $
@@ -1957,7 +1958,7 @@ stack [
     # gain 0.71
   ,
   -- cym
-  listen (cF 0 "93") $
+  listen (cF 1 "93") $
   degradeBy (cF 0 "22") $
   sometimesBy 0.31
   ((bite 7 (segment "<<4 <3 6>> <<7 2> 5>>" (irand 7))) . (fast "2 4")) $
