@@ -995,6 +995,8 @@ let p = streamReplace tidal
     syncEgTop = pF "syncEgTop"
     syncRatio = pF "syncRatio"
     syncDcy = pF "syncDcy"
+    mod1 = pF "mod1"
+    mod2 = pF "mod2"
 :}
 
 :{
