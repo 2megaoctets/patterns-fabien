@@ -1017,6 +1017,21 @@ let p = streamReplace tidal
     rhpfFreq = pF "rhpfFreq"
     rhpf1Freq = pF "rhpf1Freq"
     rhpf1Rq = pF "rhpf1Rq"
+    clickAtk = pF "clickAtk"
+    clickRls = pF "clickRls"
+    clickSus = pF "clickSus"
+    clickLevScale = pF "clickLevScale"
+    clickEnvPow = pF "clickEnvPow"
+    clickEnvNoiseAmp = pF "clickEnvNoiseAmp"
+    clickEnvInv = pF "clickEnvInv"
+    clickFreq = pF "clickFreq"
+    globalEnvPow = pF "globalEnvPow"
+    globalEnvNoise = pF "globalEnvNoise"
+    globalEnvInv = pF "globalEnvInv"
+    frqStart = pF "frqStart"
+    frqEnd = pF "frqEnd"
+    frqTime = pF "frqTime"
+    sawPow = pF "sawPow"
 :}
 
 :{

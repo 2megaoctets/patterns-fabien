@@ -1,14 +1,14 @@
 resetCycles
 
 d1 $ -- % 7 jungle to come
-someCyclesBy 0.08
+-- someCyclesBy 0.08
 (
   (zoom (3/7, 1))
   . (# ring "0.3 0.5")
   . (# ringf (range 230 241 sine))
   . (# ringdf "0.2 0.7")
 ) $
-someCyclesBy 0.09
+-- someCyclesBy 0.09
 (
   (|* gain 0.96)
   . (bite 7 (segment "3 7" $ irand 7))
@@ -1995,8 +1995,8 @@ stack [
 d1 silence
 
 d1 $ -- % 7 tjhp
-somecyclesBy 0.12
-(loopAt ((((wchoose [(0.5, 2/7), (0.3, 1/7), (0.2, 5/7)]) ~>) $ scramble 3 "3.5 0.5714285714285714 1.75"))) $
+-- somecyclesBy 0.12
+-- (loopAt ((((wchoose [(0.5, 2/7), (0.3, 1/7), (0.2, 5/7)]) ~>) $ scramble 3 "3.5 0.5714285714285714 1.75"))) $
 someCyclesBy 0.19
 (
   spread ($) [chop "1 2 6", chop ("1 2 6" * "<2 3> 1"), loopAt (scramble 3 "3.5 0.5714285714285714 1.75")] -- chop "4 2"
@@ -2213,11 +2213,11 @@ stack [
   degradeBy (cF 0 "23") $
   ((3/7) ~>) $
   struct "[1 0 <[0 1] [0@0.25 1]> 0 1 1? _]*<2 0.5 4>" $ s "hat808SusSd"
-    # amp 0.2
+    # amp 0.1
     # tu 1
     # atk 0.0001
     # rls "0.12 0.2 0.77"
-    # rhpfFreq 15000
+    # rhpfFreq 14000
     # rhpfRq 0.002
     # rhpf1Freq 9833
     # rhpf1Rq 0.02
@@ -2229,3 +2229,139 @@ stack [
     # pan (range 0.1 0.9 $ fast "1.5 [2 3] 0.5" $ cat [cosine, square])
     # gain 1
 ] # cps 0.94
+
+d1 $
+stack [ -- % 7
+  -- kick1
+  listen (cF 1 "87") $
+  degradeBy (cF 0 "16") $
+  -- every 4
+  -- (within (3/7, 4/7) ((choose [4/7, 2/7]) <~)) $
+  (>| amp "~ <0.6 [~ 0.6 ~]> _ <[0.3 0.6] 0.6> ~ 0.4 0.6") $ s "kicklaserbeam_Sd"
+    # attack 0
+    # release 1.2
+    # sustain 1
+    # freqenvL1 2
+    # freqenvL2 21
+    # freqenvL3 0
+    # freqenvL4 0
+    # freqenvT1 0.11
+    # freqenvT2 0
+    # freqenvT3 0.6
+    # ampenvL1 0.6
+    # ampenvL2 1.2
+    # ampenvL3 0
+    # ampenvL4 0
+    # ampenvT1 0.2
+    # ampenvT2 0.2
+    # ampenvT3 0.1
+    # hpfFreq 60
+    # hpfRq 0.6
+    # clickAtk 0
+    # clickRls 0.08
+    # clickSus 0.3
+    # clickLevScale 6.5
+    # clickEnvPow 6
+    # clickEnvNoiseAmp 2
+    # clickEnvInv "0"
+    # clickFreq 1820
+    # clickAmp 0.002
+    # gain 0.85
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  degradeBy (cF 0 "17") $
+  -- someCyclesBy 0.31
+  -- (
+  --   fit' 1 7 (run 7) (scramble 7 "0 6 1 4 2 5 3")
+  --   . contrast (densityGap 6) (densityGap 2) (amp 0.3)
+  --   . (smash' 2 [6/7, 5/7, 1])
+  -- ) $
+  (>| amp "0.6 ~ <[0.3 0.6] [0.6 ~ 0.3]> ~ 0.3 <0.6 [~ 0.3 _ 0.6]> _") $ s "snapkick_Sd"
+    # attack 0
+    # release 1.5
+    # sustain 1
+    # bdFrqL1 691
+    # bdFrqL2 120
+    # bdFrqL3 "61 46.5 61?"
+    # bdFrqT1 0.035
+    # bdFrqT2 0.08
+    # bdFrqC "-51 -23 -24 -23 -25"
+    # bdAmpAtt 0.001
+    # bdAmpSus 0.1
+    # bdAmpRel 0.3
+    # bdAmpLev 1
+    # bdAmpCurve 2
+    # popFrqSt 710
+    # popFrqEnd "457 257"
+    # popFrqDur 0.02
+    # popAmpAtt 0.014
+    # popAmpSus 0.002
+    # popAmpRel 0.12
+    # popAmpLev 0.34
+    # clkAmpAtt 0.0001
+    # clkAmpRel 0.006
+    # clkAmpLev 0.89
+    # clkAmpCurve "16"
+    # clkfFundFreq 316
+    # clkfFormFreq 7360
+    # clkfBwFreq 8010
+    # clkLpfFreq 15000
+    # gain 1.1
+  ,
+  -- kick3
+  listen (cF 1 "89") $
+  degradeBy (cF 0 "18") $
+  (>| amp "0.6(2, 7)") $ s "tweetBassLeak_Sd"
+    # attack 0
+    # release 1
+    # sustain 0.3
+    # curve "-20"
+    # globalEnvPow 4 -- "<[11 4] 4>"
+    # globalEnvNoise 0.8
+    # globalEnvInv 0
+    # atk 0
+    # dcy "<0.04 0.4>"
+    # frqStart 2.18
+    # frqEnd 9
+    # frqTime 0.01
+    # sawPow 8
+    # brfFreq1 45.1
+    # brfFreq2 45
+    # rq 0.01
+    # gain 0.99
+  ,
+  -- noise
+  listen (cF 1 "90") $
+  degradeBy (cF 0 "19") $
+  (>| level "~ 0.8(2, 3, <2 1>) <0.4 [0.8 _]> _ [~@0.2 0.8]") $ s "kickbass_Sd"
+    # attack 0.000001
+    # release 1.4
+    # sustain 2
+    # atk 0.0001
+    # dcy 0.02
+    # rls 0.26
+    # fratio 25
+    # noise 4
+    # freq1 9
+    # freq2 20
+    # freq3 40
+    # dc 0.995
+    # aamp1 0.2
+    # aamp2 1
+    # aamp3 0
+    # aamp4 0.98
+    # curve1 "-1"
+    # curve2 "8"
+    # curve3 "4"
+    # famp1 0.09
+    # famp2 0
+    # famp3 0.07
+    # famp4 0.09
+    # p1 (pi * (range 1 3 $ slow 4 sine))
+    # oamp 0.3
+    # owhich2 0
+    # ochoose 0
+    # filter 13000
+    # gain 0.85
+] # cps 0.43
