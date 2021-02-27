@@ -1032,6 +1032,25 @@ let p = streamReplace tidal
     frqEnd = pF "frqEnd"
     frqTime = pF "frqTime"
     sawPow = pF "sawPow"
+    crv = pF "crv"
+    envNoiseAmp = pF "envNoiseAmp"
+    envTonePow = pF "envTonePow"
+    envNoisePow = pF "envNoisePow"
+    --
+    sinFrq = pF "sinFrq"
+    sinPh = pF "sinPh"
+    sawLev = pF "sawLev"
+    sinLev = pF "sinLev"
+    clickHpf = pF "clickHpf"
+    clickInScale = pF "clickInScale"
+    clickRq = pF "clickRq"
+    clickPow = pF "clickPow"
+    envNpow = pF "envNpow"
+    envSpow = pF "envSpow"
+    envScurve = pF "envScurve"
+    envNcurve = pF "envNcurve"
+    --
+    envDivDur = pF "envDivDur"
 :}
 
 :{
