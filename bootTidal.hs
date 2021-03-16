@@ -1051,6 +1051,21 @@ let p = streamReplace tidal
     envNcurve = pF "envNcurve"
     --
     envDivDur = pF "envDivDur"
+    --
+    modAmount = pF "modAmount"
+    rlpfFreq = pF "rlpfFreq"
+    --
+    sin1Freq = pF "sin1Freq"
+    sin2Freq = pF "sin2Freq"
+    hpffreq = pF "hpffreq"
+    clickHpRq = pF "clickHpRq"
+    clickLpf = pF "clickLpf"
+    clickLpRq = pF "clickLpRq"
+    clickCurve = pF "clickCurve"
+    distAmt = pF "distAmt"
+    distMix = pF "distMix"
+    --
+    r = pF "r"
 :}
 
 :{
