@@ -2527,8 +2527,9 @@ d1 $ -- fromage partout
 someCyclesBy 0.16
 (
   loopAt ("3.5 7" * "<1 2 0.5>")
-  . rot (scramble 7 "0 <1 2 3> <4 5> 6")
-  . ply "3 2 1"
+  . iter (scramble 7 "0 <1 2 3> <4 5> 6")
+  . superimpose ((wchoose[(0.5, 3/7), (0.3, 5/7), (0.2, 2/7)] ~>))
+  . spreadChoose ($) [rot "2 [2 1.5] 1.5", gap 3, (brak . (fast (cycleChoose [2, 1.5])))]
 ) $
 stack [ -- % 7
   -- kick1
@@ -2540,8 +2541,8 @@ stack [ -- % 7
     . (|* rlpfFreq "3 2 6")
   ) $
   every 4
-  (within (2/7, 4/7) (bite 4 "2 0 <0 _> 2")) $
-  (<| amp "0.8(3, 4, <2 5>) <[~ 0.8] [~@0.5 0.4@0.5 0.8]> <[~@0.5 0.8@0.25 ~@0.25] [~@0.25 0.8@0.5 ~@0.25]> _")
+  (within (2/7, 4/7) (bite 4 "2 0 <0 _> 2"))
+  $ (<| amp "0.8(3, 4, <2 5>) <[~ 0.8] [~@0.5 0.4@0.5 0.8]> <[~@0.5 0.8@0.25 ~@0.25] [~@0.25 0.8@0.5 ~@0.25]> _")
   $ s "natwichSd"
     # attack 0.00001
     # release 0.3
@@ -2656,7 +2657,7 @@ stack [ -- % 7
   -- snare
   listen (cF 1 "90") $
   degradeBy (cF 0 "19") $
-  sometimesBy 0.13
+  sometimesBy 0.46
   (const $ s "~") $
   slow 2 $
   ((4/7) ~>) $
@@ -2731,7 +2732,7 @@ stack [ -- % 7
     # rlpfFreq 3400
     # rlpfRq 3.12
     # pan (range 0.35 0.65 $ fast 2 (sine * rand + perlin))
-    # gain 0.7
+    # gain 0.67
   ,
   -- hi1
   listen (cF 1 "93") $
