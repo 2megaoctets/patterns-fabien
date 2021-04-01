@@ -1066,6 +1066,32 @@ let p = streamReplace tidal
     distMix = pF "distMix"
     --
     r = pF "r"
+    --
+    envf2L1 = pF "envf2L1"
+    envf2L2 = pF "envf2L2"
+    envf2L3 = pF "envf2L3"
+    envf2L4 = pF "envf2L4"
+    envf2T1 = pF "envf2T1"
+    envf2T2 = pF "envf2T2"
+    envf2T3 = pF "envf2T3"
+    bpfFreq1 = pF "bpfFreq1"
+    bpfFreq2 = pF "bpfFreq2"
+    bpfRq1 = pF "bpfRq1"
+    bpfRq2 = pF "bpfRq2"
+    --
+    sinStart = pF "sinStart"
+    sinEnd = pF "sinEnd"
+    sinDur = pF "sinDur"
+    noise1Amp = pF "noise1Amp"
+    noise2Amp = pF "noise2Amp"
+    --
+    rhpf = pF "rhpf"
+    envModCrv = pF "envModCrv"
+    envModPow = pF "envModPow"
+    envModNoise = pF "envModNoise"
+    envModAmt = pF "envModAmt"
+    --
+    sinAddAmp = pF "sinAddAmp"
 :}
 
 :{
