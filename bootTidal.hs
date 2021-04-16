@@ -1092,6 +1092,23 @@ let p = streamReplace tidal
     envModAmt = pF "envModAmt"
     --
     sinAddAmp = pF "sinAddAmp"
+    --
+    lfn1Freq = pF "lfn1Freq"
+    lfn1Scale = pF "lfn1Scale"
+    lfn2Freq = pF "lfn2Freq"
+    lfn2Scale = pF "lfn2Scale"
+    --
+    rMajor = pF "rMajor"
+    rMinor = pF "rMinor"
+    tMajor = pF "tMajor"
+    sMinor = pF "sMinor"
+    freq_u = pF "freq_u"
+    freq_v = pF "freq_v"
+    scaleX = pF "scaleX"
+    scaleY = pF "scaleY"
+    scaleZ = pF "scaleZ"
+    --
+    cdur = pF "cdur"
 :}
 
 :{
