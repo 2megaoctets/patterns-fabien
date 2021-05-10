@@ -3355,7 +3355,8 @@ stack [ -- % 7
 ] # cps 1.12
 
 d1 $ -- maison mère
-someCyclesBy 0.181
+-- someCyclesBy 0.181
+whenmod 16 14
 (
   linger "1/7 0.5/7 0.75/7"
   . chunk 3 ((compress (2/7, 5/7)) . (bite 5 (scramble 5 (run 5))))
