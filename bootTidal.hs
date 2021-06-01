@@ -1170,6 +1170,13 @@ let p = streamReplace tidal
     rng2Lo = pF "rng2Lo"
     rng2Hi = pF "rng2Hi"
     thr = pF "thr"
+    --
+    levScaleSin = pF "levScaleSin"
+    levBiasSin = pF "levBiasSin"
+    --
+    sat = pF "sat"
+    startFreqMod = pF "startFreqMod"
+    endFreqMod = pF "endFreqMod"
 :}
 
 :{
