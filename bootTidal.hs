@@ -1177,6 +1177,28 @@ let p = streamReplace tidal
     sat = pF "sat"
     startFreqMod = pF "startFreqMod"
     endFreqMod = pF "endFreqMod"
+    --
+    crv2 = pF "crv2"
+    --
+    freqStart = pF "freqStart"
+    freqGrow = pF "freqGrow"
+    --
+    ser1_1 = pF "ser1_1"
+    ser1_2 = pF "ser1_2"
+    ser1_3 = pF "ser1_3"
+    ser1_4 = pF "ser1_4"
+    ser1Size = pF "ser1Size"
+    ser2_1 = pF "ser2_1"
+    ser2_2 = pF "ser2_2"
+    ser2_3 = pF "ser2_3"
+    ser2_4 = pF "ser2_4"
+    ser2_5 = pF "ser2_5"
+    ser2Size = pF "ser2Size"
+    sinFmin = pF "sinFmin"
+    sigSel = pF "sigSel"
+    fbSel = pF "fbSel"
+    divisor = pF "divisor"
+    modul = pF "modul"
 :}
 
 :{
