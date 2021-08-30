@@ -1199,6 +1199,57 @@ let p = streamReplace tidal
     fbSel = pF "fbSel"
     divisor = pF "divisor"
     modul = pF "modul"
+    --
+    mul1 = pF "mul1"
+    mul2 = pF "mul2"
+    mulTanh = pF "mulTanh"
+    modu1 = pF "modu1"
+    modu2 = pF "modu2"
+    rate1 = pF "rate1"
+    rate2 = pF "rate2"
+    smooth1 = pF "smooth1"
+    smooth2 = pF "smooth2"
+    randMax = pF "randMax"
+    randMin = pF "randMin"
+    --
+    seqOffSet = pF "seqOffSet"
+    seqMul = pF "seqMul"
+    mod3 = pF "mod3"
+    dev1 = pF "dev1"
+    dev2 = pF "dev2"
+    add = pF "add"
+    --
+    seq1OffSet = pF "seq1OffSet"
+    seq1Mul = pF "seq1Mul"
+    seq2OffSet = pF "seq2OffSet"
+    seq2Mul = pF "seq2Mul"
+    --
+    tRand1Min = pF "tRand1Min"
+    tRand1Max = pF "tRand1Max"
+    tRand2Min = pF "tRand2Min"
+    tRand2Max = pF "tRand2Max"
+    sig1RangeMin = pF "sig1RangeMin"
+    sig1RangeMax = pF "sig1RangeMax"
+    sig2RangeMin = pF "sig2RangeMin"
+    sig2RangeMax = pF "sig2RangeMax"
+    --
+    noiseAmp1 = pF "noiseAmp1"
+    noiseAmp2 = pF "noiseAmp2"
+    noiseAtk = pF "noiseAtk"
+    noiseDcy = pF "noiseDcy"
+    --
+    atkf = pF "atkf"
+    rlsf = pF "rlsf"
+    crvf = pF "crvf"
+    trigSpeedMin = pF "trigSpeedMin"
+    trigSpeedMax = pF "trigSpeedMax"
+    tuDiv = pF "tuDiv"
+    freqEnvMin = pF "freqEnvMin"
+    freqEnvMax = pF "freqEnvMax"
+    mratio = pF "mratio"
+    boost = pF "boost"
+    --
+    ringzDec = pF "ringzDec"
 :}
 
 :{

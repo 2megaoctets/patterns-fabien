@@ -8,7 +8,7 @@ someCyclesBy 0.08
   . (# ringf (range 230 241 sine))
   . (# ringdf "0.2 0.7")
 ) $
--- someCyclesBy 0.09
+someCyclesBy 0.09
 (
   (|* gain 0.96)
   . (bite 7 (segment "3 7" $ irand 7))
@@ -1574,7 +1574,7 @@ stack [
 d1 silence
 
 d1 $ -- % 7 interfer kick
-loopAt "6 <2 5> 7" $
+-- loopAt "6 <2 5> 7" $
 -- bite 7 "1 3 0 4 5 2 6" $
 someCyclesBy 0.016
 (
@@ -3872,25 +3872,213 @@ stack [ -- % 7
 
 d1 silence
 
--- TO DO
-
-d1 -- eric_hard_jams
-$ stack [ -- % 7
-  -- loop
+d1 $ -- eric_hard_jams
+sometimesBy 0.18
+(
+    chunk 2 (slowSqueeze (scramble 4 ("2 4 6 8" + "[8 4]")))
+    . rot (shuffle 3 ("2 1 6" * "0.5 1"))
+    . somecyclesBy 0.2 (loopAt 4)
+) $
+stack [ -- % 7
+  -- kick1
   listen (cF 1 "87") $
   degradeBy (cF 0 "16") $
-  every 4
-  (|* freq 0.65) $
-  (<| amp "0.9*3.5")
-  $ s "padovan_Sd"
+  (<| amp "0.9(<2 1>, 5, <1 2 3>) [[~ 0.9] 0.8] ~")
+  -- (<| amp "~ 0.9(5, 6, <2 3>)")
+  $ s "gcdLcmDmGene_Sd"
     # attack 0.001
-    # release 1.4
-    # sustain 0.8
-    # curve "-4"
+    # release "<0.4 0.8 <0.9 0.6>>"
+    # sustain 1
+    # curve "-12"
+    # envPow 1.6
+    # randMin 12
+    # randMax 13
+    # mul1 "4 <8 6 4> 8"
+    # mul2 200
+    # mulTanh 0.0001
+    # modu1 97
+    # modu2 70
+    # rate1 0.6
+    # rate2 6
+    # smooth1 0.2
+    # smooth2 0.09
+    # hpf 65
+    # gain 1.07
+    # orbit 1
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  degradeBy (cF 0 "17") $
+  spread ($) [((12/7) ~>), ((13/7) ~>)] $
+  (<| amp "0.9@3.5")
+  $ s "gcdDm5Gene_Sd"
+    # attack 0.001
+    # release 0.9
+    # sustain 1
+    # curve "4"
     # envPow 1
-    # freq 1232
-    # tridDur "0.056 ! ! 0.055" -- "0.05 0.2"
-    # gain 0.9
+    # seqOffSet "-23"
+    # seqMul 0.025
+    # start 1
+    # end 0.01
+    # rate1 1
+    # mod2 29
+    # mod3 8
+    # dev1 "-4.2"
+    # dev2 "3"
+    # add "-381"
+    # add1 46.1
+    # mul1 9.3
+    # hpf 64
+    # gain 0.99
+    # orbit 1
+  ,
+  -- kick3
+  listen (cF 1 "89") $
+  degradeBy (cF 0 "18") $
+  (<| amp "0.9(5, 6, <1 2>) ~")
+  $ s "bassSat_Sd"
+    # attack 0.0001
+    # release 1.78
+    # sustain 2
+    # curve "4"
+    # envPow 1
+    # rate (0.843 * choose [2, 1, 1.5, 1.75])
+    # sat 0.17
+    # noiseAmp1 0.008
+    # noiseAmp2 0.007
+    # noiseAtk 0.005
+    # noiseDcy 0.05
+    # hpf 70
+    # gain 1.03
+    -- # orbit 1
+  ,
+  -- snare
+  listen (cF 1 "90") $
+  degradeBy (cF 0 "19") $
+  sometimesBy 0.24
+  (listen 0) $
+  every 2
+  ((5/7) <~) $
+  ((3/7) ~>) $
+  (<| amp "~@0.5 0.9@3")
+  $ s "gcdLcmDmGene_Sd"
+    # attack 0.001
+    # release 0.4
+    # sustain 1
+    # curve "-8"
+    # envPow 8.6
+    # randMin 19
+    # randMax 43.3
+    # mul1 3.2
+    # mul2 38.5
+    # mulTanh 0.21
+    # modu1 97
+    # modu2 70
+    # rate1 360
+    # rate2 690
+    # smooth1 0.2
+    # smooth2 0.09
+    # hpf 65
+    # gain 0.89
+  ,
+  -- tonal
+  listen (cF 1 "91") $
+  degradeBy (cF 0 "20") $
+  (<| amp "0.9@3.5")
+  $ s "markSamFellLow_Sd"
+    # attack 0.001
+    # release 0.98
+    # sustain 1
+    # curve "-14"
+    # envPow 1
+    # atkf 0.003
+    # rlsf 0.2
+    # crvf "8"
+    # trigSpeedMin 0
+    # trigSpeedMax 0
+    # tu 2
+    # tuDiv 19
+    # freqEnvMin 82
+    # freqEnvMax 190
+    # index 1
+    # mratio 2.72
+    # boost 2
+    # gain 0.83
+  ,
+  -- noise
+  listen (cF 1 "92") $
+  degradeBy (cF 0 "21") $
+  (<| amp "<~@2 ~@3 ~> <0.9@1.5 0.9@0.5 0.9@2.5>")
+  $ s "lcm2Gene_Sd"
+    # attack "<0.8 <0.96 0.001>>"
+    # release 0.98
+    # sustain 1
+    # curve "-2 4 -2 4"
+    # envPow 6
+    # tRand1Min 50
+    # tRand1Max 59
+    # tRand2Min 170
+    # tRand2Max 171
+    # rate1 22
+    # rate2 36
+    # smooth1 0.4
+    # smooth2 0.2
+    # sig1RangeMin "-100"
+    # sig1RangeMax 100
+    # sig2RangeMin "-200"
+    # sig2RangeMax 100
+    # gain 0.76
+  ,
+  -- hi
+  listen (cF 1 "93") $
+  degradeBy (cF 0 "22") $
+  (<| amp "[0.9(2, 3.5) 0.9(3, 3.5, <2 ! ! 3>)]")
+  $ s "gcdDm2Gene_Sd"
+    # attack 0.001
+    # release 0.7
+    # sustain 1
+    # curve "-4"
+    # envPow 9
+    # seq1OffSet 4.75
+    # seq1Mul 0.4
+    # seq2OffSet (scramble 3 ("32 10 22.2" - 1))
+    # seq2Mul 0.098
+    # mod1 899
+    # mod2 9
+    # dev1 277
+    # dev2 70
+    # pan (range 0.4 0.8 $ slow "2 1 0.5" (sine * perlin))
+    # gain 1.12
+  ,
+  -- cymbal
+  listen (cF 1 "94") $
+  degradeBy (cF 0 "23") $
+  -- (<| amp "[<[~ 0.7 ~ 0.9]*2 [0.7 ~ 0.9]> 0.9(4, 6)]")
+  (<| amp "[~ 0.9 ~ <0.8 [~ 0.8]> ~]*2")
+  $ s "cymbalicMcld_Sd"
+    # attack 0.001
+    # release 1
+    # sustain 1
+    # curve "-4"
+    # envPow 2 -- (4 * (range 0.1 1 $ slow "2 4 2" perlin))
+    # attLowf 0
+    # relLowf 0.095
+    # lowNoiseLev 0.21
+    # attHif 0.002
+    # relHif 0.003
+    # hiNoiseLev 0.1
+    # attHi 0.0007
+    # relHi 0.021
+    # hiLev 0.4
+    # attTh 0.08
+    # relTh 0
+    # freq1 578
+    # freq2 961
+    # freq3 824
+    # freq4 926
+    # pan (scramble 4 "0.5 0.1 0.9 0.75 0.25")
+    # gain 0.66
 ] # cps 0.843
 
 d1 silence
