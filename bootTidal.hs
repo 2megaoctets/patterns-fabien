@@ -891,6 +891,7 @@ let p = streamReplace tidal
     levBiasBpf = pF "levBiasBpf"
     lineStartBpf = pF "lineStartBpf"
     lineEndBpf = pF "lineEndBpf"
+    lineDurBpf = pF "lineDurBpf"
     lineLevBpf = pF "lineLevBpf"
     subamp = pF "subamp"
     drumAmp = pF "drumAmp"
@@ -1250,6 +1251,14 @@ let p = streamReplace tidal
     boost = pF "boost"
     --
     ringzDec = pF "ringzDec"
+    --
+    waveSel = pF "waveSel"
+    freqLow = pF "freqLow"
+    phaseLow = pF "phaseLow"
+    ampLow = pF "ampLow"
+    --
+    sampleRate = pF "sampleRate"
+    factor = pF "factor"
 :}
 
 :{

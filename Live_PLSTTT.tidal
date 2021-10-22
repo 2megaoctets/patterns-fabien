@@ -1097,7 +1097,7 @@ stack [
 
 d1 silence
 
--- clutchIn 1 8
+-- clutchIn 1 24
 
 d1 $ -- %7 mal entendu
 -- someCyclesBy 0.019
@@ -2236,8 +2236,8 @@ d1 silence
 
 d1 $ -- lagad
 -- (
---   -- (slow 2) .
---   (repeatCycles 8)
+--   (slow 2)
+--   -- . (repeatCycles 8)
 -- ) $
 sometimesBy 0.12
 (
@@ -2672,7 +2672,6 @@ stack [ -- % 7
     # attack 0
     # release 1.4
     # sustain 0.9
-    -- # amp 0.9
     # freq 172 -- (162 * "<1 ! ! 0.67>")
     # curve "-12"
     # envPow 0.8
@@ -2844,7 +2843,7 @@ stack [ -- % 7
     # clickAmp 1
     # hpf 60
     # gain 0.94
-    -- # orbit 1
+    # orbit 1
   ,
   -- kick2
   listen (cF 1 "88") $
@@ -2886,7 +2885,7 @@ stack [ -- % 7
     # sinFreq 19.3
     # hpf 80
     # gain 0.84
-    # orbit 1
+    -- # orbit 1
   ,
   -- kick3
   listen (cF 1 "89") $
@@ -3109,12 +3108,12 @@ stack [ -- % 7
 d1 silence
 
 d1 $ -- rien à voir
-someCyclesBy 0.14
-(
-  degradeBy 0.3
-  . someCyclesBy 0.34 ((# ring 0.4) . (# ringf (430 * (range 0.2 1.2 $ segment "5 7 3" $ ((choose[3/7, 5/7, 9/7]) ~>) $ sine))) . (# ringdf (0.3 * (range 0.1 1.1 perlin))))
-  . smash "3 ! 4" [3, 2, 6]
-) $
+-- someCyclesBy 0.14
+-- (
+--   degradeBy 0.3
+--   . someCyclesBy 0.34 ((# ring 0.4) . (# ringf (430 * (range 0.2 1.2 $ segment "5 7 3" $ ((choose[3/7, 5/7, 9/7]) ~>) $ sine))) . (# ringdf (0.3 * (range 0.1 1.1 perlin))))
+--   . smash ("3 ! 4") [3, 2, 6]
+-- ) $
 stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
@@ -3368,12 +3367,12 @@ d1 silence
 
 d1 $ -- maison mère
 -- someCyclesBy 0.181
-whenmod 16 14
-(
-  linger "1/7 0.5/7 0.75/7"
-  . chunk 3 ((compress (2/7, 5/7)) . (bite 5 (scramble 5 (run 5))))
-  . sometimesBy 0.24 (|+ attack (range (-1) 2 perlin))
-) $
+-- whenmod 16 14
+-- (
+--   linger "1/7 0.5/7 0.75/7"
+--   . chunk 7 ((compress (2/7, 5/7)) . (bite 5 (scramble 5 (run 5))))
+--   . sometimesBy 0.24 (|+ attack (range (-1) 2 perlin))
+-- ) $
 stack [ -- % 7
   -- kick1
   listen (cF 1 "87") $
@@ -3559,7 +3558,7 @@ stack [ -- % 7
     # rng2Hi (4 * (range (-1) 3.5 $ segment "3 6 9" $ slow 6 $ perlin))
     # thr 0.03
     # hpf 60
-    # gain 1.23
+    # gain 1.22
   ,
   -- noise2
   listen (cF 1 "92") $
@@ -3571,7 +3570,6 @@ stack [ -- % 7
   (<| amp "[0.9 ~ 0.8 _ [~ 0.9]]")
   $ s "LiljedMyst_Sd"
     # attack (0.01 * (range 0.01 20 $ (sine * rand)))
-    # release ("0.9 <<2 0.4> 4>" / "<2 4>")
     # sustain 1
     # curve "-4"
     # envPow 1
@@ -3952,7 +3950,7 @@ stack [ -- % 7
     # noiseAtk 0.005
     # noiseDcy 0.05
     # hpf 70
-    # gain 1.03
+    # gain 1.02
     -- # orbit 1
   ,
   -- snare
@@ -4082,5 +4080,277 @@ stack [ -- % 7
     # pan (scramble 4 "0.5 0.1 0.9 0.75 0.25")
     # gain 0.66
 ] # cps 0.843
+
+d1 silence
+
+d1 $ -- 17H23
+someCyclesBy 0.06
+-- every 16
+(
+  spreadChoose ($) [
+    inside 2 (smash' 3 [2, 5, 4]),
+    outside 3 (loopAt (12/7) . spreadChoose ($) [
+      chew 4 "2 4 6 0 3 1",
+      chop 2
+    ])
+  ]
+) $
+stack [ -- % 7
+  -- kick1
+  listen (cF 1 "87") $
+  degradeBy (cF 0 "16") $
+  degradeBy 0.3 $
+  seqPLoop [
+    (0, 8, (<| amp "[0.9(1, 7, 5), 0.9(1, 7, <3 2>)]") $ s "kickmed_Sd"),
+    (8, 10, (<| amp "[~@0.5 0.9 ~@1.5 0.8@0.5, 0.9(1, 7, <3 2>)]") $ s "kickmed_Sd")
+    -- (10, 12, (<| amp "[~@0.5 0.9 ~@1.5 0.8@0.5, 0.9(1, 7, 5)]") $ s "kickmedSusSd")
+  ]
+    # attack 0.0001
+    # release 2
+    # sustain 3
+    # curve "-4"
+    # envPow 5
+    # level 1
+    # noise 1.2
+    # dc 1
+    # env0L1 18
+    # env0L2 0
+    # env0L3 8
+    # env0L4 2
+    # atkEnv0 0.00026
+    # decEnv0 0.12
+    # relEnv0 0.026
+    # fratio 1.68
+    # env1L1 84
+    # env1L2 40
+    # env1L3 32
+    # env1T1 0.025
+    # env1T2 0.1 -- * (range 0.12 1.8 $ slow "2 4" sine))
+    # curve1 "-8"
+    # curve2 "-12"
+    # curve3 "-2"
+    # phase 0
+    # oamp 0.18
+    # owhich2 3
+    # ochoose 3
+    # hpf 100
+    # gain 0.72
+    # orbit 1
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  degradeBy (cF 0 "17") $
+  every 4
+  ((1/7) <~) $
+  -- (<| amp "0.9@2.5 [~ 0.8?]")
+  (<| amp "0.9@2.5 ~")
+  $ s "drumkick_Sd"
+    # attack 0.001
+    # release 0.9
+    # sustain 1
+    # curve 8
+    # envPow 1
+    # attSinFreq 0.001
+    # relSinFreq 0.25
+    # curveSinFreq "-12"
+    # levSin 1
+    # levScaleSin 200
+    # levBiasSin 220
+    # attBpfFreq 0.01
+    # relBpfFreq 2
+    # timeScaleBpf 0.78
+    # curveBpf 0.2
+    # levBpf 1
+    # levScaleBpf 0.01
+    # levBiasBpf 70
+    # lineStartBpf 0.02
+    # lineEndBpf 0
+    # lineDurBpf 0.1
+    # hpf 60
+    # gain 0.93
+    -- # orbit 1
+  ,
+  -- kick3
+  listen (cF 1 "89") $
+  degradeBy (cF 0 "18") $
+  ((5/7) ~>) $
+  every 8 (density 1.2) $
+  (struct "t(2, 7, <9 ! 7>)") $
+  s "snarenew_Sd"
+    # amp 0.98
+    # sustain 1
+    # release 0.9
+    # tu 1.116
+    # envpL1 20
+    # envpL2 196.8
+    # envpL3 31
+    # envpT1 0.002
+    # envpT2 0.025
+    # curvep "-5"
+    # envL1 0
+    # envL2 4.33
+    # envL3 0.39
+    # envL4 3.5
+    # envT1 0.01
+    # envT2 0.06
+    # envT3 0.08
+    # curve "-14"
+    # mixNoise 0.212
+    # hpFreq 70
+    # rqhpf 0.7
+    # freq1bpf 933
+    # freq2bpf 390
+    # rq1bpf 2.965
+    # rq2bpf 1.9
+    # lpf 8200
+    # rqlpf 1
+    # mixBpf 0.9
+    # hpf 120
+    # gain 1
+    -- # orbit 1
+  ,
+  -- snare
+  listen (cF 1 "90") $
+  degradeBy (cF 0 "19") $
+  seqPLoop [
+    (0, 4, (<| amp "~@0.5 0.9@3") $ s "gcdDmFbGene_Sd"),
+    (4, 6, (<| amp "~@2 0.9 ~@0.5") $ s "gcdDmFbGene_Sd")
+  ]
+    # attack (scramble 4 "0.001 0.1 0.0001 0.3")
+    # release 1.9 -- (0.7 * (range 0.1 1 $ (perlin * sine)))
+    # sustain 1
+    # curve "-6"
+    # envPow "6 5 9"
+    # ser1_1 "2 4 0.1"
+    # ser1_2 "3 2 9 8"
+    # ser1_3 4
+    # ser1_4 5
+    # ser1Size 5
+    # ser2_1 "5 90 12"
+    # ser2_2 6
+    # ser2_3 7
+    # ser2_4 8
+    # ser2_5 9
+    # ser2Size 6
+    # add1 "0 10"
+    # add2 10
+    # modul 120 -- "<3 5 5.3>"
+    # sinFmin 480.1 -- "<2.1 21 2>" -- "970 40"
+    # divisor 0.83
+    # sigSel 0
+    # fbSel 0
+    # pan 0.5 -- (range 0.3 0.7 $ slow 4 (cosine * rand))
+    # gain 0.88
+  ,
+  -- noiseHi
+  listen (cF 1 "91") $
+  degradeBy (cF 0 "20") $
+  every 2 ((1/7) ~>) $
+  (<| amp "0.9(3.5, 7)")
+  $ s "addiditiveSin_Sd"
+    # attack 0.001
+    # release (0.9 * (range 0.4 1.2 $ fast "2 0.5" perlin))
+    # sustain 1
+    # curve "-4"
+    # envPow (2 * (range 0.5 2 rand))
+    # amp 1.2
+    # sampleRate "<44100 33090>"
+    # factor ("<0.07 0.03 0.06 0.04>" * (range 0.5 1.14 $ segment "<4 6>" $ slow "4 3" sine))
+    # width "<0.0962 0.15>"
+    # phase 3.14
+    # fund 150
+    # gain 0.99
+  ,
+  -- noiseLow
+  listen (cF 1 "92") $
+  degradeBy (cF 0 "21") $
+  seqPLoop [
+    (0, 8, (<| amp "[0.9(1, 7, 5), 0.9(1, 7, <3 2>)]") $ s "lcm2Gene_Sd"),
+    (8, 10, (<| amp "[~@0.5 0.9 ~@1.5 0.8@0.5, 0.9(1, 7, <3 2>)]") $ s "lcm2Gene_Sd")
+  ]
+    # attack "<0.63 0.53> 0.63 <0.93 0.0003>"
+    # release 0.6
+    # sustain 1.2
+    # curve ("-2 4 -2 4" * "2 4 0.5")
+    # envPow (8 * (range 0.8 1.1 $ slow "2 6" cosine))
+    # tRand1Min 150
+    # tRand1Max 159
+    # tRand2Min "<20 <31 18> 12 9>"
+    # tRand2Max "<21 <32 25> 13 10>"
+    # rate1 2.2
+    # rate2 13.6
+    # smooth1 0.004
+    # smooth2 0.002
+    # sig1RangeMin "-10"
+    # sig1RangeMax 300
+    # sig2RangeMin "-20"
+    # sig2RangeMax 700
+    # gain 0.76
+  ,
+  -- hi1
+  listen (cF 1 "93") $
+  degradeBy (cF 0 "22") $
+  (<| amp "~ 0.9 <0.87 ~ [~ 0.85]> 0.9@0.5") $
+  s "newNoise48Sd"
+    # amp 1
+    # env0L1 0.35
+    # env0L2 0
+    # env0L3 2.68
+    # env0L4 0
+    # env0T1 0.12
+    # env0T2 2.11
+    # env0T3 0
+    # env0T4 0.79
+    # timeScale 0.26
+    # coeff 0.28
+    # avar 0.05
+    # bvar "-3 2.6"
+    # cvar 1
+    # dvar 1.5
+    # xi 0.5
+    # yi 0.5
+    # hpf 563
+    # pan (range 0.25 0.75 $ fast "<2 4> 8" rand)
+    # gain 0.95
+  ,
+  -- hi2
+  listen (cF 1 "94") $
+  degradeBy (cF 0 "23") $
+  (<| amp "0.9(<3 4>, 3.5)") $
+  s "haty48Sd"
+    # amp 0.8
+    # curve "-4"
+    # envaL1 1.81
+    # envaL2 0
+    # envaL3 2.52
+    # envaL4 0.85
+    # envaL5 0
+    # envaT1 0.01
+    # envaT2 0.02
+    # envaT3 0
+    # envaT4 0
+    # envaCrv 3.54
+    # envpL1 0
+    # envpL2 14036
+    # envpL3 1279
+    # envpL4 0
+    # envpT1 0
+    # envpT2 0.0003
+    # envpT3 0
+    # envpT4 0.53
+    # envpCrv "-0.64"
+    # modFreq 1
+    # modAmt 1.4
+    # sinfAdd 1.7
+    # sinPhase 0.28
+    # sinpAdd 1.7
+    # rf1Freq 16938.8
+    # rf1Rq 0.76
+    # rf2Freq 6765
+    # rf2Rq 0.62
+    # hpfFreq 6699
+    # pan (range 0.4 0.6 $ ((4/7) <~) $ fast "8 <4 2>" perlin)
+    # gain 0.88
+] # cps 1.24
 
 d1 silence

@@ -3684,7 +3684,7 @@ stack [ -- % 7
     # levBiasBpf 70
     # lineStartBpf (0.12 * (range 0.1 2 ((slow "2 4" $ sine) * perlin)))
     # lineEndBpf 0
-    # lineLevBpf 0.1
+    # lineDurBpf 0.1
     # hpf 60
     # gain 0.93
     # orbit 1
