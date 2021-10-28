@@ -3,7 +3,7 @@ resetCycles
 
 d1 $ -- 17H23
 -- someCyclesBy 0.06
--- every 16
+-- -- every 16
 -- (
 --   spreadChoose ($) [
 --     inside 2 (smash' 3 [2, 5, 4]),
@@ -486,7 +486,7 @@ d1 silence
 
 d1 $ -- maison mère
 -- someCyclesBy 0.181
--- whenmod 16 14
+-- -- whenmod 6 4
 -- (
 --   linger "1/7 0.5/7 0.75/7"
 --   . chunk 7 ((compress (2/7, 5/7)) . (bite 5 (scramble 5 (run 5))))
@@ -1903,7 +1903,7 @@ stack [
 d1 silence
 
 d1 $ -- % 7 interfer kick
-loopAt "6 <2 5> 7" $
+-- loopAt "6 <2 5> 7" $
 -- bite 7 "1 3 0 4 5 2 6" $
 someCyclesBy 0.016
 (

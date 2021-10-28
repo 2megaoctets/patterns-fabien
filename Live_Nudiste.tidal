@@ -3692,24 +3692,6 @@ stack [ -- % 7
   -- kick2
   listen (cF 1 "88") $
   degradeBy (cF 0 "17") $
-  (<| amp "<0.9 [~ 0.9 _]>@3.5")
-  $ s "tweetKickInt_Sd"
-    # attack 0.001
-    # release 0.8
-    # sustain 1
-    # curve "8"
-    # envPow 1
-    # impfreq "<0 109.8 0>"
-    # phRate 2 -- (14.9 * (range 0.2 10 perlin))
-    # lagFreq 6
-    # inAmt 22.9
-    # coef1 0.97
-    # coef2 0.99
-    # gain 0.85
-  ,
-  -- kick3
-  listen (cF 1 "89") $
-  degradeBy (cF 0 "18") $
   every 5
   (trunc 0.75) $
   ((6/7) ~>) $
@@ -3735,6 +3717,24 @@ stack [ -- % 7
     # hpf 50
     # gain 0.94
     # orbit 1
+  ,
+  -- kick3
+  listen (cF 1 "89") $
+  degradeBy (cF 0 "18") $
+  (<| amp "<0.9 [~ 0.9 _]>@3.5")
+  $ s "tweetKickInt_Sd"
+    # attack 0.001
+    # release 0.8
+    # sustain 1
+    # curve "8"
+    # envPow 1
+    # impfreq "<0 109.8 0>"
+    # phRate 2 -- (14.9 * (range 0.2 10 perlin))
+    # lagFreq 6
+    # inAmt 22.9
+    # coef1 0.97
+    # coef2 0.99
+    # gain 0.85
   ,
   -- clap
   listen (cF 1 "90") $
