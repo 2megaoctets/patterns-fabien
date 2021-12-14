@@ -66,6 +66,9 @@ let p = streamReplace tidal
       scanl combinationFunction pattern $ drop 1 $ iterate f pattern
     -- use it in stack
     listen n p = selectF n [(const $ s "~"), id] $ p
+    -- use it with multiple instances of degradeBy, offset the randomness
+    degOffsetBy :: Pattern Time -> Pattern Double -> Pattern a -> Pattern a
+    degOffsetBy n = tParam (_degradeByUsing ((n ~>) rand))
 -- custom control for external SynthDef
     amp = pF "amp"
     dec = pF "dec"
