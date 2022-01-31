@@ -1,6 +1,423 @@
 resetCycles
 -- clutchIn 1 24
 
+d1 $ -- Ras el-hanout
+-- someCyclesBy 0.32
+whenmod 7 6
+(
+  (|* index (range 0.2 2 sine))
+  . (|/ factor (range 0.25 4 (rand * tri)))
+  . (|* width 8)
+  . (|* gain 0.97)
+  . someCyclesBy 0.24 (loopAt "2 3")
+  . swingBy (2/7) "7 5"
+) $
+stack [ -- % 7
+  -- kick1
+  listen (cF 1 "87") $
+  degOffsetBy (5/7) (cF 0 "16") $
+  ((9/7) ~>) $
+  fast 2 $
+  (<| amp "~@1.5 0.9 [~@1.5 0.8]")
+  $ s "main_Sd"
+    # attack 0.0001
+    # release 1.5
+    -- # sustain 0.5
+    # legato 0.9
+    # envPow 1
+    # curve 1
+    # levelScale 1
+    # levelBias 0.4
+    # lev 10
+    # wnoiseAmp 1
+    # sinAmp 1
+    # sin1Freq 30
+    # envL1 1
+    # envL2 0.1
+    # envL3 1
+    # envL4 0
+    # envL5 0
+    # envT1 0.001
+    # envT2 0
+    # envT3 0.07
+    # envT4 0
+    # clickCurve "-4"
+    # clickInScale 100
+    # clickEnvPow 1
+    # clickHpf 40
+    # clickHpRq 1
+    # clickLpf 300
+    # clickLpRq 1
+    # clickAmp 1
+    # sel 2
+    # sin2Freq 80
+    # sin2Amp 0
+    # noiseAmp 1
+    # hpffreq 5000 -- (5000  * (rangex 0.25 1.4 $ slow 2 rand))
+    # revtime 0
+    # distAmt 0
+    # distMix 0
+    # hpf 20
+    # gain 0.63
+    # orbit (scramble 3 "0 1 0")
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  degOffsetBy (9/7) (cF 0 "17") $
+  ((6/7) ~>) $
+  (<| amp "0.9(4, 6, <1 ! ! 3>) [~ <0.85 [~ 0.8]>]")
+  $ s "markSamFellLow_Sd"
+    # attack 0.007
+    # release 3
+    -- # sustain 0.8
+    -- # legato 0.99
+    # curve "-4"
+    # envPow 1
+    # atkf 0.0001
+    # rlsf 0.4
+    # crvf "-8"
+    # trigSpeedMin 1
+    # trigSpeedMax 10
+    # tu 50.5
+    # tuDiv 16
+    # freqEnvMin 1
+    # freqEnvMax 30
+    # index 0.4
+    # mratio 2.2
+    # boost 4
+    # hpf 85
+    # gain 0.89
+    # orbit (shuffle 5 "<1 0 1 0 0>")
+  ,
+  -- kick3
+  listen (cF 1 "89") $
+  degOffsetBy 0 (cF 0 "18") $
+  ((2/7) <~) $
+  fast 2 $
+  (<| amp "0.9(4, 6, <1 ! ! 3>) [~ <0.85 [~ 0.8]>]")
+  $ s "additiveGabor_Sd"
+    # attack 0.001
+    # release 1.5
+    # sustain 0.4
+    -- # legato (0.8 * (range 0.125 2.5 $ slow 3 sine))
+    # curve "4"
+    # envPow 1
+    # index "1 2"
+    # iScale "0.3 1000.3"
+    # time 1000
+    # iAtk 0.2
+    # iRel 0.25
+    # factor "1 0.5 1"
+    # width 0.2
+    # phaseModFreq "0.8 ! 0.08"
+    # mRatio 1
+    # cRatio 0.02
+    # gain 1.09
+    # orbit 1
+  ,
+  -- clap
+  listen (cF 1 "90") $
+  degOffsetBy (6/7) (cF 0 "19") $
+  (<| amp "~@1.5 <0.9 [~@2 0.9]> ~")
+  $ s "clapthan_Sd"
+    # attack 0.0001
+    # release 1
+    -- # sustain 0.5
+    # legato 0.98
+    # envPow 1
+    # curve "-4"
+    # envPow 1
+    # envL1 0
+    # envL2 1
+    # envL3 0.5
+    # envL4 1
+    # envL5 0.5
+    # envL6 1
+    # envL7 0
+    # envT1 0.001
+    # envT2 (0.0001 * (range 0.01 1000 perlin))
+    # envT3 0.001
+    # envT4 0.01
+    # envT5 0.001
+    # envT6 0.01
+    # crv 0
+    # hpfFrq 1024
+    # hpfRq 0.3
+    # gain 0.79
+  ,
+  -- noise
+  listen (cF 1 "91") $
+  degOffsetBy (2/7) (cF 0 "20") $
+  mask (scramble 2 "0 1") $
+  ((3/7) ~>) $
+  fast 2 $
+  (<| amp "0.9(4, 6, <1 ! ! 3>) [~ <0.85 [~ 0.8]>]")
+  $ s "additiveGabor_Sd"
+    # attack 0.007
+    # release 3
+    # sustain 0.4
+    # legato (0.8 * (range 0.125 2.5 $ slow 3 sine))
+    # curve "4"
+    # envPow 1
+    # index 12
+    # iScale 0.03
+    # time 1000
+    # iAtk 0.2
+    # iRel 1.5
+    # factor 20
+    # width 0.2
+    # phaseModFreq (6 * (range 0.125 1.8 perlin))
+    # mRatio (10 * (range 0.5 2.5 $ ((5/7) <~) $ slow 4 tri))
+    # cRatio 0.2
+    # gain 0.93
+  ,
+  -- hi1
+  listen (cF 1 "92") $
+  degOffsetBy (12/14) (cF 0 "21") $
+  fast 2 $
+  (<| amp "0.9(4, 6, <1 ! ! 3>) [~ <0.85 [~ 0.8]>]")
+  $ s "additiveGabor_Sd"
+    # attack 0.007
+    # release 3
+    -- # sustain 1
+    # legato (0.8 * (range 0.125 2.5 $ slow 3 sine))
+    # curve "4"
+    # envPow 1
+    # index 0.06
+    # iScale 720.03
+    # time 1000
+    # iAtk 0.2
+    # iRel 1.5
+    # factor 0.01
+    # width 0.01
+    # phaseModFreq 1
+    # mRatio 0.1
+    # cRatio 2
+    # pan (range 0.2 0.8 $ fast "2 4 6" perlin)
+    # gain 1.07
+  ,
+  -- hi2
+  listen (cF 1 "93") $
+  degOffsetBy (2/7) (cF 0 "22") $
+  swingBy (4/14) 2 $
+  ((3/7) <~) $
+  fast 2 $
+  (<| amp "0.9 <[~@2 0.9] [~@0.25 0.9]> 0.9@1.5")
+  $ s "additiveGabor_Sd"
+    # attack (0.0014 * (range 0.5 100 $ slow 2 (sine * perlin)))
+    # release 0.71
+    # sustain 0.4
+    # curve "-4"
+    # envPow 1
+    # index 0.97
+    # iScale 1390
+    # time 1000
+    # iAtk 0.009
+    # iRel 0.5
+    # factor 7.25
+    # width 0.9
+    # phaseModFreq 9008
+    # mRatio "<621.8 610.8>"
+    # cRatio 0.286
+    # pan (range 0.4 0.6 $ fast ("2 3 4" * 2) perlin)
+    # gain 0.96
+  -- ,
+  -- -- hi3
+  -- listen (cF 1 "94") $
+  -- degOffsetBy (2/7) (cF 0 "23") $
+  -- (<| amp "{~ <[~@0.5 0.8 _] 0.7 [~ 0.8]> ~ [~ 0.9 _] 0.3 ~}%28")
+  -- $ s "benjolis_Sd"
+  --   # attack 0.0017
+  --   # release 1
+  --   # sustain 0.4
+  --   # curve "-4"
+  --   # envPow 1
+  --   # atk 0.001
+  --   # rls 0.2
+  --   # fadeTime 0.01
+  --   # freq1 241
+  --   # freq2 6
+  --   # scaler 8
+  --   # rungler1 62
+  --   # rungler2 210
+  --   # runglerFilt 9
+  --   # filtFreq 12
+  --   # rq 0.082
+  --   # filterType 0
+  --   # outSignal 6
+  --   # hpf 110
+  --   # pan (range 0.25 0.75 $ fast ("1 3 4" * 2) rand)
+  --   # gain 0.93
+] # cps 0.32
+
+d1 $ -- 93 rotterdam
+whenmod 10 8
+(
+  (scramble "2 4 8")
+  . (hurry (fromTo 2 0.5))
+  . (# gain 0.78)
+) $
+stack [ -- % 4
+  -- kick
+  listen (cF 1 "87") $
+  degOffsetBy 0 (cF 0 "16") $
+  every 4
+  (
+    (spin "0.5 <0.25 0.75>")
+    . (# scram "<0.62 0.54> <0.76 0.83>")
+    . (# gain 0.65)
+  ) $
+  every 5
+  (
+    (fast "1 <4 0.5>")
+    . rev
+  ) $
+  fix (# binshift 0.2) (s "ek") $
+  fix (# gain 1.05) (s "trp2_b:2") $
+  s "[trp2_b:2 _ ~ ek [trp2_b:2 ek:7]]"
+    # hpf 123
+    # cut 1
+    # gain 1.25
+    # orbit "1 ! 0 <0 1>"
+  ,
+  -- snare
+  listen (cF 0 "88") $
+  degOffsetBy (6/7) (cF 0 "17") $
+  sometimesBy 0.32 (within (0.25, 0.75) (hurry "4 2 3")) $
+  every 4 (0.125 ~>) $
+  swingBy (1/8) "0.3 <0.15 0.6>" $
+  ghost' 0.23 $
+  s "[~ trp2_p:18] _ ~"
+    # gain 0.88
+  ,
+  -- clap
+  listen (cF 1 "89") $
+  degOffsetBy (5/7) (cF 0 "18") $
+  every 4 (stutWith 6 (1/"<8 16>") (|* binshift 0.5)) $
+  every 4 (0.5 <~) $
+  s "~ hbg_c:11"
+    # shape 0.3
+    # gain 0.76
+  ,
+  -- ambi
+  listen (cF 1 "90") $
+  degOffsetBy (4/7) (cF 0 "19") $
+  someCyclesBy 0.6 (const $ s "~") $
+  fastCat [
+    (s "pl:27/4" # speed 0.4 # gain 0.76),
+    (
+      s "sphere:1"
+        # speed 1.2
+        # rel "0.9 1.4"
+        # cut (wchoose[(1, 0.6), (0, 0.4)])
+        # gain 0.83
+    )
+  ]
+  ,
+  -- nappe
+  listen (cF 1 "91") $
+  degOffsetBy 0 (cF 0 "20") $
+  whenmod 5 3 ((degradeBy 0.3) . (fast "2 0.7 0.4") . (spin "3 1.8 0.21")) $
+  sometimesBy 0.65 (degradeBy 0.8) $
+  s "{~ atm ~@2}%2"
+    # att 1.32
+    # rel 3.7
+    # gain 0.67
+  ,
+  -- hihat
+  listen (cF 1 "92") $
+  degOffsetBy 0 (cF 0 "21") $
+  loopAt 1 $
+  s "trp2_fx:5*4"
+   # hpf 560
+   # lpf 687
+   # pan (range 0.25 0.75 $ fast "<4 8> 16" rand)
+   # gain 0.78
+] # cps 0.61
+
+d1 silence
+
+d1 $ -- Joël Tuto MakeUp
+whenmod 24 22
+(
+  (chop "4 <8 32>")
+  . rev
+  . (# binshift "2 0.9 0.4 1.8")
+) $
+stack [ -- % 5
+  -- kick1
+  listen (cF 1 "87") $
+  degOffsetBy "0 1 0.5" (cF 0 "16") $
+  whenmod 8 7 ((degradeBy 0.3) . (fast 2)) $
+  every 3 (degradeBy 0.34) $
+  fix ((# speed 4) . (# gain 0.785)) (s "trp2_k:28") $
+  s "bf:5 ~ [trp2_k:28 trp1_8:1] bf:5 <~ bf:9>"
+    # shape 0.21
+    # hpf 80
+    # cut 1
+    # gain 0.99
+    # orbit "1 <1 7> 7"
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  degOffsetBy (5/7) (cF 0 "17") $
+  sometimesBy 0.3 ((fastRepeatCycles 3) . (rot (slow 1.3 (irand 8)))) $
+  every 2 (0.25 ~>) $
+  fix (# gain 0.76) (s "bm:9") $
+  s "~@2 <bm:7 bm:11 bm:9> brok:16 ~"
+    # shape 0.24
+    # gain 0.97
+  ,
+  -- voice
+  listen (cF 1 "89") $
+  degOffsetBy (2/7) (cF 0 "18") $
+  whenmod 6 5 ((chooseBy "0.5 0.25 0.25" [0.25, 0.75, 0.125]) ~>) $
+  sometimesBy 0.33 ((# accelerate (perlin2 0.3)) . (# hpf 240)) $
+  every 4 (slow 4) $
+  s "~@2 bh:6 _ bk/2"
+    # binshift 1.1
+    # size "<0 0.02 0 0.18 0.1 0>"
+    # room "<0.2 0 0.1 0 0.15 0.3 0>"
+    # speed 0.98
+    # gain 0.82
+  ,
+  -- nappe
+  listen (cF 1 "90") $
+  degOffsetBy (3/7) (cF 0 "19") $
+  whenmod 11 10 ((fastAppend (s "trp1_fx:18 _ trp1_fx:18" # pan 0.3 # speed "0.67 <0.69 ~>" # gain 0.77)) . (# gate "0.2 2 0.4 1")) $
+  every 16 (# begin (range 0 1 $ fast 2 square)) $
+  slow 4 $
+  s "trp1_fx:15"
+    # begin "0.02 0.04 0.1"
+    # speed 0.4
+    # hpf 430
+    # cut "<2 3 3>"
+    # gain 0.74
+  ,
+  -- flute
+  listen (cF 0 "91") $
+  degOffsetBy (4/7) (cF 0 "20") $
+  fast "<1 2 4>" $
+  s "[trp2_h:15 trp3_fx _] trp3_fx"
+    # speed 0.47
+    # cut 1
+    # gain 0.78
+    # orbit "1 <1 7> 7"
+  ,
+  -- hihat
+  listen (cF 1 "92") $
+  degOffsetBy (1/7) (cF 0 "21") $
+  sometimesBy 0.17 (superimpose (hurry "1.2 3 7 9 11")) $
+  whenmod 4 3 ((loopAt "2 4 8") . (fast "<0.25 0.75>")) $
+  every 4 (fix (0.25 <~) (s "bs:1")) $
+  s "~ bs:1@3 bs:4/2"
+    # binshift "0.6 0.8 1.2 0.93"
+    # pan (range 0.15 0.85 $ fast "<1 2> 4" rand)
+    # gain 0.98
+] # cps 1.6
+
+d1 silence
+
 d1 $ -- 17H23
 -- someCyclesBy 0.06
 -- -- every 16

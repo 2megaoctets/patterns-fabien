@@ -1262,6 +1262,16 @@ let p = streamReplace tidal
     --
     sampleRate = pF "sampleRate"
     factor = pF "factor"
+    --
+    time = pF "time"
+    iAtk = pF "iAtk"
+    iRel = pF "iRel"
+    phaseModFreq = pF "phaseModFreq"
+    --
+    envL6 = pF "envL6"
+    envL7 = pF "envL7"
+    envT6 = pF "envT6"
+    hpfFrq = pF "hpfFrq"
 :}
 
 :{
