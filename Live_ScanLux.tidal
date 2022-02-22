@@ -1,6 +1,43 @@
 resetCycles
 -- clutchIn 1 24
 
+d1 $
+stack [
+  -- kick1
+  listen (cF 1 "87") $
+  degOffsetBy (1/7) (cF 0 "16") $
+  (<| amp "0.9(1, 2, <0 1 ! 3>) 0.8@1.5")
+  $ s "bd808HoriuchiSd"
+    # decay 1
+    # sustain 1.3
+    # triEnvCrv "-230"
+    # lev1Mul 3
+    # lev2Mul 1.35
+    # atkf 0.05
+    # dcyf 0.6
+    # crvf "-2"
+    # atkpf 0.3
+    # dcypf 0.6
+    # crvpf "-10"
+    # tone 54
+    # hpf 90
+    # gain 1
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  degOffsetBy (3/7) (cF 0 "17") $
+  (<| amp "0.9@1.5 <0.8 [~ 0.8]> ~")
+  $ s "MC808Horiuchi_Sd"
+    # gain 0.74
+  ,
+  -- steel
+  listen (cF 1 "89") $
+  degOffsetBy 0 (cF 0 "18") $
+  (<| amp "<0.8 [~ 0.8]> ~ 0.9@1.5")
+  $ s "gabor_Sd"
+    # gain 1
+] # cps 1.46
+
 d1 $ -- Ras el-hanout
 -- someCyclesBy 0.32
 whenmod 7 6

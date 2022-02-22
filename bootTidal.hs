@@ -1272,6 +1272,14 @@ let p = streamReplace tidal
     envL7 = pF "envL7"
     envT6 = pF "envT6"
     hpfFrq = pF "hpfFrq"
+    --
+    triEnvCrv = pF "triEnvCrv"
+    lev1Mul = pF "lev1Mul"
+    lev2Mul = pF "lev2Mul"
+    dcyf = pF "dcyf"
+    atkpf = pF "atkpf"
+    dcypf = pF "dcypf"
+    crvpf = pF "crvpf"
 :}
 
 :{
