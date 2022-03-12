@@ -1,41 +1,277 @@
 resetCycles
 -- clutchIn 1 24
 
-d1 $
-stack [
-  -- kick1
-  listen (cF 1 "87") $
-  degOffsetBy (1/7) (cF 0 "16") $
-  (<| amp "0.9(1, 2, <0 1 ! 3>) 0.8@1.5")
-  $ s "bd808HoriuchiSd"
-    # decay 1
-    # sustain 1.3
-    # triEnvCrv "-230"
-    # lev1Mul 3
-    # lev2Mul 1.35
-    # atkf 0.05
-    # dcyf 0.6
-    # crvf "-2"
-    # atkpf 0.3
-    # dcypf 0.6
-    # crvpf "-10"
-    # tone 54
-    # hpf 90
-    # gain 1
+d1 $ -- decalcomanies 1
+someCyclesBy 0.1
+(
+    (# fshift ("<36 124>" * (rangex 0.2 2 $ segment 4 $ sine)))
+    . degOffsetBy "<1/7 3/7 5/7>" "0.3 0.2 0.14"
+    . slowSqueeze ("2 8 4 6" * 1)
+) $
+stack [ -- % 7
+  -- sometimesBy 0.2
+  (whenmod 8 5 (rot "0 <1 11/7>")) $
+  stack [
+    -- kick1
+    listen (cF 1 "87") $
+    degOffsetBy (1/7) (cF 0 "16") $
+    (<| amp "[~ 0.9] 0.9(1, 5, <<0 [1 0]> 2>) ~")
+    $ s "bd808HoriuchiSd"
+      # decay 1
+      # sustain 1.3
+      # triEnvCrv "-230"
+      # lev1Mul 3
+      # lev2Mul 1.35
+      # atkf 0.05
+      # dcyf 0.6
+      # crvf "-2"
+      # atkpf 0.3
+      # dcypf 0.6
+      # crvpf "-10"
+      # tone 54
+      # hpf 90
+      # gain 1.04
+    ,
+    -- kiclick
+    listen (cF 1 "88") $
+    degOffsetBy (6/7) (cF 0 "17") $
+    (<| amp "0.9@0.5 [~ 0.9] ~ 0.9")
+    $ s "fbDelNet"
+      # atk 0.001
+      # rls 0.98
+      # stn 1
+      # crv "-4"
+      # legato 1.6
+      # rotateFreq 0.25
+      # rotateAmount 98
+      # startFreq 6
+      # endFreq 80
+      # durFreq 1.48
+      # sizeEnvAmount 0.275
+      # feedback 0.9
+      # coef 0.93
+      # orbit 2
+      # gain 0.86
+  ]
   ,
   -- kick2
-  listen (cF 1 "88") $
-  degOffsetBy (3/7) (cF 0 "17") $
+  listen (cF 1 "89") $
+  degOffsetBy (3/7) (cF 0 "18") $
   (<| amp "0.9@1.5 <0.8 [~ 0.8]> ~")
   $ s "MC808Horiuchi_Sd"
-    # gain 0.74
+    # gain 0.78
   ,
   -- steel
-  listen (cF 1 "89") $
-  degOffsetBy 0 (cF 0 "18") $
+  listen (cF 1 "90") $
+  degOffsetBy 0 (cF 0 "19") $
   (<| amp "<0.8 [~ 0.8]> ~ 0.9@1.5")
   $ s "gabor_Sd"
-    # gain 1
+    # gain 1.07
+  ,
+  -- noise
+  listen (cF 1 "91") $
+  degOffsetBy (6/7) (cF 0 "20") $
+  someCyclesBy 0.24
+  (|/ release 18) $
+  ((8/7) ~>) $
+  spread ($) [((6/7) ~>), id, ((5/7) ~>), ((8/7) <~)] $
+  (<| amp "0.9(3, 7, <1 3>)")
+  $ s "pnoise_Sd"
+    # attack (0.1 * (range 0.1 2 $ slow 2 tri))
+    # release 0.79
+    # sustain 0.4
+    # curve "-14"
+    # envPow 1
+    # rMajor 0.2
+    # rMinor 518
+    # tMajor 300
+    # sMinor "5 0.5"
+    # freq_u (220 * (range 0.1 2 $ segment 4 $ slow 4 tri))
+    # freq_v "<1 2>"
+    # scaleX 1
+    # scaleY 6
+    # scaleZ 1
+    # gain 0.85
+  ,
+  -- hi
+  listen (cF 1 "92") $
+  degOffsetBy (6/7) (cF 0 "21") $
+  sometimesBy 0.12
+  (degradeBy 0.24) $
+  ((2/7) ~>) $
+  (<| amp "0.9(4, 7, <0 2>)")
+  $ s "tick2"
+    # rel 1
+    # rq 0.1
+    # freq 980
+    # pan (range 0.2 0.8 $ fast 8 rand)
+    # gain 0.97
+  ,
+  -- hat
+  listen (cF 0 "93") $
+  degOffsetBy (2/7) (cF 0 "22") $
+  ((4/7) ~>) $
+  slow "1 2" $
+  (<| amp "0.9 ~ 0.8(2, 5)")
+  $ s "benjolis_Sd"
+    # attack 0.0017
+    # release 0.9
+    # sustain 1
+    # sustain 0.8
+    # curve "4"
+    # envPow 1
+    # atk 0.1
+    # rls 2
+    # fadeTime 0.01
+    # freq1 241 -- 241
+    # freq2 589 -- 579
+    # scaler 0.8
+    # rungler1 62
+    # rungler2 19
+    # runglerFilt 9
+    # filtFreq 12
+    # rq 0.082
+    # filterType 0
+    # outSignal 3
+    # hpf 110
+    # pan (range 0.25 0.75 $ fast ("1 3 4" * 3) rand)
+    # gain 0.62
+] # cps 1.16
+
+d1 $ -- decalcomanies
+someCyclesBy 0.1
+(
+    (# fshift ("<36 124>" * (rangex 0.2 2 $ segment 4 $ sine)))
+    . degOffsetBy "<1/7 3/7 5/7>" "0.3 0.2 0.14"
+    . slowSqueeze ("2 8 4 6" * 1)
+) $
+stack [ -- % 7
+  whenmod 16 14
+  (spreadChoose ($) [rot "0 2 1", swingBy (2/7) 3]) $
+  stack [
+    -- kick1
+    listen (cF 1 "87") $
+    degOffsetBy (1/7) (cF 0 "16") $
+    (<| amp "0.9(1, 2, <0 1 ! <3 5>>) 0.8@1.5")
+    $ s "bd808HoriuchiSd"
+      # decay 1
+      # sustain 1.3
+      # triEnvCrv "-230"
+      # lev1Mul 3
+      # lev2Mul 1.35
+      # atkf 0.05
+      # dcyf 0.6
+      # crvf "-2"
+      # atkpf 0.3
+      # dcypf 0.6
+      # crvpf "-10"
+      # tone 54
+      # hpf 90
+      # gain 1.04
+    ,
+    -- kiclick
+    listen (cF 1 "88") $
+    degOffsetBy (6/7) (cF 0 "17") $
+    (<| amp "~@0.5 0.9(2, 3, <0 ! ! 3>)")
+    $ s "fbDelNet"
+      # atk 0.001
+      # rls 0.98
+      # stn 1
+      # crv "-4"
+      # legato 1.6
+      # rotateFreq 0.25
+      # rotateAmount 98
+      # startFreq 6
+      # endFreq 80
+      # durFreq 1.48
+      # sizeEnvAmount 0.275
+      # feedback 0.9
+      # coef 0.93
+      # orbit 2
+      # gain 0.86
+  ]
+  ,
+  -- kick2
+  listen (cF 1 "89") $
+  degOffsetBy (3/7) (cF 0 "18") $
+  (<| amp "0.9@1.5 <0.8 [~ 0.8]> ~")
+  $ s "MC808Horiuchi_Sd"
+    # gain 0.78
+  ,
+  -- steel
+  listen (cF 1 "90") $
+  degOffsetBy 0 (cF 0 "19") $
+  (<| amp "<0.8 [~ 0.8]> ~ 0.9@1.5")
+  $ s "gabor_Sd"
+    # gain 1.07
+  ,
+  -- noise
+  listen (cF 1 "91") $
+  degOffsetBy (6/7) (cF 0 "20") $
+  someCyclesBy 0.24
+  (|/ release 18) $
+  spread ($) [((6/7) ~>), id, ((5/7) ~>), ((8/7) <~)] $
+  (<| amp "0.9(3, 7, <1 3>)")
+  $ s "pnoise_Sd"
+    # attack (0.1 * (range 0.1 2 $ slow 2 tri))
+    # release 0.79
+    # sustain 0.4
+    # curve "-14"
+    # envPow 1
+    # rMajor 0.2
+    # rMinor 518
+    # tMajor 300
+    # sMinor "5 0.5"
+    # freq_u (220 * (range 0.1 2 $ segment 4 $ slow 4 tri))
+    # freq_v "<1 2>"
+    # scaleX 1
+    # scaleY 6
+    # scaleZ 1
+    # gain 0.85
+  ,
+  -- hi
+  listen (cF 1 "92") $
+  degOffsetBy (6/7) (cF 0 "21") $
+  sometimesBy 0.12
+  (degradeBy 0.24) $
+  ((2/7) ~>) $
+  (<| amp "0.9(3, 14, <0 2>)")
+  $ s "tick2"
+    # rel 1
+    # rq 0.1
+    # freq 980
+    # pan (range 0.2 0.8 $ fast 8 rand)
+    # gain 0.97
+  ,
+  -- hat
+  listen (cF 0 "93") $
+  degOffsetBy (2/7) (cF 0 "22") $
+  ((4/7) ~>) $
+  slow "1 2" $
+  (<| amp "0.9 ~ 0.8(2, 5)")
+  $ s "benjolis_Sd"
+    # attack 0.0017
+    # release 0.9
+    # sustain 1
+    # sustain 0.8
+    # curve "4"
+    # envPow 1
+    # atk 0.1
+    # rls 2
+    # fadeTime 0.01
+    # freq1 241 -- 241
+    # freq2 589 -- 579
+    # scaler 0.8
+    # rungler1 62
+    # rungler2 19
+    # runglerFilt 9
+    # filtFreq 12
+    # rq 0.082
+    # filterType 0
+    # outSignal 3
+    # hpf 110
+    # pan (range 0.25 0.75 $ fast ("1 3 4" * 3) rand)
+    # gain 0.62
 ] # cps 1.46
 
 d1 $ -- Ras el-hanout
@@ -95,7 +331,7 @@ stack [ -- % 7
     # distAmt 0
     # distMix 0
     # hpf 20
-    # gain 0.63
+    # gain 0.62
     # orbit (scramble 3 "0 1 0")
   ,
   -- kick2
@@ -123,7 +359,7 @@ stack [ -- % 7
     # mratio 2.2
     # boost 4
     # hpf 85
-    # gain 0.89
+    # gain 0.88
     # orbit (shuffle 5 "<1 0 1 0 0>")
   ,
   -- kick3
@@ -149,7 +385,7 @@ stack [ -- % 7
     # phaseModFreq "0.8 ! 0.08"
     # mRatio 1
     # cRatio 0.02
-    # gain 1.09
+    # gain 1.08
     # orbit 1
   ,
   -- clap
@@ -180,7 +416,7 @@ stack [ -- % 7
     # crv 0
     # hpfFrq 1024
     # hpfRq 0.3
-    # gain 0.79
+    # gain 0.78
   ,
   -- noise
   listen (cF 1 "91") $
@@ -206,7 +442,7 @@ stack [ -- % 7
     # phaseModFreq (6 * (range 0.125 1.8 perlin))
     # mRatio (10 * (range 0.5 2.5 $ ((5/7) <~) $ slow 4 tri))
     # cRatio 0.2
-    # gain 0.93
+    # gain 0.92
   ,
   -- hi1
   listen (cF 1 "92") $
@@ -231,7 +467,7 @@ stack [ -- % 7
     # mRatio 0.1
     # cRatio 2
     # pan (range 0.2 0.8 $ fast "2 4 6" perlin)
-    # gain 1.07
+    # gain 1.06
   ,
   -- hi2
   listen (cF 1 "93") $
@@ -257,34 +493,7 @@ stack [ -- % 7
     # mRatio "<621.8 610.8>"
     # cRatio 0.286
     # pan (range 0.4 0.6 $ fast ("2 3 4" * 2) perlin)
-    # gain 0.96
-  -- ,
-  -- -- hi3
-  -- listen (cF 1 "94") $
-  -- degOffsetBy (2/7) (cF 0 "23") $
-  -- (<| amp "{~ <[~@0.5 0.8 _] 0.7 [~ 0.8]> ~ [~ 0.9 _] 0.3 ~}%28")
-  -- $ s "benjolis_Sd"
-  --   # attack 0.0017
-  --   # release 1
-  --   # sustain 0.4
-  --   # curve "-4"
-  --   # envPow 1
-  --   # atk 0.001
-  --   # rls 0.2
-  --   # fadeTime 0.01
-  --   # freq1 241
-  --   # freq2 6
-  --   # scaler 8
-  --   # rungler1 62
-  --   # rungler2 210
-  --   # runglerFilt 9
-  --   # filtFreq 12
-  --   # rq 0.082
-  --   # filterType 0
-  --   # outSignal 6
-  --   # hpf 110
-  --   # pan (range 0.25 0.75 $ fast ("1 3 4" * 2) rand)
-  --   # gain 0.93
+    # gain 0.9
 ] # cps 0.32
 
 d1 $ -- 93 rotterdam
@@ -2581,7 +2790,7 @@ stack [
 d1 silence
 
 d1 $ -- % 7 interfer kick
-loopAt "6 <2 5> 7" $
+loopAt ("6 <2 5> 7") $ --  * "<0.15 0.5 0.9>") $ -- * 0.5) $
 -- bite 7 "1 3 0 4 5 2 6" $
 someCyclesBy 0.016
 (

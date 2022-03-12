@@ -1280,6 +1280,11 @@ let p = streamReplace tidal
     atkpf = pF "atkpf"
     dcypf = pF "dcypf"
     crvpf = pF "crvpf"
+    --
+    rotateFreq = pF "rotateFreq"
+    rotateAmount = pF "rotateAmount"
+    sizeEnvAmount = pF "sizeEnvAmount"
+    durFreq = pF "durFreq"
 :}
 
 :{
