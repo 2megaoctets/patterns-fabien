@@ -254,7 +254,13 @@ stack [
 
 d4 silence
 
-d5 $ whenmod 10 8 ((scramble "2 4 8") . (hurry (fromTo 2 0.5)). (# gain 0.78)) $
+d5 $
+whenmod 10 8
+(
+  scramble "2 4 8"
+  . hurry (fromTo 2 0.5)
+  . (# gain 0.78)
+  ) $
 stack [
   -- kick
   listen 1 $
@@ -263,6 +269,7 @@ stack [
   fix (# binshift 0.2) (s "ek") $
   fix (# gain 0.99) (s "trp2_b:2") $
   s "[trp2_b:2 _ ~ ek [trp2_b:2 ek:7]]"
+    -- # hpf 123
     # cut 1
     # gain 1.1
   ,

@@ -1,4 +1,5 @@
 resetCycles
+-- clutchIn 1 24
 
 d1 $ -- % 7 jungle to come
 someCyclesBy 0.08
@@ -1096,8 +1097,6 @@ stack [
 ] # cps 1.27
 
 d1 silence
-
--- clutchIn 1 24
 
 d1 $ -- %7 mal entendu
 -- someCyclesBy 0.019
