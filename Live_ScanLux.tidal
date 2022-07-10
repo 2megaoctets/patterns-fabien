@@ -1,7 +1,302 @@
 resetCycles
 -- clutchIn 1 24
 
-d1 $ -- remix
+d1 $ -- Atomic City
+-- loopAt 2 $
+-- hurry "0.125 0.25 0.5" $
+stack [ -- % 7
+  -- kick
+  listen (cF 1 "87") $
+  degOffsetBy (2/7) (cF 0 "16") $
+  fast 4 $
+  loopAt 2 $
+  s "<ac:11 [~@0.0625 ac:11]>@2 <ac:0 [~@0.125 ac:0]>@1.5"
+    # attack 0.02
+    # release 2
+    # speed 0.688
+    # hpf 60
+    # gain 1.26
+    # orbit 1
+  ,
+  -- snare
+  listen (cF 1 "88") $
+  degOffsetBy (2/7) (cF 0 "17") $
+  every 2
+  ((2/7) <~) $
+  s "~@1.5 foleyperc:4@2"
+    # speed 1.155
+    # gain 0.84
+  ,
+  -- lazer
+  listen (cF 1 "89") $
+  degOffsetBy (4/7) (cF 0 "18") $
+  ((4/7) ~>) $
+  s "~@1.5 ag:11@2"
+    # speed 0.3
+    # gain 0.91
+  ,
+  -- machines
+  listen (cF 1 "90") $
+  degOffsetBy (1/7) (cF 0 "19") $
+  within (2/7, 4/7) ((# begin (0.125/7)) . (# speed 0.78) . (# amp 0.24)) $
+  s "ag:1@0.5 [~ ag:6] ~@0.5 ag:6@1.5"
+    # speed 0.3
+    # gain 0.84
+  ,
+  -- voix
+  listen (cF 1 "91") $
+  degOffsetBy (3/7) (cF 0 "20") $
+  s "~@0.25 af:3@3.25"
+    # attack 0.1
+    # release 20
+    # begin 0.03
+    # speed 0.43
+    # gain 0.96
+  ,
+  -- nappe
+  listen (cF 1 "92") $
+  degOffsetBy (2/7) (cF 0 "21") $
+  loopAt 1 $
+  fast 2 $
+  s "[~ ai:2]@1.5 ~@2"
+    # begin 0.12
+    # speed 2.512
+    # hpf 80
+    # gain 1.29
+] # cps 0.11
+
+d1 $ -- Alchimie Paris
+-- hurry "0.25 0.125 0.5" $
+stack [ -- % 7
+  -- kick
+  listen (cF 1 "87") $
+  degOffsetBy (2/7) (cF 0 "16") $
+  fast 4 $
+  loopAt 2 $
+  s "~@0.25 east:8 east:9 ~@0.25"
+    # attack 0.02
+    # release 2
+    # speed 0.688
+    # hpf 110
+    -- # bandf 970
+    -- # bandq 2.82
+    # lpf 2000
+    # gain 1.2
+    # orbit 1
+  ,
+  -- snare
+  listen (cF 1 "88") $
+  degOffsetBy (2/7) (cF 0 "17") $
+  whenmod 14 12
+  ((3/7) <~) $
+  s "~@2 foleyperc:1@2 ~@3"
+    # speed "<1.2 1>"
+    # gain 0.94
+    # orbit "<0 1 1>"
+  ,
+  -- flutio
+  listen (cF 1 "89") $
+  degOffsetBy (3/7) (cF 0 "18") $
+  loopAt 4 $
+  s "~@0.5 bag:2@3"
+    # speed 0.923
+    # gain 0.95
+    -- # cut 2
+  ,
+  -- Darkos
+  listen (cF 1 "90") $
+  degOffsetBy (1/7) (cF 0 "19") $
+  loopAt "[3 6]" $
+  s "31:2@1.5 31:2@2"
+    # gain 1.28
+    # cut 2
+  ,
+  -- nappe1
+  listen (cF 1 "91") $
+  degOffsetBy (4/7) (cF 0 "20") $
+  s "~@1.5 comb:10@2"
+    # speed 0.643
+    # gain 0.82
+  ,
+  -- nappe2
+  listen (cF 1 "92") $
+  degOffsetBy (2/7) (cF 0 "21") $
+  s "~@1.5 comb:11@2"
+    # speed 0.643
+    # gain 0.8
+] # cps 0.31
+
+d1 $ -- rechute
+-- whenmod 14 12
+whenmod 14 10
+(
+  outside "<2 3>" (stutWith "2 3" (5/7) (|* release 0.125))
+  . inside 2 (bite 7 "3 2 5 0 6")
+) $
+stack [ -- % 7
+  -- kick1
+  listen (cF 1 "87") $
+  degOffsetBy (1/7) (cF 0 "16") $
+  (<| amp "<[~ 0.76@1.5 0.8] ! [~ 0.76 0.8@1.5] [~@0.5 0.76@2 0.8]>")
+  $ s "kickBlocks_Sd"
+    # attack 0.001
+    # sustain 1.2
+    # release 1
+    # curve "-10.92"
+    # t1freq 64.6
+    # t1harmonic 16
+    # t1glide 0.15
+    # t1att 0.08
+    # t1rel 0.39
+    # t1curve 224
+    # t1del 0
+    # t1amp 2
+    # t2freq 17.4
+    # t2harmonic 21
+    # t2glide 0.01
+    # t2att 0.01
+    # t2rel 0.002
+    # t2curve "24.67"
+    # t2del 0.0012
+    # t2amp 0.6
+    # h1freq 724 -- "100 1482.9?0.41"
+    # h1harmonic "<124 123>" -- 8
+    # h1glide 1.21
+    # h1rq 0.52
+    # h1att 0.001
+    # h1rel 0.02
+    # h1curve "-4"
+    # h1del 0
+    # h1amp 0.00012
+    # h2freq 1320
+    # h2harmonic 1
+    # h2glide 0
+    # h2att 0.003
+    # h2rel 0.03
+    # h2curve "-4"
+    # h2del 0
+    # h2amp 0.5
+    # cfreq 2100
+    # crq 0.1
+    # camp 0.41
+    # hpf 20
+    # gain 1
+    # orbit 1
+  ,
+  -- kick2
+  listen (cF 1 "88") $
+  degOffsetBy (3/7) (cF 0 "17") $
+  sometimesBy 0.09
+  ((|* release (fromTo 1 2)) . (|* attack sine) . (|* amp 0.5)) $
+  (<| amp "~ [~ 0.42] ~ <0.5 [~@1.5 0.5]>@0.5")
+  $ s "kickParallax_Sd"
+    # sustain 1
+    # release 0.24
+    # envFrqAtt 0.001
+    # envFrqRel 0.022
+    # kharm1 1.7
+    # kharm2 0.3
+    # kharm3 14.1
+    # kharm4 4.1
+    # kamp1 0.12
+    # kamp2 0.05
+    # kamp3 0.03
+    # kamp4 0.04
+    # kring1 0.8
+    # kring2 7
+    # kring3 1
+    # kring4 0.2
+    # frqScale 26
+    # decScale 1
+    # resoMix 0.3
+    # hpf 86
+    # gain 0.7
+    # orbit 2
+  ,
+  -- snare
+  listen (cF 1 "89") $
+  degOffsetBy (2/7) (cF 0 "18") $
+  foldEvery [2, 3]
+  -- (mask "t f t t f t t") $
+  (mask "t f f t f t <f t>") $
+  every 4
+  (within (4/7, 6/7) ((5/7) ~>)) $
+  (<| amp "~@0.5 1@1.5 ~ 0.9 @0.5")
+  $ s "tweetKickInt_Sd"
+    # sustain 0.6
+    # attack 0.01
+    # release 0.23
+    # impfreq 94
+    # phRate 33.3
+    # lagFreq 0.4
+    # inAmt 21.2
+    # coef1 1.05
+    # coef2 1.99
+    # hpf 80
+    # gain 0.8
+  ,
+  -- noise
+  listen (cF 1 "90") $
+  degOffsetBy (6/7) (cF 0 "19") $
+  (<| amp "~@0.5 0.87@1.5 [~ <0.9 [~ 0.85]>] ~@0.5")
+  $ s "additiveGabor_Sd"
+    # attack 0.00017
+    # release 0.53
+    # sustain 1
+    # legato 0.8
+    # curve "4"
+    # envPow 1
+    # index 0.6
+    # iScale 320.03
+    # time 10
+    # iAtk 1.2
+    # iRel 0.5
+    # factor 0.01
+    # width 0.12
+    # phaseModFreq 1
+    # mRatio 1
+    # cRatio 2
+    # pan 0.5 -- (range 0.4 0.6 $ fast "4 5" perlin)
+    # gain 1
+  ,
+  -- cymbal
+  listen (cF 1 "91") $
+  degOffsetBy (5/7) (cF 0 "20") $
+  -- (<| amp "0.7(5, 7, <1 0 2>)")
+  (<| amp "{~ <0.7 [~ 0.7]> [~ 0.72] <~ [~ 0.9]>@0.5}%7")
+  $ s "cymnew1Sd"
+    # envL1 0.09
+    # envL2 0.3
+    # envL3 1.7
+    # envL4 0.8
+    # envT1 "0.012 0.07 0.012 !"
+    # envT2 0.002
+    # envT3 "0.023 0.06 0.023"
+    # curve "-2"
+    # tu 1560
+    # pan (range 0.25 0.75 $ fast "<1 0.5 2>" sine)
+    # gain 0.79
+  ,
+  -- hi
+  listen (cF 1 "92") $
+  degOffsetBy (4/7) (cF 0 "21") $
+  ((3/14) ~>) $
+  fast "2 1 2 !" $
+  -- ghost' 0.2 $
+  -- (<| amp "{~@<0.5 1.5> <[~ 0.87]>@<2 1> [~@1.5 0.8]}%5 ~@0.5 0.9@0.5 <[~ 0.9] 0.8>")
+  (<| amp "{~@0.5 <0.9 [~ 0.9]> ~ <0.78 [~ 0.78]>}%7")
+  $ s "metroSd"
+    # sustain 1.1
+    # impFreq 1
+    # theta 262
+    # rho 0.7
+    # filterfreq ("1000 ! 582.42" * 0.76 * (range 1 1.1 $ segment 8 $ slow "1 2 3" cosine))
+    # rq (0.2 * (rangex 0.28 2 $ slow 4 sine))
+    # pan (range 0.3 0.7 $ slow "2 <4 3>" sine)
+    # gain 0.97
+] # cps 0.9
+
+d1 $ -- megamix
 someCyclesBy 0.26
 (
   loopAt 2
