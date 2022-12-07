@@ -1351,6 +1351,22 @@ let p = streamReplace tidal
     --
     selSnd = pF "selSnd"
     stnf = pF "stnf"
+    --
+    fltAtk = pF "fltAtk"
+    fltRls = pF "fltRls"
+    fltAtkCurve = pF "fltAtkCurve"
+    fltRlsCurve = pF "fltRlsCurve"
+    atkCurve = pF "atkCurve"
+    rlsCurve = pF "rlsCurve"
+    inharmonic = pF "inharmonic"
+    tilt = pF "tilt"
+    lpfCutoff = pF "lpfCutoff"
+    lpfEnvAmount = pF "lpfEnvAmount"
+    lpfSlope = pF "lpfSlope"
+    peakSlope = pF "peakSlope"
+    peakRes = pF "peakRes"
+    --
+    soundmod = pF "soundmod"
 :}
 
 :{
