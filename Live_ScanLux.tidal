@@ -1,6 +1,25 @@
 resetCycles
 -- clutchIn 1 24
 
+d1 $
+stack [
+  listen (cF 1 "87") $
+  degOffsetBy (1/7) (cF 0 "16") $
+  (<| amp "<[~ 0.76@1.5 0.8] ! [~ 0.76 0.8@1.5] [~@0.5 0.76@2 0.8]>")
+  $ s "plaits"
+    # engine 5
+    # gain 0.8
+    -- # verbwet 0.59
+    -- # verbdiff 0.3
+    -- # verbtime 0.2
+    -- # verbfreeze 0
+    -- # verbhp 120
+    -- # verbgain 1
+    -- # cloudsgain 3
+    -- # cloudswet 0.2
+    -- # cloudspitch 1320
+] # cps 0.6
+
 d1 $ -- Atomic City
 -- loopAt 2 $
 -- hurry "0.125 0.25 0.5" $
