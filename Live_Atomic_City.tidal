@@ -1,28 +1,144 @@
 resetCycles
 -- clutchIn 1 24
 
-d1 $
-stack [
-  --
+d1 $ -- emilie
+stack [ -- % 4
+  -- kick
   listen (cF 1 "87") $
   degOffsetBy (1/7) (cF 0 "16") $
-  (<| level "[[~ 0.5] ~ 0.75] ! 2")
+  (<| level "[[[~ 0.98] ~ 0.5] [0.5 [~ 0.98] ~] [[~ 0.98] ~ 0.5]]")
   $ s "plaits"
-    # sustain 2
+    # attack 0.0001
+    # release 2
+    # sustain 1.6
     # begin 0
     # end 1
-    # timbre 19
-    # freq "<20 10>"
-    # engine "<1 3 6>"
-    # harm 0.5
-    # morph 5
-    # lpgdecay 2.08
-    # lpgcolour 3.8
-    # gain 0.98
-    -- # verbwet 0.9
-    -- # verbdiff 1
-    -- # verbgain 2
-] # cps 0.63
+    # timbre 0.086
+    # freq 9.4 -- "<20 17>"
+    # engine "6 <1 5 9> 6 4"
+    # harm 0.99
+    # morph 1 -- (smooth (slow 4 $ "0.3 2" * 0.9))
+    # lpgdecay 0.98
+    # lpgcolour 1
+    # gain 1
+    -- # orbit 1
+  ,
+  -- kick soft
+  listen (cF 1 "88") $
+  degOffsetBy (1/7) (cF 0 "17") $
+  fast 2 $
+  (<| level "~ 0.9(3, 4, <1 ! ! 2>)")
+  $ s "kickbass_Sd"
+    # attack 0.000001
+    # sustain 1
+    # release 0.22
+    # atk 0.01
+    # dcy 0.2
+    # rls 0.99
+    # fratio 0.05
+    # noise 1
+    # freq1 120
+    # freq2 50
+    # freq3 30
+    # dc 0.6
+    # aamp1 6
+    # aamp2 2
+    # aamp3 2
+    # aamp4 1
+    # curve1 "-4"
+    # curve2 "-2"
+    # curve3 "-4"
+    # famp1 0
+    # famp2 0
+    # famp3 0
+    # famp4 0
+    # p1 0.3
+    # oamp 0.2
+    # owhich2 2
+    # ochoose 3
+    # filter 20000
+    # gain 1.3
+  ,
+  -- bass & synth
+  listen (cF 1 "89") $
+  degOffsetBy (1/7) (cF 0 "18") $
+  every 2 (# accelerate 0.23) $
+  (<| level "[[[0.5 [~ 0.98] ~] [~ 0.98] ~ 0.5] [0.5 [~ 0.98] ~]]")
+  $ s "plaits"
+    # attack 0.1
+    # release 2
+    # sustain 1.6
+    # begin 0
+    # end 1
+    # timbre 0.6
+    # freq 19 -- "<20 17>"
+    # engine "5 6" -- "6 <1 5 9> 6 4"
+    # harm 0.299
+    # morph 1 -- (smooth (slow 4 $ "0.3 2" * 0.9))
+    # lpgdecay 0.98
+    # lpgcolour 1
+    # hpf 67
+    # gain 1
+    # orbit 1
+  ,
+  -- rim
+  listen (cF 1 "90") $
+  degOffsetBy (1/7) (cF 0 "19") $
+  (<| amp "[[0.9 ~ [0.4 0.8 ~]] [~ [0.4 0.8 ~] 0.9]]")
+  $ s "braids"
+    # attack 0.0001
+    # release 0.2
+    # sustain 0.6
+    # begin 0.3
+    # end 1
+    # freq 30
+    # timbre 10.5
+    # color 0.15
+    # model "4 5 <3!4 7> 4"
+    # gain 0.92
+  ,
+  -- hat
+  listen (cF 1 "91") $
+  degOffsetBy (1/7) (cF 0 "20") $
+  (<| amp "[[~ 0.9 [0.9 ~@2] ~ [0.4@2 0.9]] [~ 0.9 [~@2 0.9] ~ [0.9 ~@2]]]")
+  $ s "plaits"
+    # attack 0.1
+    # release 0.01
+    # sustain 1
+    # begin 0
+    # end 1
+    # timbre 0.6
+    # freq 19
+    # engine "<1 7 [1 6]>"
+    # harm 0.299
+    # morph 0.97
+    # lpgdecay 0.098
+    # lpgcolour 1
+    # pan (range 0 1 $ slow 2 cosine)
+    # gain 0.65
+  ,
+  -- cymbal
+  listen (cF 1 "92") $
+  degOffsetBy (1/7) (cF 0 "21") $
+  (<| level "0.9(3, 8, <0 ! ! 3>)")
+  $ s "plaits"
+    # attack (0.1 * (range 0.125 2 $ slow "4 8" (cosine * saw)))
+    # release (0.5 * (range 0.125 2 $ (choose [0.5, 0.75, 0.25] ~>) $ slow "4 8" (cosine * saw)))
+    # sustain (wchoose [(1, 0.8), (0.4, 0.2)])
+    # begin 0
+    # end 1
+    # speed 1
+    # accelerate 0
+    # timbre 0.21
+    # freq 10.82
+    # engine 15
+    # harm 0.299
+    # morph 0.34
+    # lpgdecay 0.98
+    # lpgcolour 1
+    # pan (range 0.2 0.8 $ segment 64 $ slow "2 4" (cosine * ((choose [0.125, 6.25e-2] ~>) sine)))
+    # gain 0.91
+] # cps 0.61
 
 d1 $ -- Atomic City
 loopAt 2 $
@@ -196,7 +312,7 @@ stack [ -- % 4
       # noisefiltselect 1
       # drive 2
       # hpf 70
-      # gain 1.01
+      # gain 0.99
       # orbit "<0 1> 0 <0 1>"
     ,
     -- HiKick
@@ -233,7 +349,7 @@ stack [ -- % 4
       # verbRoom 6.27
       # verbTime 4.75
       # verbDamp 0.65
-      # gain 1.01
+      # gain 0.99
     ,
     -- snare
     listen (cF 1 "90") $
@@ -263,7 +379,7 @@ stack [ -- % 4
       # sawFreq 0
       # hpfreq 400
       # hprq 0.2
-      # gain 1.02
+      # gain 1
     ,
     -- hinoise
     listen (cF 1 "92") $
@@ -295,7 +411,7 @@ stack [ -- % 4
       # hpfreq 397
       # hprq 0.0020000000298023
       # pan (range "-0.8" 0.8 $ slow "<<1 2> 2>" (cosine * tri))
-      # gain 0.82
+      # gain 0.8
     ,
     -- hi
     listen (cF 1 "93") $
@@ -336,7 +452,7 @@ stack [ -- % 4
       # hpfFreq 3699
       # lpf 12000
       # pan (range 0.25 0.75 $ (0.25 <~) $ fast "<4 3> 8" cosine)
-      # gain 1.09
+      # gain 1.07
   ]
   ,
   -- bass
@@ -363,7 +479,7 @@ stack [ -- % 4
     # envTime4 0.21
     # envTime5 0
     # hpff 72
-    # gain 1
+    # gain 0.98
     # orbit "<<1 0> <1 [0 1]> <[1 0] 1>>"
   ,
   -- arp
@@ -403,12 +519,12 @@ stack [ -- % 4
     # op2tune 12
     # op3tune 9
     # op4tune 10
-    # gain 0.71
+    # gain 0.69
 ] # cps 0.37
 
 d1 silence
 
-d1 $ -- pharmacie du centre
+d1 $ -- pharmacie
 stack [ -- % 5
   -- someCyclesBy 0.205
   -- (
@@ -459,7 +575,7 @@ stack [ -- % 5
       # clkffreq 990
       # clkres 12
       # hpf 69
-      # gain 0.94
+      # gain 0.93
       # orbit 1
     ,
     -- bass
@@ -499,7 +615,7 @@ stack [ -- % 5
       # rqlpf 0.0012
       # mixBpf 0.48
       # hpf 70
-      # gain 1.01
+      # gain 1
       # orbit 1 -- (choose [0, 1])
     ,
     -- bassSat
@@ -522,7 +638,7 @@ stack [ -- % 5
       # noiseAtk 0.005
       # noiseDcy 0.5
       # hpf 70
-      # gain 0.84
+      # gain 0.83
       # orbit 2
     ,
     -- noise
@@ -546,7 +662,7 @@ stack [ -- % 5
       # rMajor "<80 !3 <400 500>>"
       # rMinor 2340
       # circlefreq 12
-      # gain ("<0.85 !3 <0.78 0.72>>" - 0.07)
+      # gain ("<0.85 !3 <0.78 0.72>>" - 0.08)
     ,
     -- hat
     listen (cF 1 "92") $
@@ -578,7 +694,7 @@ stack [ -- % 5
       # hpfreq 1090
       # hprq 0.12
       # pan (0.5 + (range "-0.25" 0.25 $ fast "8 4" $ perlin))
-      # gain 0.875
+      # gain 0.865
   ]
   ,
   -- synth
@@ -602,7 +718,7 @@ stack [ -- % 5
     # mod2 "<10 !3 <20 19.8>>" -- 10
     # dev1 1.3
     # dev2 0.7
-    # gain 0.88
+    # gain 0.87
     # orbit 2
 ] # cps 0.6
 
@@ -852,7 +968,7 @@ stack [ -- % 7
 
 d1 silence
 
-d1 $ -- cocaine & subvensions
+d1 $ -- coke & sub
 stack [ -- % 7
   foldEvery [10, 17, 18]
   (
@@ -1266,7 +1382,7 @@ stack [ -- %7
       # kickHpfFrq 50
       # ringFrq 64.3
       # ringDec 0.918
-      # gain 0.88
+      # gain 0.89
       # orbit 1
     ,
     -- kick2
@@ -1292,7 +1408,7 @@ stack [ -- %7
       # mratio 2
       # boost 3
       # hpf 70
-      # gain 0.81
+      # gain 0.83
     ,
     -- snare
     listen (cF 1 "89") $
@@ -1324,7 +1440,7 @@ stack [ -- %7
       # sawFreq 0
       # hpfreq 400
       # hprq 0.2
-      # gain 0.77
+      # gain 0.79
     ,
     -- synth
     listen (cF 1 "90") $
@@ -1348,7 +1464,7 @@ stack [ -- %7
       # phaseModFreq 0.5
       # mRatio 1
       # cRatio 1
-      # gain 1
+      # gain 1.02
     ,
     -- basskick1
     listen (cF 1 "91") $
@@ -1366,7 +1482,7 @@ stack [ -- %7
       # rel 2
       # hpf 90
       # tu 1.01
-      # gain 1
+      # gain 1.02
       # orbit 2
     ,
     -- hi
@@ -1399,7 +1515,7 @@ stack [ -- %7
       # wrap 0.89999997615814
       # switch 2
       # pan (range 0.4 0.6 $ ((4/7) <~) $ fast "8 <4 2>" cosine)
-      # gain 0.73
+      # gain 0.75
   ]
   ,
   -- bass
@@ -1442,7 +1558,7 @@ stack [ -- %7
     # revtime 3
     # distAmt 2
     # distMix 0
-    # gain 0.92
+    # gain 0.94
     # orbit 2
 ] # cps 0.21
 
