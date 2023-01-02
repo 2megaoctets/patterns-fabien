@@ -2,6 +2,11 @@ resetCycles
 -- clutchIn 1 24
 
 d1 $ -- emilie
+someCyclesBy 0.18
+(
+  sometimesBy 0.43 rev
+  . chunk 4 (spread ($) [hurry "2.2 0.7 2.8", ((# speed "3 2") . (|* attack (choose [10, 5, 2])) . (|* release 0.0125))])
+) $
 stack [ -- % 4
   -- kick
   listen (cF 1 "87") $
