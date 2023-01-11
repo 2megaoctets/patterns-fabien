@@ -62,7 +62,7 @@ stack [ -- % 4
     # owhich2 2
     # ochoose 3
     # filter 20000
-    # gain 1.3
+    # gain 1.2
   ,
   -- bass & synth
   listen (cF 1 "89") $
