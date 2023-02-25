@@ -1445,6 +1445,24 @@ let p = streamReplace tidal
     warpsfreq = pF "warpsfreq"
     warpsvgain = pF "warpsvgain"
     warpseasteregg = pI "warpseasteregg"
+    --
+    sdm = pF "sdm"
+    repeats = pF "repeats"
+    --
+    modSin = pF "modSin"
+    minSeq = pF "minSeq"
+    maxSeq = pF "maxSeq"
+    --
+    timeStep = pF "timeStep"
+    minLev = pF "minLev"
+    maxLev = pF "maxLev"
+    brownStep = pF "brownStep"
+    --
+    sinMod = pF "sinMod"
+    --
+    filtSpeed = pF "filtSpeed"
+    filtCenter = pF "filtCenter"
+    filtBw = pF "filtBw"
 :}
 
 :{
