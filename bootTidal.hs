@@ -1,22 +1,25 @@
+:set prompt-cont ""
 :set -XOverloadedStrings
 :set prompt ""
 
 import Sound.Tidal.Context
 
 import System.IO (hSetEncoding, stdout, utf8)
-
 hSetEncoding stdout utf8
 
--- total latency = oLatency + cFrameTimespan
-tidal <- startTidal (superdirtTarget {oLatency = 0.2, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cFrameTimespan = 1/20})
+tidal <- startTidal (superdirtTarget {oLatency = 0.05, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cVerbose = True, cFrameTimespan = 1/20})
 
 :{
-let p = streamReplace tidal
-    -- hush = streamHush tidal
-    hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16]
+let only = (hush >>)
+    p = streamReplace tidal
+    hush = streamHush tidal
+    panic = do hush
+               once $ sound "superpanic"
     list = streamList tidal
     mute = streamMute tidal
     unmute = streamUnmute tidal
+    unmuteAll = streamUnmuteAll tidal
+    unsoloAll = streamUnsoloAll tidal
     solo = streamSolo tidal
     unsolo = streamUnsolo tidal
     once = streamOnce tidal
@@ -25,7 +28,10 @@ let p = streamReplace tidal
     nudgeAll = streamNudgeAll tidal
     all = streamAll tidal
     resetCycles = streamResetCycles tidal
+    setCycle = streamSetCycle tidal
     setcps = asap . cps
+    getcps = streamGetcps tidal
+    getnow = streamGetnow tidal
     xfade i = transition tidal True (Sound.Tidal.Transition.xfadeIn 4) i
     xfadeIn i t = transition tidal True (Sound.Tidal.Transition.xfadeIn t) i
     histpan i t = transition tidal True (Sound.Tidal.Transition.histpan t) i
@@ -35,6 +41,7 @@ let p = streamReplace tidal
     jumpIn i t = transition tidal True (Sound.Tidal.Transition.jumpIn t) i
     jumpIn' i t = transition tidal True (Sound.Tidal.Transition.jumpIn' t) i
     jumpMod i t = transition tidal True (Sound.Tidal.Transition.jumpMod t) i
+    jumpMod' i t p = transition tidal True (Sound.Tidal.Transition.jumpMod' t p) i
     mortal i lifespan release = transition tidal True (Sound.Tidal.Transition.mortal lifespan release) i
     interpolate i = transition tidal True (Sound.Tidal.Transition.interpolate) i
     interpolateIn i t = transition tidal True (Sound.Tidal.Transition.interpolateIn t) i
@@ -59,7 +66,7 @@ let p = streamReplace tidal
     d14 = p 14
     d15 = p 15
     d16 = p 16
--- custom function
+    -- custom function
     -- use it with overlay combination
     snowball' :: Int -> (Pattern a -> Pattern a -> Pattern a) -> (Pattern a -> Pattern a) -> Pattern a -> Pattern a
     snowball' depth combinationFunction f pattern = cat $ take depth $
@@ -1466,7 +1473,8 @@ let p = streamReplace tidal
 :}
 
 :{
-let setI = streamSetI tidal
+let getState = streamGet tidal
+    setI = streamSetI tidal
     setF = streamSetF tidal
     setS = streamSetS tidal
     setR = streamSetR tidal
@@ -1474,4 +1482,5 @@ let setI = streamSetI tidal
 :}
 
 :set prompt "tidal> "
-:set prompt-cont ""
+
+default (Pattern String, Integer, Double)
