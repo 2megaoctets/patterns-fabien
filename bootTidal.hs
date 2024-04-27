@@ -7,7 +7,7 @@ import Sound.Tidal.Context
 import System.IO (hSetEncoding, stdout, utf8)
 hSetEncoding stdout utf8
 
-tidal <- startTidal (superdirtTarget {oLatency = 0.05, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cVerbose = True, cFrameTimespan = 1/20})
+tidal <- startTidal (superdirtTarget {oLatency = 0.05, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cVerbose = True, cFrameTimespan = 1/20, cEnableLink = True, cQuantum = 4, cBeatsPerCycle = 4})
 
 :{
 let only = (hush >>)
@@ -1470,6 +1470,113 @@ let only = (hush >>)
     filtSpeed = pF "filtSpeed"
     filtCenter = pF "filtCenter"
     filtBw = pF "filtBw"
+    --
+    softGain = pF "softGain"
+    --
+    dest = pF "dest"
+    --
+    modPhaseFreq = pF "modPhaseFreq"
+    modPhaseMul = pF "modPhaseMul"
+    modPhaseAdd = pF "modPhaseAdd"
+    modAmpFreq = pF "modAmpFreq"
+    modAmpMul = pF "modAmpMul"
+    modAmpAdd = pF "modAmpAdd"
+    modOffsetFreq = pF "modOffsetFreq"
+    modOffsetWidth = pF "modOffsetWidth"
+    modOffsetMul = pF "modOffsetMul"
+    modOffsetAdd = pF "modOffsetAdd"
+    modFreqFreq = pF "modFreqFreq"
+    --
+    readratio = pF "readratio"
+    readfine = pF "readfine"
+    writeratio = pF "writeratio"
+    writefine = pF "writefine"
+    transpose = pF "transpose"
+    readlfofreq = pF "readlfofreq"
+    writelfofreq = pF "writelfofreq"
+    readlfoamp = pF "readlfoamp"
+    writelfoamp = pF "writelfoamp"
+    lppitch = pF "lppitch"
+    lpres = pF "lpres"
+    hppitch = pF "hppitch"
+    hpres = pF "hpres"
+    lpfm = pF "lpfm"
+    hpfm = pF "hpfm"
+    dbdrive = pF "dbdrive"
+    --
+    lpffreq = pF "lpffreq"
+    filtCutOff = pF "filtCutOff"
+    --
+    vibratoSpeed = pF "vibratoSpeed"
+    vibratoDepth = pF "vibratoDepth"
+    vwl = pF "vwl"
+    --
+    fbPow = pF "fbPow"
+    --
+    stSpread = pF "stSpread"
+    --
+    impPhase1 = pF "impPhase1"
+    impPhase2 = pF "impPhase2"
+    impPhase3 = pF "impPhase3"
+    impPhase123 = pF "impPhase123"
+    resMix = pF "resMix"
+    rngF0 = pF "rngF0"
+    rngStruct = pF "rngStruct"
+    rngBrightness = pF "rngBrightness"
+    rngDamping = pF "rngDamping"
+    rngAccent = pF "rngAccent"
+    rngStretch = pF "rngStretch"
+    rngPos = pF "rngPos"
+    rngLoss = pF "rngLoss"
+    roomsizes = pF "roomsizes"
+    revtimeFinal = pF "revtimeFinal"
+    finalVerbMix = pF "finalVerbMix"
+    --
+    filterRes = pF "filterRes"
+    filterMix = pF "filterMix"
+    modRate = pF "modRate"
+    strVTresh = pF "strVTresh"
+    strVFreq = pF "strVFreq"
+    strVAcc = pF "strVAcc"
+    strVStruct = pF "strVStruct"
+    strVBright = pF "strVBright"
+    strVDamp = pF "strVDamp"
+    strVLev = pF "strVLev"
+    sinNoiseAdd = pF "sinNoiseAdd"
+    sigMix = pF "sigMix"
+    sinTrigRate = pF "sinTrigRate"
+    sinTrigDec = pF "sinTrigDec"
+    sinFreqRate = pF "sinFreqRate"
+    sinFreqLo = pF "sinFreqLo"
+    sinFreqLoModRate = pF "sinFreqLoModRate"
+    sinFreqLoModAmt = pF "sinFreqLoModAmt"
+    sinFreqHi = pF "sinFreqHi"
+    sinFreqHiModRate = pF "sinFreqHiModRate"
+    sinFreqHiModAmt = pF "sinFreqHiModAmt"
+    --
+    gamma = pF "gamma"
+    omega = pF "omega"
+    dt = pF "dt"
+    singlegain = pF "singlegain"
+    smoothing = pF "smoothing"
+    gains1 = pF "gains1"
+    gains2 = pF "gains2"
+    freqs1 = pF "freqs1"
+    qs1 = pF "qs1"
+    freqs2 = pF "freqs2"
+    qs2 = pF "qs2"
+    --
+    verbMixLfo = pF "verbMixLfo"
+    decTime4 = pF "decTime4"
+    decTime1 = pF "decTime1"
+    ringzFreq4 = pF "ringzFreq4"
+    ringzFreq1 = pF "ringzFreq1"
+    ringzFreq2 = pF "ringzFreq2"
+    ringzFreq3 = pF "ringzFreq3"
+    decTime3 = pF "decTime3"
+    verbRoomLfo = pF "verbRoomLfo"
+    decTime2 = pF "decTime2"
+    decTimeDiv = pF "decTimeDiv"
 :}
 
 :{

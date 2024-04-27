@@ -1,0 +1,515 @@
+resetCycles
+-- clutchIn 1 24
+
+xfadeIn 1 8 $
+-- d1 $
+stack [
+  listen 1 $
+  -- listen (cF 1 "87") $
+  -- degOffsetBy (1/7) (cF 0 "16") $
+  -- someCyclesBy 0.36
+  -- (listen 0) $
+  -- sometimesBy 0.3
+  -- (fast ("1 ! 2" * "<0.125 0.5 0.06>")) $
+  -- sometimesBy 0.6
+  -- (spreadf [listen 0, degradeBy 0.85, slow 2]) $
+  -- slow 8 $
+  (<| amp "0.9(<9 4 6>, 14, 2) * 2") $
+  s "Sd_runglerDeter"
+    # begin 0.0
+    # end 1.0
+    # sustain 2.0
+    # attack 0.0010000000474975
+    # release "0.3 1"
+    # curve "4.0"
+    # envPow 1.0
+    # speed "<0.8 1.4> 1.4 2" -- 1.2
+    # accelerate "<0.4 1 0.12>"
+    # lfSrc1Sel 0
+    # lfSrc1Rate 2.70
+    # lfSrc2Sel "<0 1> <2 4>"
+    # lfSrc2Rate 1.041
+    # switchSrcRate 10.9 -- 74.4
+    # ffreq ("10.92 24 <0.2 65>" * "<20 2 6>")
+    # pan (range 0.2 0.8 $ segment 64 $ slow "2 4" (cosine * ((choose [0.125, 6.25e-2] ~>) sine)))
+    # gain 1
+    # orbit 1
+  ,
+  listen 0 $
+  -- listen (cF 1 "88") $
+  -- degOffsetBy (1/7) (cF 0 "17") $
+  (<| amp "~@1.5 0.8 [~@0.75 0.9] _ <[~ 0.9] 0.94> ~@0.5 <[~@0.75 0.9] [~ 0.8 ~]>")
+  -- (<| amp "1(<3 4>, 5, <2 1>)")
+  $ s "Sd_stochadiet4"
+    # attack 0.1
+    # release 0.6
+    # begin 0
+    # end (1 * (range 0.04 1 $ slow 2 cosine))
+    # speed 0.5
+    # sustain 0.21
+    # sdm 0.9013
+    # from 4
+    # dest 16 -- "14 4 14"
+    # repeats 1.2 -- "<<4 42> 4200>"
+    # sinMod 60 -- "60 180"
+    # pan (range 0.2 0.8 $ segment 64 $ slow "2 4" (cosine * ((choose [0.125, 6.25e-2] ~>) sine)))
+    # gain 0.7
+  ,
+  listen 1 $
+  -- listen (cF 1 "89") $
+  -- degOffsetBy (1/7) (cF 0 "18") $
+  (<| amp "0.87(2, 4, <2 0>) [~ 0.3 0.8]")
+  $ s "Sd_chaosEngine"
+    -- # amp 0.8
+    # begin 0.0
+    # end 1.0
+    # sustain 8
+    # freq 290 -- 90
+    # modPhaseFreq 0.8123 -- 0.12345000356436
+    # modPhaseMul 678
+    # modPhaseAdd 9.0
+    # modAmpFreq 101.0
+    # modAmpMul 0.420000000298023
+    # modAmpAdd 0.80000001192093
+    # modOffsetFreq 250
+    # modOffsetWidth 0.25
+    # modOffsetMul 0.125
+    # modOffsetAdd "-0.25"
+    # modFreqFreq 210
+    # gain 0.5
+    -- # orbit 1
+] -- # cps 1.2
+
+xfadeIn 1 8 $
+-- d1 $
+stack [
+  listen 1 $
+  (<| amp "~@1.5 0.8 [~@0.75 0.9] _ <[~ 0.9] 0.94> ~@0.5 <[~@0.75 0.9] [~ 0.8 ~]>")
+  -- (<| amp "1(<3 4>, 5, <2 1>)")
+  $ s "Sd_stochadiet4"
+    # attack 0.1
+    # release 0.6
+    # begin 0
+    # end (1 * (range 0.04 1 $ slow 2 cosine))
+    # speed 1
+    # sustain 1
+    # sdm 0.213 -- 0.713
+    # from 5
+    # dest "14 138" -- "14 4 14"
+    # repeats "<<4 42> 4200>"
+    # sinMod "0.2 3.4 34" -- "60 180"
+    # hpf 70
+    # pan (range 0.2 0.8 $ segment 64 $ slow "2 4" (cosine * ((choose [0.125, 6.25e-2] ~>) sine)))
+    # gain 0.78
+] -- # cps 1.2
+
+d1 $
+stack [
+    listen (cF 1 "87") $
+    degOffsetBy (1/7) (cF 0 "16") $
+    fast 2 $
+    (<| amp "~ 0.9(2, 3) <[~ 0.6 0.9] 0.9>") $
+    s "Sd_kickRingz"
+        # begin 0.0
+        # end 1.0
+        # sustain 1.0
+        # attack 0.0
+        # release 1.2000000476837
+        # envPow 1.0
+        # accelerate 1
+        # speed "0.7 <1 1.2>"
+        # freq ((scale "bhairav" "3 .. 8") + 0.58)
+        # clickCurve "-4.0"
+        # clickInScale 1
+        # clickEnvPow 1.0
+        # clickHpf 80.0
+        # clickHpRq 1.0
+        # clickLpf 1300.0
+        # clickLpRq 0.1
+        # clickAmp 1.0
+        # envL1 0.10000000149012
+        # envL2 10.2000000476837
+        # envL3 3.0
+        # envL4 0.0999999046326
+        # envL5 0.10000000149012
+        # envT1 0.10000000149012
+        # envT2 0.20000000298023
+        # envT3 0.0
+        # envT4 0.10000000149012
+        # curve "2.0"
+        # envpL1 0.010000000149012
+        # envpL2 8.2000000476837
+        # envpL3 3.0
+        # envpL4 130.999999046326
+        # envpT1 0.10000000149012
+        # envpT2 0.0
+        # envpT3 0.342000000476837
+        # curvep "-4.0"
+        # dcy 0.8
+        # ffreq 1000.0
+        # hpf 70
+        # gain 0.6
+        # orbit 1
+    ,
+    listen (cF 1 "88") $
+    degOffsetBy (1/7) (cF 0 "17") $
+    -- fast 2 $
+    (<| amp "<[~ 0.6 0.9] 0.9> ~ 0.9(2, 3)") $
+    s "Sd_kickRingz"
+        # begin 0.0
+        # end 1.0
+        # sustain 1.0
+        # attack 0.0
+        # release 1.2000000476837
+        # envPow 1.0
+        # accelerate 1
+        # speed "0.7 <1 1.2>"
+        # freq 34
+        # clickCurve "-6.0"
+        # clickInScale 4
+        # clickEnvPow 1.0
+        # clickHpf 40.0
+        # clickHpRq 1.0
+        # clickLpf 13000.0
+        # clickLpRq 0.1
+        # clickAmp 2
+        # envL1 0.10000000149012
+        # envL2 10.2000000476837
+        # envL3 3.0
+        # envL4 0.0999999046326
+        # envL5 0.10000000149012
+        # envT1 0.10000000149012
+        # envT2 0.20000000298023
+        # envT3 0.0
+        # envT4 0.10000000149012
+        # curve "-12"
+        # envpL1 0.010000000149012
+        # envpL2 68.2000000476837
+        # envpL3 3.0
+        # envpL4 0.999999046326
+        # envpT1 0.10000000149012
+        # envpT2 0.0
+        # envpT3 0.342000000476837
+        # curvep "4.0"
+        # dcy 0
+        # ffreq 100.0
+        # hpf 110
+        # gain 0.82
+        -- # orbit 1
+    ,
+    listen (cF 1 "89") $
+    degOffsetBy (1/7) (cF 0 "18") $
+    sometimesBy 0.1
+    (listen 0) $
+    (<| amp "[<~ [~ 0.6 0.9] 0.9> 0.9(2, 3, <2 1>)]*<4 1 <4 1>>") $
+    s "Sd_kickRingz"
+        # begin 0.0
+        # end 1.0
+        # sustain 1.0
+        # attack 0.0
+        # release 1.2000000476837
+        # envPow 1.0
+        # accelerate 1
+        # speed 1.1 -- "0.7 <1 1.2>"
+        # freq 134
+        # clickCurve "-2.0"
+        # clickInScale 3
+        # clickEnvPow 1.0
+        # clickHpf 80.0
+        # clickHpRq 0.47
+        # clickLpf 13000.0
+        # clickLpRq 0.1
+        # clickAmp 1
+        # envL1 0.10000000149012
+        # envL2 10.2000000476837
+        # envL3 3.0
+        # envL4 0.0999999046326
+        # envL5 0.10000000149012
+        # envT1 0.10000000149012
+        # envT2 0.20000000298023
+        # envT3 0.0
+        # envT4 0.10000000149012
+        # curve "1.2"
+        # envpL1 0.010000000149012
+        # envpL2 8.2000000476837
+        # envpL3 32.0
+        # envpL4 0.999999046326
+        # envpT1 0.10000000149012
+        # envpT2 1.0
+        # envpT3 0.342000000476837
+        # curvep "-4.0"
+        # dcy 0
+        # ffreq 90.0
+        # hpf 110
+        # gain 0.9
+    ,
+    listen (cF 1 "90") $
+    degOffsetBy (1/7) (cF 0 "19") $
+    sometimesBy 0.36
+    (listen 0) $
+    (<| amp "0.9(2, 3, <1 2 5>)") $
+    s "Sd_kickRingz"
+        # begin 0.0
+        # end 1.0
+        # sustain 1.0
+        # attack 0.0
+        # release 1.2000000476837
+        # envPow 1.0
+        # accelerate 1
+        # speed "0.7 <1 1.2>"
+        # freq 34
+        # clickCurve "-6.0"
+        # clickInScale 4
+        # clickEnvPow 1.0
+        # clickHpf 40.0
+        # clickHpRq 1.0
+        # clickLpf 13000.0
+        # clickLpRq 0.1
+        # clickAmp 0
+        # envL1 0.10000000149012
+        # envL2 10.2000000476837
+        # envL3 3.0
+        # envL4 0.0999999046326
+        # envL5 0.10000000149012
+        # envT1 0.10000000149012
+        # envT2 0.20000000298023
+        # envT3 0.0
+        # envT4 0.10000000149012
+        # curve "-2"
+        # envpL1 6.01
+        # envpL2 8.2000000476837
+        # envpL3 23.0
+        # envpL4 10.999999046326
+        # envpT1 0.1
+        # envpT2 8.0
+        # envpT3 0.03
+        # curvep "2.4"
+        # dcy 0.18
+        # ffreq 1000.0
+        # hpf 120
+        # gain 0.43
+]
+
+d1 $
+stack [
+  listen (cF 1 "87") $
+  degOffsetBy (1/7) (cF 0 "16") $
+  sometimesBy 0.13 (listen 0) $
+  (<| amp "{~ 0.9(2, 3) <[~ 0.6 0.9] 0.9>}%7") $
+  s "Sd_runglerDeter"
+    # begin 0.0
+    # end 1.0
+    # sustain 1.0
+    # attack 0.0010000000474975
+    # release 0.83999999761581
+    # curve "-4.0"
+    # envPow 1.0
+    # speed "3 1 <2 1>"
+    # lfSrc1Sel 1.0
+    # lfSrc1Rate 70
+    # lfSrc2Sel 1.0
+    # lfSrc2Rate 0.24
+    # switchSrcRate 140.4
+    # ffreq 24.0
+    # hpf 55
+    # gain 1.2
+  ,
+  listen (cF 1 "88") $
+  degOffsetBy (1/7) (cF 0 "17") $
+  sometimesBy 0.53 (listen 0) $
+  ((5/7)<~) $
+  whenmod "14 24" "13 22"
+  (slow "4 2") $
+  (<| amp "{0.9(2, 3, 1) ~ <[~ 0.6 0.9] ~>}%[7 3.5]") $
+  s "Sd_runglerDeter"
+    # begin 0.0
+    # end 1.0
+    # sustain 1.0
+    # attack 0.001
+    # release 1
+    # curve "8.0"
+    # envPow 1.0
+    # speed "<0.4 0.6 0.5>"
+    # accelerate 0.98
+    # lfSrc1Sel 4
+    # lfSrc1Rate 0.3
+    # lfSrc2Sel 4
+    # lfSrc2Rate 31.4
+    >| switchSrcRate 318.9
+    # ffreq 30.2 -- (24.0 + (smooth $ slow "2 4" $ range "-2" 6 $ cosine))
+    # hpf 90
+    # pan (range 0.3 0.7 $ slow "2 3" cosine)
+    # gain 1.2
+  ,
+  listen (cF 1 "89") $
+  degOffsetBy (1/7) (cF 0 "18") $
+  sometimesBy 0.21 (listen 0) $
+  ((2/7) ~>) $
+  (<| amp "{<[~ 0.6 0.9] 0.9> 0.9(2, 3, 1) ~}%7") $
+  s "Sd_runglerDeter"
+    # begin 0.0
+    # end 1.0
+    # sustain 0.96
+    # attack 0.010000000474975
+    # release 0.8
+    # legato 3
+    # curve "6.0"
+    # envPow 1.0
+    # speed 1
+    # accelerate 1
+    # lfSrc1Sel 3
+    # lfSrc1Rate 270
+    # lfSrc2Sel 2
+    # lfSrc2Rate 24.2
+    # switchSrcRate 6.4
+    # ffreq 78
+    # hpf 100
+    # gain 1.4
+  ,
+  listen (cF 1 "90") $
+  degOffsetBy (1/7) (cF 0 "19") $
+  someCyclesBy 0.26 (listen 0) $
+  -- whenmod "19 36" "18 34"
+  -- ((3/7) ~>) $
+  (<| amp "0.9(9, 14, 2)*2") $
+  s "Sd_runglerDeter"
+    # begin 0.0
+    # end 1.0
+    # sustain 1.0
+    # attack 0.0010000000474975
+    # release "0.3 1"
+    # curve "-4.0"
+    # envPow 1.0
+    # speed 2
+    # accelerate 0.4
+    # lfSrc1Sel 0
+    # lfSrc1Rate 27
+    # lfSrc2Sel 0
+    # lfSrc2Rate 0.41
+    # switchSrcRate 74.4
+    # ffreq 0.92
+    # pan (range 0.2 0.8 $ segment 64 $ slow "2 4" (cosine * ((choose [0.125, 6.25e-2] ~>) sine)))
+    # gain 0.71
+] # cps 0.4
+
+d1 $ -- micro-onde
+stack [
+  -- hi
+  listen (cF 1 "87") $
+  degOffsetBy (1/7) (cF 0 "16") $
+  -- fast 2 $
+  (<| level "{~ 0.9 [~ 0.9] 0.9}%7") $
+  s "kickbass_Sd"
+    # attack "0.01 0.1"
+    # sustain 1
+    # release 0.22
+    # atk 0.1
+    # dcy 0.2
+    # rls 0.99
+    # fratio 0.05
+    # noise 1
+    # freq1 120
+    # freq2 50
+    # freq3 "30 10 30 2"
+    # dc 0.6
+    # aamp1 6
+    # aamp2 2
+    # aamp3 2
+    # aamp4 1
+    # curve1 "-4"
+    # curve2 "-2"
+    # curve3 "-4"
+    # famp1 0
+    # famp2 0
+    # famp3 0
+    # famp4 0
+    # p1 0.3
+    # oamp 0.2
+    # owhich2 2
+    # ochoose 3
+    # filter 20000
+    # gain 1
+  ,
+  -- cym
+  listen (cF 1 "88") $
+  degOffsetBy (4/7) (cF 0 "17") $
+  every 3
+  (juxBy "4 <2 3>" ((3/7) ~>)) $
+  fast 2 $
+  (<| amp "~ 0.9")
+  $ s "additiveGabor_Sd"
+    # attack 0
+    # release 0.8
+    # sustain 1
+    # curve "-14"
+    # envPow 1
+    # freq 1239.3
+    # index 20.89
+    # iScale "<0.2 2>"
+    # time 1
+    # iAtk 0.2
+    # iRel 0.5
+    # factor 1
+    # width 0.2
+    # phaseModFreq 0.05
+    # mRatio 1
+    # cRatio 1
+    # gain 0.75
+  ,
+  -- snare
+  listen (cF 1 "89") $
+  degOffsetBy (4/7) (cF 0 "18") $
+  -- fast "1 <2 4>" $
+  ((2/7) ~>) $
+  (<| amp "0.87(2, 4, <2 0>) [~ 0.3 0.8]")
+  $ s "complexosc_Sd"
+    # attack (0.001 * (range 0.25 3 $ slow 4.5 sine))
+    # release (0.1 * (range 0.25 1 $ fast 4.5 (((5/7) ~>) sine)))
+    # sustain 1
+    # curve "-4"
+    # envPow 1
+    # feedBack 1.32
+    # freq1 390
+    # fm1 3.1
+    # pm1 0.8
+    # amp1 1
+    # ring1 8.91
+    # offset1 0.9
+    # freq2 507
+    # fm2 0.4
+    # pm2 89
+    # amp2 1
+    # ring2 0.1
+    # offset2 0
+    # fold 0.80000001192093
+    # wrap 0.9
+    # switch 1
+    # pan (range 0.3 0.7 $ segment 8 $ fast 2.25 (cosine * (((1/7) <~) tri)))
+    # gain 0.4
+  ,
+  -- bass
+  listen (cF 1 "90") $
+  degradeBy (cF 0 "19") $
+  every 4
+  (within (4/7, 1) (bite 4 "2 1 0 3")) $
+  ((7/14) ~>) $
+  (<| amp "~@1.5 0.8 [~@0.75 0.9] _ <[~ 0.9] 0.94> ~@0.5 <[~@0.75 0.9] [~ 0.8 ~]>")
+  $ s "pnoise_Sd"
+    # attack 0.1
+    # release 0.9
+    # sustain 0.4
+    # curve "-2"
+    # envPow 1
+    # globalEnvNoise 0.3
+    # rMajor 1
+    # rMinor 0.25
+    # tMajor 3
+    # sMinor 1.5
+    # freq_u 10
+    # freq_v 110
+    # scaleX 1
+    # scaleY "1 0.83 2"
+    # scaleZ 1
+    # hpf 90
+    # gain 1.1
+]

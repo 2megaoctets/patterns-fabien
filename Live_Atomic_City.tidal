@@ -7,48 +7,42 @@ stack [ -- %4
   listen (cF 1 "87") $
   degOffsetBy (1/7) (cF 0 "16") $
   ((0.25) ~>) $
-  (<| amp "~@0.5 0.9@0.5 1(2, 3)")
-  $ s "Sd_stochadiet3"
-    # attack 0.01
-    # release 0.68
+  (<| amp "1(3, 7)")
+  $ s "Sd_stochadiet4"
+    # attack 0.1
+    # release 1.86
     # begin 0
     # end 1
-    # speed 1
-    # sustain 0.5
-    # timeStep 0.25
-    # start 1
-    # from 100
-    # to 120
-    # sdm 31
-    # minLev 1.4
-    # maxLev 1.8
-    # brownStep 190
-    # hpf 60
-    # gain 1.23
+    # speed 0.021
+    # sustain 0.1
+    # sdm 0.13
+    # repeats 14.0
+    # sinMod 260.0
+    # gain 0.72
   ,
   -- clap
   listen (cF 1 "88") $
   degOffsetBy (1/7) (cF 0 "17") $
   (<| amp "[~@0.98 0.9@0.5 1(2, 3)]")
   $ s "Sd_stochadiet5"
-    # attack 0.1
-    # release 0.6
+    # attack 0.021
+    # release 0.08
     # begin 0
     # end 1
     # speed 1
     # sustain 1
     # filtSpeed 1
     # filtCenter 20
-    # sdm 2.91
-    # modFreq 10.09
+    # sdm 0.91
+    # modFreq "<10.09 2>"
     # filtBw 14
-    # gain 0.93
+    # gain 0.74
   ,
   -- noiseclap
   listen (cF 1 "89") $
   degOffsetBy (1/7) (cF 0 "18") $
     -- (<| amp "~@0.98 0.9@0.5 1(2, 3)")
-  (<| amp "1(2, 3) 0.9@0.5 ~@0.98")
+  (<| amp "1(3, 7)")
   $ s "Sd_stochadiet5"
     # attack 0.1
     # release 0.08 -- (smooth $ (0.16 * (range 0.5 4 $ slow (smooth $ "4 2 1") cosine)))
@@ -58,63 +52,83 @@ stack [ -- %4
     # sustain 1
     # filtSpeed 1
     # filtCenter 20
-    # sdm "[100, 20.91]"
+    # sdm "<10.12 [100, 20.91]>"
     # modFreq "[10.09, 0.09]"
     # filtBw 12
-    # gain 0.93
+    # gain 0.82
   ,
   -- snare
   listen (cF 1 "90") $
   degOffsetBy (1/7) (cF 0 "19") $
-  (<| amp "<[0.9@2 [[~ 0.6 0.9] ~] 0.9(2, 4, <1 1.4>)] [0.9@2 0.9(2, 4, <1 1.4>) [[~ 0.6 0.9] ~]]>")
-  $ s "Sd_stochadiet2"
-    # attack 0.002 -- (0.002 * (range 0.5 20 $ slow 3 perlin))
-    # release (0.25 * (range 0.25 2 $ slow 2 sine))
+  (<| level "[~ 0.8 [0.6 0.8]]")
+  $ s "plaits"
+    # attack 0.1
+    # release 2
+    # sustain 10
     # begin 0
     # end 1
-    # speed 4
-    # sustain 1
-    # sdm 0.07
-    # repeats 32
-    # from 8
-    # to 30
-    # gain 1.08
+    # timbre 0.098
+    # freq 30 -- "<30 41>"
+    # engine 2 -- "6 <1 5 9> 6 4"
+    # harm 20.99
+    # morph (smooth (slow 4 $ "0.3 2" * 0.9))
+    # lpgdecay 2.98
+    # lpgcolour 2
+    # hpf 60
+    # gain 0.94
   ,
   -- lazer
   listen (cF 1 "91") $
   degOffsetBy (1/7) (cF 0 "20") $
-  (<| amp "<[1(2, 3) 0.98]/2 [1(2, 3) 0.98]>")
-  $ s "Sd_stochadiet1"
-    # attack 0.1
-    # release (0.9 * (smooth $ range 0.5 1.2 $ slow 2 sine))
-    # begin 0
+  fast "3 6" $
+  (<| amp "1(2, 5, <2 3>)")
+  $ s "braids"
+    # attack 0.0001
+    # release 0.12
+    # sustain 0.26
+    # begin 0.33
     # end 1
-    # speed 1
-    # sustain 1
-    # sdm 1
-    # modSin 0.04
-    # from 9
-    # to 1.2
-    # minSeq 0.1
-    # maxSeq 3
-    # gain 1.08
+    # freq 130
+    # timbre 10.5
+    # color 0.015
+    # model 4 -- "4 5 <3!4 7> 4"
+    # gain 0.75
   ,
   -- bass
   listen (cF 1 "92") $
   degOffsetBy (1/7) (cF 0 "21") $
-  (<| amp "0.9(2, 3, <1 2>) ~")
-  $ s "Sd_stochadiet4"
-    # begin 0
-    # end 1
-    # speed 1
-    # sustain 1
-    # sdm 10
-    # repeats 4
-    # from 5
-    # to 0.8
-    # sinMod 60
-    # gain 0.98
-] # cps 0.67
+  fast "4 4 2" $
+  (<| amp "[~ 0.53] 0.9(2, 3, <1 2>) ~")
+  $ s "Tonic_Sd"
+      # attack 0.03
+      # release 0.85
+      # sustain 1
+      # curve "-4"
+      # envPow 1
+      # oscfreq 60
+      # lfofreq 300
+      # lfoamount 0
+      # penvamount 0
+      # decaycurve "-9"
+      # patt 0.0010000000474975
+      # pdec 1.20000000298023
+      # shamount 0
+      # shrate 3
+      # ampatt 0.000010000000474975
+      # ampdec 0.9999998807907
+      # ampdecaycurve "-5"
+      # oscwaveform 0
+      # noiseatt (0.0001 * (range 0.001 5000 $ slow 0.75 (sine * (((choose [1/7, 3/7, 4/7]) ~>) $ tri))))
+      # noisedec (0.17 * (range 0.25 6 $ fast "<1 2>" (((choose [5/7, 2/7, 8/7]) ~>) $ cosine)))
+      # noiseamp 0.23
+      # mixfade "-0.7"
+      # nfiltfreq (1400 * (range 0.1 1 $ quantise 5 $ slow 4 (sine)))
+      # noisereso (0.02 * (range 0.1 10 $ slow 2 perlin))
+      # noisefiltselect 1
+      # drive 2
+      # hpf 70
+      # gain 0.88
+] -- # cps 0.27
 
 d1 $ -- emilie
 someCyclesBy 0.18
@@ -1046,7 +1060,7 @@ stack [ -- % 7
     # frq1_1 8
     # frq1_2 2
     # frq1_3 3
-    # frq1_4 4
+    # frq1_4 4sudo systemctl restart cpufrequtils
     # frq1_5 5
     # frq1_6 6
     # frq1_7 7
