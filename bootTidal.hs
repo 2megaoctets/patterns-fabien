@@ -1577,6 +1577,13 @@ let only = (hush >>)
     verbRoomLfo = pF "verbRoomLfo"
     decTime2 = pF "decTime2"
     decTimeDiv = pF "decTimeDiv"
+    --
+    earlyRef = pF "earlyRef"
+    dryLev = pF "dryLev"
+    impulseFreq1 = pF "impulseFreq1"
+    impulseFreq2 = pF "impulseFreq2"
+    impulseFreq3 = pF "impulseFreq3"
+    impulseFreq4 = pF "impulseFreq4"
 :}
 
 :{
