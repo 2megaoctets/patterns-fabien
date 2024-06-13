@@ -288,7 +288,7 @@ stack [
         # ffreq 1000.0
         # hpf 120
         # gain 0.43
-]
+] # cps 0.56
 
 d1 $
 stack [

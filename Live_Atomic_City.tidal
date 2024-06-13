@@ -128,7 +128,7 @@ stack [ -- %4
       # drive 2
       # hpf 70
       # gain 0.88
-] -- # cps 0.27
+] # cps 0.27
 
 d1 $ -- emilie
 someCyclesBy 0.18
@@ -1060,7 +1060,7 @@ stack [ -- % 7
     # frq1_1 8
     # frq1_2 2
     # frq1_3 3
-    # frq1_4 4sudo systemctl restart cpufrequtils
+    # frq1_4 4
     # frq1_5 5
     # frq1_6 6
     # frq1_7 7
@@ -1176,7 +1176,7 @@ stack [ -- % 7
   ,
   someCyclesBy 0.21
   (
-    chop "1.3 1.5"
+    chop "1 2"
     . every 2 rev
     . (|* release (choose [5, 2, 1.5]))
     . (|* gain 0.95)
