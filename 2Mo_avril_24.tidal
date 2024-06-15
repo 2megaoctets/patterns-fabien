@@ -4,7 +4,7 @@ resetCycles
 do
   setcps 0.64
   d1 $
-    stack [
+    stack [ -- Guillaume Tell %6
       listen (cF 1 "87") $
       degOffsetBy (4/7) (cF 0 "16") $
       someCyclesBy 0.21
@@ -179,7 +179,7 @@ do
 do
   setcps 0.64
   d1 $
-    stack [ -- 
+    stack [ -- alliance etnik %5
       listen (cF 1 "87") $
       degOffsetBy (4/7) (cF 0 "16") $
       ((<| level "{[0.9 0.6]*<3 [3 4]>}%1.25") $
@@ -318,7 +318,7 @@ do
 
 do
   setcps 0.64
-  d1 $
+  d1 $ -- chaleur %7
     stack [
       listen (cF 1 "87") $
       degOffsetBy (4/7) (cF 0 "16") $
@@ -471,11 +471,10 @@ do
 
 do
   setcps 0.56
-  d1 $ -- kk_saskia mini blast beat
+  d1 $ -- no kick %4 -- kk_saskia mini blast beat
     stack [
       listen (cF 1 "87") $
       degOffsetBy (4/7) (cF 0 "16") $
-      -- whenmod (10 * (sine * 0.25)) ("8 9" * (slow "2 4" (sine * 0.25)))
       every 8
       ((# speed 0.8) . (# hpf 72)) $
       someCyclesBy 0.18
@@ -530,11 +529,9 @@ do
       ,
       listen (cF 1 "88") $
       degOffsetBy (2/7) (cF 0 "17") $
-      sometimesBy 0.22
-      (mask (scramble 2 "0 1")) $
       slow 2 $
       ((0.48) <~) $
-      (<| amp "~ [0.93 [~ [0.6 1]]]@3") $
+      (<| amp "~ [0.93 [~ [0.6?0.5 1]]]@3") $
       s "Sd_stochadiet5" -- clap
         # attack 0.1
         # release 0.08 -- (smooth $ (0.16 * (range 0.5 4 $ slow (smooth $ "4 2 1") cosine)))
@@ -609,7 +606,7 @@ do
 
 do 
   setcps 0.55
-  d1 $ -- animal %4
+  d1 $ -- tech house couille %4
     stack[
       listen (cF 1 "87") $
       degOffsetBy (1/7) (cF 0 "16") $
