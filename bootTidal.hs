@@ -1717,12 +1717,9 @@ let only = (hush >>)
     sineLfo1 = pF "sineLfo1"
     sineLfo2 = pF "sineLfo2"
     freqShiftLfo = pF "freqShiftLfo"
-    roomsize1 = pF "roomsize1"
     revtime1 = pF "revtime1"
-    roomsizeLfo = pF "roomsizeLfo"
     revtimeLfo = pF "revtimeLfo"
     freqShiftDivArray = pF "freqShiftDivArray"
-    roomsize2 = pF "roomsize2"
     revtime2 = pF "revtime2"
     --
     freqFactor1 = pF "freqFactor1"
