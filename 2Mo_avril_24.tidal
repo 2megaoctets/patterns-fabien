@@ -710,4 +710,190 @@ do
         # hpf 90
         # gain 0.6
     ]
+
+do
+  setcps 1.03
+  let emblfo rate seg waveSel = segment seg $ fast rate $ select waveSel [sine, cosine, tri, saw, square, isaw, rand]
+      emblfobi rate seg waveSel = (emblfo rate seg waveSel) * 2 - 1
+      emblinenv levels times = slow times $ smooth levels
+      emblfomelo = ((emblfobi 0.75 "[4 11]" (emblinenv "0.2 0.8 0.6" "0.3 0.2 0.4")) * 173) + 0
+      embbrkcond = whenmod 7 "<5 6>"
+  d1 $ -- mc303 super groove %5
+    stack [
+      listen (cF 1 "87") $
+      degOffsetBy (3/5) (cF 0 "16") $
+      every 4
+      (|+ cFormFreq (emblfomelo * 0.5)) $
+      -- embbrkcond
+      -- (
+      --   (linger "<0.25 0.5>")
+      --   . (# attack 0.098) . (|* pfEnd (10 + (emblfomelo * 0.05))) . (|* gain 1.12)
+      -- ) $
+      rotL 3 $
+      slowSqueeze "2 2 2" $
+      ((<| amp "0.4(2, 5, <1 2>)*<2 2 [2 1]>") $
+      s "Sd_kick_electro") -- kick
+        # begin 0.0
+        # end 1.0
+        # sustain 1.0
+        # freq 210
+        # accelerate "-2"
+        # envbfL1 6161.0
+        # envbfL2 2220.0
+        # envbfL3 81.0
+        # envbfRel 0.003
+        # envbfC "-4.0"
+        # envbaL1 0.02
+        # envbaL2 93.3
+        # envbaL3 14
+        # envbaL4 5.8
+        # envbaL5 0.3
+        # envbaT1 0.012
+        # envbaT2 0.012
+        # envbaT3 0.03
+        # envbaT4 0.2
+        # envbaC1 0.69 -- 44
+        # envbaC2 "-24"
+        # envbaC3 144
+        # envbAmp 0.2
+        # envbTime 0.981
+        # pfSt 0.7
+        # pfEnd 80
+        # pfDur 0.026
+        # envpaL1 10.0
+        # envpaL2 90.4
+        # envpaL3 0.1
+        # envpaL4 0.2
+        # envpaL5 6.0
+        # envpaT1 0.0001
+        # envpaT2 0.014
+        # envpaT3 0.3
+        # envpaT4 0.12
+        # envpaC1 "114"
+        # envpaC2 "-190"
+        # envpaC3 "-400"
+        # envpAmp 0.8
+        # envpTime 0.98
+        # envcaAtt 0.000001
+        # envcaRel 0.22
+        # envcAmp 1.39
+        # cFundFreq (290 + emblfomelo)
+        # cFormFreq 4
+        # cBwFreq 20.41
+        # lpfFreq 14000
+        -- # hpf 60
+        # gain 0.84
+        # orbit 1
+      ,
+      listen (cF 1 "88") $
+      degOffsetBy (6/5) (cF 0 "17") $
+      embbrkcond
+      (listen 0) $
+      (<| amp "[0.3?0.3 [~@2 <0.5 [~@3 0.5]>] ~@0.5]@3 ~@2") $
+      s "Sd_sn" -- snare1
+        # freqMul2 2.25
+        # lfoPhase2 1.0967
+        # filterDecay 0.00102
+        # freqOffset 0.026
+        # verbRoom 0.3
+        # freqAdd 0.6
+        # lfoPhase1 0.7
+        # verbMix 0
+        # freqBase 462.4
+        # freqMul 0.073
+        # begin 0
+        # end 1
+        # speed 0.9
+        # accelerate 4
+        # attack 0.001
+        # decay 1
+        # sustain 0.8
+        # release 0.01921
+        # freq 312
+        # gain 0.71
+        -- # orbit 1
+      ,
+      listen (cF 1 "89") $
+      degOffsetBy (1/5) (cF 0 "18") $
+      (# pan (range 0.3 0.7 $ segment 24 $ fast "<2 3>" tri)) $
+      (<| amp "[~ [<0.3 ~> 0.5](1, 3, <5 ! ! 6>)@1.5]") $
+      s "Sd_cymnew1" -- snare2
+        # begin 0.0
+        # end 1.0
+        # attack 0.0001
+        # sustain 0.8
+        # release 0.091
+        # freq 6204
+        # accelerate "-15"
+        # envL1 0
+        # envL2 1
+        # envL3 0.2
+        # envL4 0
+        # envT1 0.12
+        # envT2 0.082
+        # envT3 0.03
+        # curve "8.0"
+        # envLScale 1.0
+        # envTScale 0.4
+        # tu 6.0
+        # gain 0.5
+        # orbit 2
+      ,
+      listen (cF 1 "90") $
+      degOffsetBy (2/5) (cF 0 "19") $
+      (# pan (range 0.4 0.8 $ segment 24 $ fast "<3 6>" sine)) $
+      embbrkcond
+      ((2/5) <~) $
+      chop 6 $
+      (<| amp "[0.3@0.5 0.5@2]") $
+      s "Sd_sn" -- hi2
+        # freqMul2 22.12
+        # lfoPhase2 0.7797144651413
+        # filterDecay 0.13442561030388
+        # freqOffset 3.2626762390137
+        # verbRoom 0
+        # freqAdd 0.31584846973419
+        # lfoPhase1 0.7241695523262
+        # verbMix 0.3
+        # freqBase 96.46
+        # freqMul 90.73
+        # begin 0.0
+        # end 1
+        # speed 1
+        # accelerate 0
+        # decay 1
+        # sustain (segment 8 $ fast "3 6 3" $ range 0.25 0.85 square) -- 1.0
+        # release 0.2
+        # freq 120
+        # gain 1.045
+        -- # orbit 2
+      ,
+      listen (cF 1 "91") $
+      degOffsetBy (7/5) (cF 0 "20") $
+      -- ((<| amp "[~ 0.5 0.9]*3") $ -- OG
+      ((<| amp "[0.5@1.5 0.9]*3") $
+      s "Sd_gutter") -- gutter (randSeed = 8)
+        # begin 0.0
+        # end 1.0
+        # attack 0.0001
+        # sustain 0.358
+        # release 0.19
+        # freq 380
+        # accelerate "-0.2"
+        # gamma 1.29182
+        # omega 0.123
+        # c 3.13
+        # dt 0.391
+        # singlegain 0.99
+        # smoothing 0.26
+        # gains1 1.74
+        # gains2 1.85
+        # freqs1 (1.11125 * cosine)
+        # qs1 0.0002
+        # freqs2 0.0126
+        # qs2 0.074
+        # hpf 90
+        # gain 0.845
+        # orbit 2
+    ]
       

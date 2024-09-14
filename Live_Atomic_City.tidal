@@ -1475,7 +1475,7 @@ stack [ -- % 7
     # rq (0.2 * (rangex 0.28 2 $ slow 4 sine))
     # pan (range 0.3 0.7 $ slow "2 <4 3>" sine)
     # gain 0.97
-] # cps 0.9
+] # cps 0.9 |* gain 0.5
 
 d1 silence
 
