@@ -239,7 +239,7 @@ do
         # gain 0.62
       ,
       listen (cF 1 "89") $
-      degOffsetBy (1/5) (cF 0 "18") $
+      degOffsetBy (4/5) (cF 0 "18") $
       someCyclesBy (2/6)
       (mask "0 1 [0 1 0] 0") $
       ((<| amp ("{[0.9 0.6]*<3 [3 4]>}%1.25" * 0.24)) $
@@ -267,7 +267,7 @@ do
         # begin 0.0
         # end 1.0
         # attack 0.01
-        # sustain 0.58
+        # sustain 1.7
         # release 0.61
         -- # legato 0.6
         # speed 0.11 -- "<1 0.9>"
@@ -1687,3 +1687,265 @@ do
         # orbit 1
     ] |* gain globalGain
 
+
+do
+  setcps 0.69
+  -- resetCycles
+  let ktslfo rate seg waveSel = segment seg $ fast rate $ select waveSel [sine, cosine, tri, saw, square, isaw, rand]
+      ktslfobi rate seg waveSel = (ktslfo rate seg waveSel) * 2 - 1
+      ktslinenv levels times = slow times $ smooth levels
+      ktsbrkprob = 0.34
+  d1 $ -- kartoffelsalat %6
+    stack [
+      listen (cF 1 "87") $
+      degOffsetBy (1 / 3) (cF 0 "16") $
+      whenmod 10 8 (listen 0) $
+      -- every 2
+      (
+        (<| noisereso "0.1 [0.9 0.1] 0.1@2 [0.4 0.9] 0.1") .
+        (<| noisedec (segment 12 $ smooth "0.01 0.1 0.13 0.01 0.1 0.04") ) $
+        (<| noiseatt "0.1 0.24 0.1") $
+        s "Sd_tonic" -- kick & noise
+      )
+        # amp 0.2
+        # begin 0.0
+        # end 1.0
+        # speed 1.0
+        -- # accelerate 0.0
+        # sustain 0.7 -- 1.0
+        # oscfreq 55.0
+        # lfofreq 200.0
+        # lfoamount 0.9 -- 0.0
+        # penvamount 200.0
+        # decaycurve "-8 -5.0"
+        # patt 0.0010000000474975
+        # pdec (0.1 * (1 + ((cF 0 "17") * "0.2 0.0298 0.23")))
+        # shamount 1.8 -- 0.0
+        # shrate 3.0
+        # ampatt 0.0010000000474975
+        # ampdec (1.2 * (1 + ((cF 0 "47") * "0.699999 0.88 0.797")))
+        # ampdecaycurve "-5.0"
+        # oscwaveform 0 -- 1.0
+        -- # noiseatt 0.01 -- 0.0010000000474975
+        -- # noisedec 0.07 -- 0.16400000452995
+        # noiseamp ("0.01 0.1 0.05 0.1" * (1 + ((cF 0 "57") * "0.6 0.2384 1.86")))
+        # mixfade 0.0
+        # nfiltfreq 200.0
+        -- # noisereso 0.1 -- 0.90000000298023
+        # noisefiltselect 1 --  0.0
+        # drive 1.0
+        # hpf 90
+        # gain 0.9
+      ,
+      listen (cF 1 "88") $
+      degOffsetBy (7/6) (cF 0 "17") $
+      someCyclesBy ktsbrkprob
+      (
+        (# lfSrc2Sel 6) .
+        (# lfSrc2Rate 5) .
+        (# switchSrcRate 0.1)
+      ) $
+      (<| amp "[~ 0.9@2] <0.9 [~@2 0.9]> [~@0.5 0.9]") $
+      -- (<| amp "<[~ 0.9@1.3 0.9@0.7] [~@0.25 0.9 0.9@1.25 [~ 0.9?]@0.5]>") $
+      s "Sd_runglerDeter" -- cartoon kick
+        -- # amp 0.9
+        # begin 0.0
+        # end 1.0
+        # sustain 1.0
+        # attack 0.001
+        # release "0.4 1.3 0.4"
+        # curve "8.0"
+        # envPow 1.0
+        # accelerate 0.98
+        # lfSrc1Sel 4
+        # lfSrc1Rate 0.13
+        # lfSrc2Sel 4
+        # lfSrc2Rate 31.4
+        # switchSrcRate 318.9
+        # ffreq 4
+        # hpf 30
+        # gain 1.04
+      ,
+      listen (cF 1 "89") $
+      degOffsetBy (7/6) (cF 0 "18") $
+      someCyclesBy 0.26
+      (# pan (range 0.3 0.7 $ segment 8 $ fast 2.25 (cosine * (((1/7) <~) tri)))) $
+      ((2/7) ~>) $
+      (<| amp "0.87(2, 4, <2 0>) [~ 0.3 0.8]@2") $
+      s "complexosc_Sd" -- snare
+        # attack (0.001 * (range 0.25 3 $ slow 4.5 sine))
+        # release (0.1 * (range 0.25 1 $ fast 4.5 (((5/7) ~>) sine)))
+        # sustain 1
+        # curve "-4"
+        # envPow 1
+        # feedBack 1.32
+        # freq1 390
+        # fm1 3.1
+        # pm1 0.8
+        # amp1 1
+        # ring1 8.91
+        # offset1 0.9
+        # freq2 507
+        # fm2 0.4
+        # pm2 89
+        # amp2 1
+        # ring2 0.1
+        # offset2 0
+        # fold 0.80000001192093
+        # wrap 0.9
+        # switch 1
+        # gain 0.4
+      ,
+      listen (cF 1 "90") $
+      degOffsetBy (4/6) (cF 0 "19") $
+      whenmod 6 (range 4 5.5 (ktslfo "0.3 2 0.12" 12 tri))
+      (
+        (|* index 0.02) .
+        (|* envPow (fast 2 $ smooth "0.06 0.02")) .
+        (|* freq ((smooth "0.22 0.1 0.77 0.9") * "<0.01 0.1>")) .
+        (|* amp 0.92)
+      ) $
+      selectF (ktslinenv "0 1 0 0.67 0" "0.12 0.2 0.24") [ghost' (4/12), ghost' (2/12), ghost' (3/12)] $
+      ((<| amp "0.9(2, 4, 2)@0.5 ~@0.5 [0.4 0.9(2, <4 3>, 1)@2]") $
+      s "additiveGabor_Sd") -- hihat
+        # attack 0
+        # release 0.8
+        # sustain 1
+        # curve "-14"
+        # envPow 1
+        # freq 1239.3
+        # index 12.89
+        # iScale 0.2 -- "<0.2 2>"
+        # time 1
+        # iAtk 0.2
+        # iRel 0.5
+        # factor "1 <5 2>"
+        # width 0.2
+        # phaseModFreq 0.05
+        # mRatio 1
+        # cRatio 1
+        # gain 0.7
+      ,
+      listen (cF 1 "91") $
+      degOffsetBy (1 / 3) (cF 0 "20") $
+        -- whenmod 9 7 (listen 0) $
+        whenmod 6 4
+        (ghostWith (3/6) ((|* gain 0.65) . (|* linedur "0.5 0.2") . (|* rq 0.5))) $
+        (
+          (<| startFreq "{[60?, 10]@1.5 [60 900] [50?, 10]@1.5 [50 1200] 10}%<[6 3] 6>") .
+          (<| smoothHi "-0.8 1 0.5 -0.5 -1 0.3") $
+          (<| decay "{0.1(4,6) 10 0.83 0.1(5,6) <0.4 20>}%1.5") $
+          s "Sd_kickey"
+        ) -- couine
+          # amp 0.15
+          # begin 0.0
+          # end 1.0
+          # speed 1
+          # accelerate "2? 0"
+          # sustain 1.0
+          # startFreqMod (1 * "2 0.5")
+          # endFreq 44.0
+          # endFreqMod 4.3
+          # linedur "{1.94 10.8 0.1 2 10.9}%2"
+          # lowpass (segment 14 $ range "500 1500" 2400 $ fast 3.5 tri)
+          # rq 0.1
+          # sat (1.40 + ((cF 0 "53") * "1 0.5 0.65 0.33"))
+          # smoothLo "-1.0"
+          # foldRange "{1 0.14 1.5 1 0.76}%3"
+          # smoothAmount 0
+          # hpf 90
+          # gain 0.9
+      ,
+      listen (cF 1 "92") $
+      degOffsetBy (5/6) (cF 0 "21") $
+      -- whenmod 8 6 (listen 0) $
+      (<| ringFreq "57.5 105 90 ") $
+      (<| modDur "3.5 10.5 ~ 0.95 20 3.35") $
+      s "Sd_liljedMyst" -- elephant
+        # amp 0.25
+        # begin 0.0
+        # end 1.0
+        # speed 1 -- 1.0
+        # accelerate (0.0 + ((cF 0 "13") * 0.35))
+        # sustain 1.0
+        # pNoiseFreq (0.5 + ((cF 0 "13") * 0.76))
+        # hpfFreq 50.0
+        -- # modDur 10.1540
+        # lfnFreq (10.15 * ((cF 0 "44") * 0.1))
+        -- # ringFreq 275.0
+        # ringDec (1.19 + ((cF 0 "44") * "2 0.2 0.9 0.18 0.23"))
+        # revTime (0.31 * (1 + ((cF 0 "54") * "0.99 9.5 3.6 0.74")))
+        # hpf 210
+        # gain 1.1
+      ,
+      listen (cF 1 "93") $
+      degOffsetBy (2/6) (cF 0 "22") $
+      -- whenmod 6 4 (listen 0) $
+      (
+        (<| seqFreq "[~ 3.5] 1.75 [~ 0.01] 0.75@2 0.1") .
+        (<| freqMax "{1000 14000 800 6500 1000}%1.5") $
+        (<| freqMin "180 <820 150>") $
+          s "Sd_attBreath" -- rattle
+      )
+        # amp 0.2
+        # begin 0.0
+        # end 1.0
+        # speed (1 + ((cF 0 "15") * 0.2))
+        # accelerate (0 + ((cF 0 "15") * 0.4))
+        # sustain 1.0
+        # seqv1 (0.1 + ((cF 0 "55") * 0.2))
+        # seqv2 (0.15 + ((cF 0 "45") * 0.076))
+        # seqv3 (0.071 + ((cF 0 "55") * 0.05))
+        # seqv4 (0.17 + ((cF 0 "45") * 0.1))
+        # seqv5 (0.320 + ((cF 0 "55") * 0.1))
+        -- # seqFreq 3.5 -- 40.0511932373
+        -- # freqMin "10 0"
+        -- # freqMax 15000.0
+        # bwrMod 0.95
+        # pan (segment 6 $ tri)
+        # gain 0.75
+      ,
+      listen (cF 1 "94") $
+      degOffsetBy (1/3) (cF 0 "23") $
+      -- whenmod 7 5 (listen 0) $
+      -- every 4 (listen 0) $
+      (
+        (<| speed "1 0.5@1.5 [~ 0.4] 2@1.5 <~ [~ 1]>") $
+        s "Sd_dx11algo3" -- "melodie"
+      )
+        # amp 0.081
+        # begin 0.0
+        # end 1.0
+        -- # speed 1.0
+        # accelerate 0.0
+        -- # attack "0.1 0.001 0"
+        # sustain 0.23 -- 1.0
+        # release " 0.82 0.12 0.1"
+        # freq "140"
+        # feedback 0.8300000429153
+        # op1att (0.001 + ((cF 0 "16") * "0.001 0.004 0.007 0.009 0.0075"))
+        # op2att (0.016 + ((cF 0 "16") * "0.001 0.004 0.007 0.009 0.0075"))
+        # op3att 0.0010000000474975
+        # op4att 0.10000000474975
+        # op1dec 0.40000000596046
+        # op2dec "3.25 0.15"
+        # op3dec 0.15000000596046
+        # op4dec "1.25 0.45"
+        # op1sus (0.3 + ((cF 0 "46") * "0.00977 0.64826"))
+        # op2sus (0.4 + ((cF 0 "46") * "0.101 0.49012"))
+        # op3sus 0.10000000149012
+        # op4sus 0.10000000149012
+        # op1rel ("0.1 0.7 0.1" + ((cF 0 "56") * "0.1 0.49 0.12"))
+        # op2rel 0.10000000149012
+        # op3rel 0.10000000149012
+        # op4rel 0.10000000149012
+        # op1amt 1.0
+        # op2amt (1 + ((cF 0 "46") * "4.0 3 2 4"))
+        # op3amt (1 + ((cF 0 "56") * "2.0 4.2 1 0.4"))
+        # op4amt (1 + ((cF 0 "16") * "2 5"))
+        # op1tune (1 + ((cF 0 "46") * "33 5"))
+        # op2tune (13 + ((cF 0 "56") * "12 5"))
+        # op3tune (22 + ((cF 0 "16") * "20 5"))
+        # op4tune (34 + ((cF 0 "46") * "50 5"))
+        # lpf (segment 18 $ range 110 4000  $ fast 5 tri)
+    ] |* gain globalGain

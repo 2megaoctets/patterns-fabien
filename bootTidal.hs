@@ -1807,6 +1807,10 @@ let only = (hush >>)
     pmRatio = pF "pmRatio"
     glissIndex = pF "glissIndex"
     panMax = pF "panMax"
+    --
+    rdecay = pF "rdecay"
+    lowpassrq = pF "lowpassrq"
+    pregain = pF "pregain"
 :}
 
 :{
