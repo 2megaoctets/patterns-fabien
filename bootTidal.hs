@@ -1,22 +1,25 @@
+:set prompt-cont ""
 :set -XOverloadedStrings
 :set prompt ""
 
 import Sound.Tidal.Context
 
 import System.IO (hSetEncoding, stdout, utf8)
-
 hSetEncoding stdout utf8
 
--- total latency = oLatency + cFrameTimespan
-tidal <- startTidal (superdirtTarget {oLatency = 0.2, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cFrameTimespan = 1/20})
+tidal <- startTidal (superdirtTarget {oLatency = 0.05, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cVerbose = True, cFrameTimespan = 1/20, cEnableLink = True, cQuantum = 4, cBeatsPerCycle = 4})
 
 :{
-let p = streamReplace tidal
-    -- hush = streamHush tidal
-    hush = mapM_ ($ silence) [d1,d2,d3,d4,d5,d6,d7,d8,d9,d10,d11,d12,d13,d14,d15,d16]
+let only = (hush >>)
+    p = streamReplace tidal
+    hush = streamHush tidal
+    panic = do hush
+               once $ sound "superpanic"
     list = streamList tidal
     mute = streamMute tidal
     unmute = streamUnmute tidal
+    unmuteAll = streamUnmuteAll tidal
+    unsoloAll = streamUnsoloAll tidal
     solo = streamSolo tidal
     unsolo = streamUnsolo tidal
     once = streamOnce tidal
@@ -25,7 +28,10 @@ let p = streamReplace tidal
     nudgeAll = streamNudgeAll tidal
     all = streamAll tidal
     resetCycles = streamResetCycles tidal
+    setCycle = streamSetCycle tidal
     setcps = asap . cps
+    getcps = streamGetcps tidal
+    getnow = streamGetnow tidal
     xfade i = transition tidal True (Sound.Tidal.Transition.xfadeIn 4) i
     xfadeIn i t = transition tidal True (Sound.Tidal.Transition.xfadeIn t) i
     histpan i t = transition tidal True (Sound.Tidal.Transition.histpan t) i
@@ -35,6 +41,7 @@ let p = streamReplace tidal
     jumpIn i t = transition tidal True (Sound.Tidal.Transition.jumpIn t) i
     jumpIn' i t = transition tidal True (Sound.Tidal.Transition.jumpIn' t) i
     jumpMod i t = transition tidal True (Sound.Tidal.Transition.jumpMod t) i
+    jumpMod' i t p = transition tidal True (Sound.Tidal.Transition.jumpMod' t p) i
     mortal i lifespan release = transition tidal True (Sound.Tidal.Transition.mortal lifespan release) i
     interpolate i = transition tidal True (Sound.Tidal.Transition.interpolate) i
     interpolateIn i t = transition tidal True (Sound.Tidal.Transition.interpolateIn t) i
@@ -59,7 +66,7 @@ let p = streamReplace tidal
     d14 = p 14
     d15 = p 15
     d16 = p 16
--- custom function
+    -- custom function
     -- use it with overlay combination
     snowball' :: Int -> (Pattern a -> Pattern a -> Pattern a) -> (Pattern a -> Pattern a) -> Pattern a -> Pattern a
     snowball' depth combinationFunction f pattern = cat $ take depth $
@@ -1285,6 +1292,88 @@ let p = streamReplace tidal
     rotateAmount = pF "rotateAmount"
     sizeEnvAmount = pF "sizeEnvAmount"
     durFreq = pF "durFreq"
+    --
+    oscfreq = pF "oscfreq"
+    lfofreq = pF "lfofreq"
+    lfoamount = pF "lfoamount"
+    penvamount = pF "penvamount"
+    decaycurve = pF "decaycurve"
+    patt = pF "patt"
+    pdec = pF "pdec"
+    shamount = pF "shamount"
+    shrate = pF "shrate"
+    ampatt = pF "ampatt"
+    ampdec = pF "ampdec"
+    ampdecaycurve = pF "ampdecaycurve"
+    oscwaveform = pF "oscwaveform"
+    noiseatt = pF "noiseatt"
+    noisedec = pF "noisedec"
+    nfiltfreq = pF "nfiltfreq"
+    noisereso = pF "noisereso"
+    noisefiltselect = pF "noisefiltselect"
+    mixfade = pF "mixfade"
+    drive = pF "drive"
+    --
+    op1att = pF "op1att"
+    op2att = pF "op2att"
+    op3att = pF "op3att"
+    op4att = pF "op4att"
+    op1dec = pF "op1dec"
+    op2dec = pF "op2dec"
+    op3dec = pF "op3dec"
+    op4dec = pF "op4dec"
+    op1sus = pF "op1sus"
+    op2sus = pF "op2sus"
+    op3sus = pF "op3sus"
+    op4sus = pF "op4sus"
+    op1rel = pF "op1rel"
+    op2rel = pF "op2rel"
+    op3rel = pF "op3rel"
+    op4rel = pF "op4rel"
+    op1amt = pF "op1amt"
+    op2amt = pF "op2amt"
+    op3amt = pF "op3amt"
+    op4amt = pF "op4amt"
+    op1tune = pF "op1tune"
+    op2tune = pF "op2tune"
+    op3tune = pF "op3tune"
+    op4tune = pF "op4tune"
+    --
+    segments = pF "segments"
+    xMajor = pF "xMajor"
+    yMajor = pF "yMajor"
+    circlefreq = pF "circlefreq"
+    --
+    amount = pF "amount"
+    --
+    lfSrc1Sel = pF "lfSrc1Sel"
+    lfSrc1Rate = pF "lfSrc1Rate"
+    lfSrc2Sel = pF "lfSrc2Sel"
+    lfSrc2Rate = pF "lfSrc2Rate"
+    switchSrcRate = pF "switchSrcRate"
+    --
+    lfRate = pF "lfRate"
+    lfPhase = pF "lfPhase"
+    selFilt = pF "selFilt"
+    --
+    selSnd = pF "selSnd"
+    stnf = pF "stnf"
+    --
+    fltAtk = pF "fltAtk"
+    fltRls = pF "fltRls"
+    fltAtkCurve = pF "fltAtkCurve"
+    fltRlsCurve = pF "fltRlsCurve"
+    atkCurve = pF "atkCurve"
+    rlsCurve = pF "rlsCurve"
+    inharmonic = pF "inharmonic"
+    tilt = pF "tilt"
+    lpfCutoff = pF "lpfCutoff"
+    lpfEnvAmount = pF "lpfEnvAmount"
+    lpfSlope = pF "lpfSlope"
+    peakSlope = pF "peakSlope"
+    peakRes = pF "peakRes"
+    --
+    soundmod = pF "soundmod"
     -- mutable synths
     timbre = pF "timbre"
     color = pF "color"
@@ -1363,10 +1452,370 @@ let p = streamReplace tidal
     warpsfreq = pF "warpsfreq"
     warpsvgain = pF "warpsvgain"
     warpseasteregg = pI "warpseasteregg"
+    --
+    sdm = pF "sdm"
+    repeats = pF "repeats"
+    --
+    modSin = pF "modSin"
+    minSeq = pF "minSeq"
+    maxSeq = pF "maxSeq"
+    --
+    timeStep = pF "timeStep"
+    minLev = pF "minLev"
+    maxLev = pF "maxLev"
+    brownStep = pF "brownStep"
+    --
+    sinMod = pF "sinMod"
+    --
+    filtSpeed = pF "filtSpeed"
+    filtCenter = pF "filtCenter"
+    filtBw = pF "filtBw"
+    --
+    softGain = pF "softGain"
+    --
+    dest = pF "dest"
+    --
+    modPhaseFreq = pF "modPhaseFreq"
+    modPhaseMul = pF "modPhaseMul"
+    modPhaseAdd = pF "modPhaseAdd"
+    modAmpFreq = pF "modAmpFreq"
+    modAmpMul = pF "modAmpMul"
+    modAmpAdd = pF "modAmpAdd"
+    modOffsetFreq = pF "modOffsetFreq"
+    modOffsetWidth = pF "modOffsetWidth"
+    modOffsetMul = pF "modOffsetMul"
+    modOffsetAdd = pF "modOffsetAdd"
+    modFreqFreq = pF "modFreqFreq"
+    --
+    readratio = pF "readratio"
+    readfine = pF "readfine"
+    writeratio = pF "writeratio"
+    writefine = pF "writefine"
+    transpose = pF "transpose"
+    readlfofreq = pF "readlfofreq"
+    writelfofreq = pF "writelfofreq"
+    readlfoamp = pF "readlfoamp"
+    writelfoamp = pF "writelfoamp"
+    lppitch = pF "lppitch"
+    lpres = pF "lpres"
+    hppitch = pF "hppitch"
+    hpres = pF "hpres"
+    lpfm = pF "lpfm"
+    hpfm = pF "hpfm"
+    dbdrive = pF "dbdrive"
+    --
+    lpffreq = pF "lpffreq"
+    filtCutOff = pF "filtCutOff"
+    --
+    vibratoSpeed = pF "vibratoSpeed"
+    vibratoDepth = pF "vibratoDepth"
+    vwl = pF "vwl"
+    --
+    fbPow = pF "fbPow"
+    --
+    stSpread = pF "stSpread"
+    --
+    impPhase1 = pF "impPhase1"
+    impPhase2 = pF "impPhase2"
+    impPhase3 = pF "impPhase3"
+    impPhase123 = pF "impPhase123"
+    resMix = pF "resMix"
+    rngF0 = pF "rngF0"
+    rngStruct = pF "rngStruct"
+    rngBrightness = pF "rngBrightness"
+    rngDamping = pF "rngDamping"
+    rngAccent = pF "rngAccent"
+    rngStretch = pF "rngStretch"
+    rngPos = pF "rngPos"
+    rngLoss = pF "rngLoss"
+    roomsizes = pF "roomsizes"
+    revtimeFinal = pF "revtimeFinal"
+    finalVerbMix = pF "finalVerbMix"
+    --
+    filterRes = pF "filterRes"
+    filterMix = pF "filterMix"
+    modRate = pF "modRate"
+    strVTresh = pF "strVTresh"
+    strVFreq = pF "strVFreq"
+    strVAcc = pF "strVAcc"
+    strVStruct = pF "strVStruct"
+    strVBright = pF "strVBright"
+    strVDamp = pF "strVDamp"
+    strVLev = pF "strVLev"
+    sinNoiseAdd = pF "sinNoiseAdd"
+    sigMix = pF "sigMix"
+    sinTrigRate = pF "sinTrigRate"
+    sinTrigDec = pF "sinTrigDec"
+    sinFreqRate = pF "sinFreqRate"
+    sinFreqLo = pF "sinFreqLo"
+    sinFreqLoModRate = pF "sinFreqLoModRate"
+    sinFreqLoModAmt = pF "sinFreqLoModAmt"
+    sinFreqHi = pF "sinFreqHi"
+    sinFreqHiModRate = pF "sinFreqHiModRate"
+    sinFreqHiModAmt = pF "sinFreqHiModAmt"
+    --
+    gamma = pF "gamma"
+    omega = pF "omega"
+    dt = pF "dt"
+    singlegain = pF "singlegain"
+    smoothing = pF "smoothing"
+    gains1 = pF "gains1"
+    gains2 = pF "gains2"
+    freqs1 = pF "freqs1"
+    qs1 = pF "qs1"
+    freqs2 = pF "freqs2"
+    qs2 = pF "qs2"
+    --
+    verbMixLfo = pF "verbMixLfo"
+    decTime4 = pF "decTime4"
+    decTime1 = pF "decTime1"
+    ringzFreq4 = pF "ringzFreq4"
+    ringzFreq1 = pF "ringzFreq1"
+    ringzFreq2 = pF "ringzFreq2"
+    ringzFreq3 = pF "ringzFreq3"
+    decTime3 = pF "decTime3"
+    verbRoomLfo = pF "verbRoomLfo"
+    decTime2 = pF "decTime2"
+    decTimeDiv = pF "decTimeDiv"
+    --
+    earlyRef = pF "earlyRef"
+    dryLev = pF "dryLev"
+    impulseFreq1 = pF "impulseFreq1"
+    impulseFreq2 = pF "impulseFreq2"
+    impulseFreq3 = pF "impulseFreq3"
+    impulseFreq4 = pF "impulseFreq4"
+    --
+    sine1Div1 = pF "sine1Div1"
+    sine1Div2 = pF "sine1Div2"
+    sine1Freq = pF "sine1Freq"
+    sine1FreqMod = pF "sine1FreqMod"
+    sine1Mul = pF "sine1Mul"
+    sine2Freq1 = pF "sine2Freq1"
+    sine2FreqMod = pF "sine2FreqMod"
+    sine2Mul = pF "sine2Mul"
+    sine2Freq2 = pF "sine2Freq2"
+    sine2Fb2 = pF "sine2Fb2"
+    srcADiv = pF "srcADiv"
+    freqShift1 = pF "freqShift1"
+    freqDiv = pF "freqDiv"
+    freqShift2 = pF "freqShift2"
+    freqShift2Mul = pF "freqShift2Mul"
+    roomLfoFreq = pF "roomLfoFreq"
+    revTimeLfoFreq = pF "revTimeLfoFreq"
+    --
+    lfsawFreq = pF "lfsawFreq"
+    --
+    ser1_factor = pF "ser1_factor"
+    ser2_factor = pF "ser2_factor"
+    --
+    noiseRate = pF "noiseRate"
+    noiseFoldLev = pF "noiseFoldLev"
+    srcLev = pF "srcLev"
+    srcLevRand = pF "srcLevRand"
+    srcWformRand = pF "srcWformRand"
+    srcFreqsInterval = pF "srcFreqsInterval"
+    srcFreqModAmt = pF "srcFreqModAmt"
+    rlpfFreqsInterval = pF "rlpfFreqsInterval"
+    rlpfFreqModAmt = pF "rlpfFreqModAmt"
+    --
+    bbpFreq = pF "bbpFreq"
+    bbpFreqModRate = pF "bbpFreqModRate"
+    bbpFreqModAmt = pF "bbpFreqModAmt"
+    bbpBw = pF "bbpBw"
+    bbpBwModRate = pF "bbpBwModRate"
+    bbpBwModAmt = pF "bbpBwModAmt"
+    gverbMix = pF "gverbMix"
+    --
+    imp1Freq = pF "imp1Freq"
+    crkChaosModFreq = pF "crkChaosModFreq"
+    imp2Freq = pF "imp2Freq"
+    blip2Freq = pF "blip2Freq"
+    blip2NumHarm = pF "blip2NumHarm"
+    blip2Lev = pF "blip2Lev"
+    sig2revTime = pF "sig2revTime"
+    sig2revMix = pF "sig2revMix"
+    distortion = pF "distortion"
+    revTotalTime = pF "revTotalTime"
+    revTotalInBw = pF "revTotalInBw"
+    revTotalSpread = pF "revTotalSpread"
+    revTotalTail = pF "revTotalTail"
+    revTotalDryLev = pF "revTotalDryLev"
+    revTotalEarlyRef = pF "revTotalEarlyRef"
+    revTotalMix = pF "revTotalMix"
+    --
+    bohlen = pF "bohlen"
+    bAllPassFreqAdd = pF "bAllPassFreqAdd"
+    bAllPassRqAdd = pF "bAllPassRqAdd"
+    bAllPassFreqAdd1 = pF "bAllPassFreqAdd1"
+    bAllPassRqAdd1 = pF "bAllPassRqAdd1"
+    lfNFreqAdd = pF "lfNFreqAdd"
+    lfNMulAdd = pF "lfNMulAdd"
+    sigChangeRate = pF "sigChangeRate"
+    noiseamount = pF "noiseamount"
+    m = pF "m"
+    noisemul = pF "noisemul"
+    noiseadd = pF "noiseadd"
+    freq2_1 = pF "freq2_1"
+    c2 = pF "c2"
+    m2 = pF "m2"
+    xi2 = pF "xi2"
+    mul2_1 = pF "mul2_1"
+    add2_1 = pF "add2_1"
+    mix2 = pF "mix2"
+    freq2_2 = pF "freq2_2"
+    fb = pF "fb"
+    im = pF "im"
+    mul2_2 = pF "mul2_2"
+    add2_2 = pF "add2_2"
+    lagTime2 = pF "lagTime2"
+    mod1Amt = pF "mod1Amt"
+    mod2Amt = pF "mod2Amt"
+    --
+    modffrqAdd = pF "modffrqAdd"
+    modffrqAmt = pF "modffrqAmt"
+    revmix = pF "revmix"
+    revmixmod = pF "revmixmod"
+    revroom = pF "revroom"
+    revdamp = pF "revdamp"
+    mod2freq = pF "mod2freq"
+    lagTime = pF "lagTime"
+    carfreq = pF "carfreq"
+    modfreq = pF "modfreq"
+    pmindex = pF "pmindex"
+    modphase = pF "modphase"
+    --
+    impulseRate3 = pF "impulseRate3"
+    bpf1MaxFreq = pF "bpf1MaxFreq"
+    dutyMaxLevel = pF "dutyMaxLevel"
+    attackRate2 = pF "attackRate2"
+    bpf3MaxFreq = pF "bpf3MaxFreq"
+    attackRate3 = pF "attackRate3"
+    decayRate3 = pF "decayRate3"
+    fbGain = pF "fbGain"
+    bpf1LfoRate = pF "bpf1LfoRate"
+    factorRate3 = pF "factorRate3"
+    loc2FbFactor = pF "loc2FbFactor"
+    verbMul2 = pF "verbMul2"
+    loc3FbFactor = pF "loc3FbFactor"
+    verbMul1 = pF "verbMul1"
+    attackRate = pF "attackRate"
+    locFbFactor = pF "locFbFactor"
+    factorRate = pF "factorRate"
+    factorRate2 = pF "factorRate2"
+    del3 = pF "del3"
+    bpf3LfoRate = pF "bpf3LfoRate"
+    decayRate2 = pF "decayRate2"
+    impulseRate2 = pF "impulseRate2"
+    bpf2LfoRate = pF "bpf2LfoRate"
+    inputRate = pF "inputRate"
+    decayRate = pF "decayRate"
+    bpf2MaxFreq = pF "bpf2MaxFreq"
+    --
+    sineFreq1 = pF "sineFreq1"
+    sineFreq2 = pF "sineFreq2"
+    sineFreq3 = pF "sineFreq3"
+    sineLfo1 = pF "sineLfo1"
+    sineLfo2 = pF "sineLfo2"
+    freqShiftLfo = pF "freqShiftLfo"
+    revtime1 = pF "revtime1"
+    revtimeLfo = pF "revtimeLfo"
+    freqShiftDivArray = pF "freqShiftDivArray"
+    revtime2 = pF "revtime2"
+    --
+    freqFactor1 = pF "freqFactor1"
+    freqFactor2 = pF "freqFactor2"
+    num = pF "num"
+    --
+    ghDelTime = pF "ghDelTime"
+    --
+    freqMul2 = pF "freqMul2"
+    lfoPhase2 = pF "lfoPhase2"
+    filterDecay = pF "filterDecay"
+    freqOffset = pF "freqOffset"
+    freqAdd = pF "freqAdd"
+    lfoPhase1 = pF "lfoPhase1"
+    freqBase = pF "freqBase"
+    freqMul = pF "freqMul"
+    --
+    ringzMul = pF "ringzMul"
+    --
+    envLevRatio = pF "envLevRatio"
+    curveFactor = pF "curveFactor"
+    delTimeFactor = pF "delTimeFactor"
+    timeScaleRatio = pF "timeScaleRatio"
+    --
+    envbTime = pF "envbTime"
+    envpTime = pF "envpTime"
+    --
+    hpftrs = pF "hpftrs"
+    eqf1trs = pF "eqf1trs"
+    eqf21trs = pF "eqf21trs"
+    eqrqtrs = pF "eqrqtrs"
+    eqdb1trs = pF "eqdb1trs"
+    eqdb2trs = pF "eqdb2trs"
+    atktrs = pF "atktrs"
+    rlstrs = pF "rlstrs"
+    eqfnoise = pF "eqfnoise"
+    eqrqnoise = pF "eqrqnoise"
+    eqdbnoise = pF "eqdbnoise"
+    atknoise = pF "atknoise"
+    rlsnoise = pF "rlsnoise"
+    hpfnoise = pF "hpfnoise"
+    delreso = pF "delreso"
+    hpfreso = pF "hpfreso"
+    lpfreso = pF "lpfreso"
+    eqfreso = pF "eqfreso"
+    eqrqreso = pF "eqrqreso"
+    eqdbreso = pF "eqdbreso"
+    eqfsig = pF "eqfsig"
+    eqrqsig = pF "eqrqsig"
+    eqdbsig = pF "eqdbsig"
+    fbreso = pF "fbreso"
+    hpfsig = pF "hpfsig"
+    distsig = pF "distsig"
+    --
+    envLScale = pF "envLScale"
+    envTScale = pF "envTScale"
+    --
+    stepsPerMeasure = pF "stepsPerMeasure"
+    prob = pF "prob"
+    stepSeqOn = pF "stepSeqOn"
+    step1 = pF "step1"
+    step2 = pF "step2"
+    step3 = pF "step3"
+    step4 = pF "step4"
+    step5 = pF "step5"
+    step6 = pF "step6"
+    step7 = pF "step7"
+    step8 = pF "step8"
+    step9 = pF "step9"
+    step10 = pF "step10"
+    step11 = pF "step11"
+    step12 = pF "step12"
+    step13 = pF "step13"
+    step14 = pF "step14"
+    step15 = pF "step15"
+    step16 = pF "step16"
+    stepSeqSize = pF "stepSeqSize"
+    freqRangeMin = pF "freqRangeMin"
+    freqRangeMax = pF "freqRangeMax"
+    overlap = pF "overlap"
+    channelMask = pF "channelMask"
+    centerMask = pF "centerMask"
+    skew = pF "skew"
+    pmIndex = pF "pmIndex"
+    pmRatio = pF "pmRatio"
+    glissIndex = pF "glissIndex"
+    panMax = pF "panMax"
+    --
+    rdecay = pF "rdecay"
+    lowpassrq = pF "lowpassrq"
+    pregain = pF "pregain"
 :}
 
 :{
-let setI = streamSetI tidal
+let getState = streamGet tidal
+    setI = streamSetI tidal
     setF = streamSetF tidal
     setS = streamSetS tidal
     setR = streamSetR tidal
@@ -1374,4 +1823,5 @@ let setI = streamSetI tidal
 :}
 
 :set prompt "tidal> "
-:set prompt-cont ""
+
+default (Pattern String, Integer, Double)

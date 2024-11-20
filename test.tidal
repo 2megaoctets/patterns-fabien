@@ -2,7 +2,6 @@ let listen n p = if (n > 0)
                     then id $ p
                     else (const $ s "") $ p
 
-
 resetCycles
 
 d1 $
