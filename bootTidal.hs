@@ -2118,6 +2118,29 @@ let only = (hush >>)
     bbPassBw = pF "bbPassBw"
     rev1Mix = pF "rev1Mix"
     rev2Mix = pF "rev2Mix"
+    --
+    modLeak1 = pF "modLeak1"
+    modLeak2 = pF "modLeak2"
+    envmodFold = pF "envmodFold"
+    freqModAmt = pF "freqModAmt"
+    freqModRate = pF "freqModRate"
+    freqModWidth = pF "freqModWidth"
+    foldMix = pF "foldMix"
+    foldLev = pF "foldLev"
+    resoDb = pF "resoDb"
+    resoStructure = pF "resoStructure"
+    resoBright = pF "resoBright"
+    --
+    phasorDirSel = pF "phasorDirSel"
+    ienvOffset = pF "ienvOffset"
+    modFoldAmt = pF "modFoldAmt"
+    clipMix = pF "clipMix"
+    bassMix = pF "bassMix"
+    noiseSel = pF "noiseSel"
+    granul = pF "granul"
+    delayBase = pF "delayBase"
+    textureMix = pF "textureMix"
+    textureHpf = pF "textureHpf"
 :}
 
 :{
