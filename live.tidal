@@ -21,9 +21,9 @@ do
         # rls 0.3
         # crv "-4.0"
         # freq 47
-        # mod1Start 0.52
+        # mod1Start (0.52 * (rangex 1 10 $ cF 0 "71"))
         # mod1End 1.0
-        # mod1Dur (0.012 + (range 0 1 $ cF 0 "71"))
+        # mod1Dur 0.012
         # mod2Start 0.9
         # mod2End 18.0
         # mod2Dur 0.00014
@@ -37,7 +37,7 @@ do
         # filterFreqModSel 1
         # filterMix (1.0 + (range 0 "-0.5" $ cF 0 "72"))
         # hpffreq 45.0
-        # gain 0.99
+        # gain (0.99 * (rangex 1 0.86 $ cF 0 "72"))
         # orbit 1
       ,
       listen (cF 1 "88") $
@@ -74,9 +74,9 @@ do
         # noiseFiltFreq 11810.0
         # noiseDur "1.2 0.4"
         # ringzAmp 0.814
-        # ringzDcy ("0.0125 0.12" + (range 0 10 $ cF 0 "73"))
+        # ringzDcy ("0.0125 0.12" + (range 0 9 $ cF 0 "73"))
         # hpf 41
-        # gain 0.745
+        # gain (0.745 * (rangex 1 0.98 $ cF 0 "73"))
       ,
       listen (cF 1 "89") $
       degOffsetBy (3/5) (cF 0 "18") $
@@ -208,7 +208,7 @@ do
         # hiShelfDb 10
         # membrane2Amt 0
         # hpffreq 64
-        # gain 0.99
+        # gain (0.99 * (rangex 1 0.99 $ cF 0 "71"))
         # orbit 1
       ,
       listen (cF 1 "88") $
