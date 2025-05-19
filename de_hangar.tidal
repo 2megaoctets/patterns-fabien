@@ -1550,3 +1550,27 @@ do
     ] |* gain (1.05 * globalGain)
 
 globalGain = 1
+
+
+
+
+let applyAll = id -- (# speed 0.4)
+
+do
+  setcps 0.6
+  let chut = sometimesBy 0.1 (listen 0)
+  d1 $ 
+    applyAll $
+    chut $
+    s "fp"
+      # gain 0.7
+  d2 $
+    applyAll $
+    s "~ b"
+      # speed 2
+      # gain 0.5
+
+d1 $
+  applyAll $
+  s "ak"
+    # gain 0.6
