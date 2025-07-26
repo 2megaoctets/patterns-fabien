@@ -1,0 +1,788 @@
+resetCycles
+-- clutchIn 1 24
+
+globalGain = 1
+
+all id
+
+do
+  all (linger 0.5)
+  d5 silence
+
+all (slowSqueeze "2 16")
+
+do -- c'est pas du livecoding gna gna gna %4
+  setcps 0.6
+  all id
+  let thisGain = 1
+  d1 $ -- kick low
+    listen (cF 1 "87") $
+    degOffsetBy (1/4) (cF 0 "16") $
+    somecyclesBy 0.26
+    (|+ modPhaseCrv (smooth "<-12 -20 12>")) $
+    whenmod "<16 18>" "<14 16>"
+    ((|* atk 3) . (|+ crv 12) . (|* gain 1.3). (# hpffreq 50)) $
+    someCyclesBy 0.28
+    (|+ modfreq (range "-0.75" 120 $ slow 4 rand)) $
+    (<| amp "0.5 [0.3@1.5 <0.5 [<~@0.5 ~@0.5 ~@0.25> 0.5]> _]") $
+    s "Sd_fab_softkick1"
+      # begin 0.0
+      # end 1.0
+      # sustain 1
+      # atk 0.1
+      # rls 0.18
+      # crv "-4.0"
+      # freq 50
+      # modfreq 340 -- 120
+      # modPhaseAmt 12 -- 0.4
+      # modPhaseAtk 0.0001 -- "0.0001 <0.0001 0.01>"
+      # modPhaseRls "0.008 <0.001 0.008>"
+      # modPhaseCrv 18.0
+      # delaySin 0
+      # clickMix 0.3
+      # noiseDec 0.6
+      # leak 0.4
+      # distoMix 1.0
+      # eqMix 0.52
+      # hpffreq 58 -- 50
+      # gain (0.96 * thisGain * globalGain)
+      # orbit 1
+  d2 $ -- kick hi
+    listen (cF 1 "88") $
+    degOffsetBy (3/4) (cF 0 "17") $
+    whenmod "<16 18>" "<14 16>"
+    (listen 0) $
+    densityGap 0.5 $
+    fast "[3 3 2]" $
+    (|<| amp "0.3(<4 2>, 6, <0 <[1 1 0] 1>>)") $
+    s "Sd_fab_kickin"
+      # begin 0.0
+      # end 1.0
+      # sustain 0.4
+      # atk 0.094
+      # rls 0.98
+      # crv "-16.0"
+      # freq 91
+      # phasorDir 0
+      # phasorInv 0
+      # phasorRate1 0.3
+      # phasorRate2 1.3
+      # envmodAtk 0.4
+      # envmodRls 0.82
+      # envmodCrv "-6.0"
+      # noiseamt 0
+      # parLag 0.002
+      # parDecay 2.39
+      # snapAmt 0.35
+      # hiShelfFreq 241.0
+      # hiShelfSlope 0.4
+      # hiShelfDb 20
+      # membrane2Amt 0
+      # hpffreq 94 -- 44
+      # gain (0.94 * thisGain * globalGain)
+      # orbit 1
+  d3 $ -- snare
+    listen (cF 1 "89") $
+    degOffsetBy (5/4) (cF 0 "18") $
+    ((6/4) <~) $
+    whenmod "<12 16>" "<10 15>"
+    (|+ envmodLev (slow 4 cosine * 2 - 1)) $
+    ghost' 0.2 $
+    fast "2 <1 0.5>" $
+    (<| amp "~@2 [<~ 0.2@0.5> 0.3]") $
+    s "Sd_fab_rimmyRay"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 0.0012
+      # rls 0.046
+      # crv "-4.0"
+      # envmodLev1 0.0
+      # envmodLev2 1.0
+      # envmodLev3 0.1
+      # envmodLev4 1.0
+      # envmodLev 1.0
+      # envmodTime1 0.0004
+      # envmodTime2 0.004
+      # envmodTime3 0.0004
+      # envmodTime 1 -- "<10 1>"
+      # envmodCurve "-4.0"
+      # freqOffset 120.0
+      # noiseThr 0.21
+      # noisePow 20
+      # brfRq 0.33
+      # mix 0.46 -- "<0.78 0.46>"
+      # gain (0.65 * thisGain * globalGain)
+      # orbit 2
+  d4 $ -- hi hat
+    listen (cF 1 "90") $
+    degOffsetBy (6/4) (cF 0 "19") $
+    whenmod "<16 18>" "<14 16>"
+    (listen 0) $
+    (# pan (0.5 + (range "-0.16" 0.16 $ segment 36 $ (smooth ("0 0.95 0.25" * "0.25 0.0125") ~>) $ fast 6.8 cosine))) $
+    fast "6 6 6 3" $
+    (<| amp "0.1 0.2 0.2") $
+    s "Sd_fab_whitehat Sd_fab_whitehat"
+      # begin 0.0
+      # end 1.0
+      # sustain 0.022
+      # atk 0.1
+      # rls 0.001
+      # crv "-8.0"
+      # envmodLev1 0.0
+      # envmodLev2 10.0
+      # envmodLev3 1.0
+      # envmodLev4 0.05
+      # envmodLev5 0.05
+      # envmodLev6 0.0
+      # envmodLev 1
+      # envmodTime1 0.004
+      # envmodTime2 0.01
+      # envmodTime3 0.05
+      # envmodTime4 0.02
+      # envmodTime5 0.005
+      # envmodTime 0.7
+      # envmodCurve 4.0
+      # noisePow 12
+      # combSwTime 0.18
+      # bpfRq 1
+      # crossoverFreq 7900.0
+      # lpfSwTime 0.3
+      # snapAmt 1
+      # snapShape 0.19
+      # snapSel 0
+      # snapPow 2.0
+      # hpffreq 20.0
+      # gain (0.97 * thisGain * globalGain)
+  d5 $ -- ambiance
+    listen (cF 1 "91") $
+    degOffsetBy (7/4) (cF 0 "20") $
+    someCyclesBy 0.3
+    (listen 0) $
+    (<| amp "0.24@4") $
+    s "Sd_fab_ambiance1"
+      # begin 0.0
+      # end 1.0
+      # sustain 3.0
+      # atk 0.4
+      # rls 1
+      # crv 2
+      # freq 86
+      # ratioOffset 1.1
+      # envFolAtk 0.1
+      # envFolRls 0.9
+      # foldTreshold 1
+      # formantAmt 0.532
+      # formantatk 0.008
+      # formantRls 2.0
+      # formantCrv "-2"
+      # formantCarrFreqMin 10.0
+      # formantCarrFreqMax 30
+      # formantLag 0
+      # sinAmt 0.8
+      # sinAtk "<0.4 0.5>"
+      # sinRls "<7.0 4.0>"
+      # sinCrv "<-2.0 2.0>"
+      # filterLag "<0.98 10.98>"
+      # revMix 0
+      # revTime 1.0
+      # revEarlyRefLev 0.0012
+      # revTailLev 0.29
+      # hpffreq 35.0
+      # gain (1.04 * thisGain * globalGain)
+  d6 $ -- bass
+    listen (cF 1 "92") $
+    degOffsetBy (2/4) (cF 0 "21") $
+    ((3/4) ~>) $
+    every "<5 6 4>"
+    ((loopAt 0.5) . (|+ freq "<30 60 12> <20 8200>")) $
+    foldEvery [4, 6]
+    (|+ freq "10 70 8120") $
+    fast "3 <2 0.5>" $
+    (<| fxFreqOffset "1.8 10 0.9 14") $
+    s "Sd_fab_textural"
+      # begin 0.0
+      # end 1.0
+      # sustain 0.6
+      # atk 0.3
+      # rls 0.8
+      # crv "-2.0"
+      # freq 30
+      # envmodLev1 0.0
+      # envmodLev2 1.0
+      # envmodLev3 0.16
+      # envmodLev4 1.0
+      # envmodLev "0.2 0.85"
+      # envmodTime1 0.0004
+      # envmodTime2 0.004
+      # envmodTime3 0.0004
+      # envmodTime 0.12
+      # envmodCurve "-4.0"
+      # fxMix 0.4
+      # hpffreq 112 -- 92
+      # gain (0.9 * thisGain * globalGain)
+      # orbit 2
+
+d3 $ -- snare
+  listen (cF 1 "89") $
+  degOffsetBy (5/4) (cF 0 "18") $
+  (<| amp "~ [0.18 0.3](3, 6, 1)") $
+  s "Sd_fab_rimmyRay"
+    # begin 0.0
+    # end 1.0
+    # sustain 1.0
+    # atk 0.0012
+    # rls 0.06
+    # crv "4.0"
+    # freq 143
+    # envmodLev1 0.0
+    # envmodLev2 0.12
+    # envmodLev3 0.96
+    # envmodLev4 0.93
+    # envmodLev 0.924
+    # envmodTime1 0.0004
+    # envmodTime2 0.004
+    # envmodTime3 0.0004
+    # envmodTime 0.21 -- "<10 1>"
+    # envmodCurve "-24.0"
+    # freqOffset 14
+    # noiseThr 0.521
+    # noisePow 12
+    # brfRq 0.33
+    # mix 0.46 -- "<0.78 0.46>"
+    # gain (0.58 * globalGain)
+    # orbit 2
+
+do
+  d1 $ -- kick low
+    listen (cF 1 "87") $
+    degOffsetBy (1/4) (cF 0 "16") $
+    whenmod "<16 18>" "<14 16>"
+    ((|* atk 3) . (|+ crv 12) . (|* gain 1.3)) $
+    (fast 2 . (|* gain 0.94)) $
+    (<| amp "[0.4 0.3 0.5](3, 2, 1)") $
+    s "Sd_fab_softkick1"
+      # begin 0.0
+      # end 1.0
+      # sustain 1
+      # atk 0.1
+      # rls 0.18
+      # crv "-4.0"
+      # freq 50
+      # modfreq 340
+      # modPhaseAmt 12 -- 0.4
+      # modPhaseAtk 0.0001 -- "0.0001 <0.0001 0.01>"
+      # modPhaseRls "0.008 <0.001 0.008>"
+      # modPhaseCrv 18.0
+      # delaySin 0
+      # clickMix 0.3
+      # noiseDec 0.6
+      # leak 0.4
+      # distoMix 1.0
+      # eqMix 0.52
+      # hpffreq 50
+      # gain (0.96 * globalGain)
+      # orbit 1
+  d2 silence
+
+all id
+
+all (compress (2/6, 4/6))
+
+all (append (
+  mtrigger 4 $
+  fast 3 $
+  (|<| amp "<[0.1@0.5 0.2] [0.1@0.5 0.2] [0.1@2 0.2]>") $
+  s "Sd_fab_kickReverb"
+    # begin 0.0
+    # end 1.0
+    # sustain 1.0
+    # atk 0.01246
+    # rls 0.8 -- 6.0
+    # crv "-2 -12.0 -2"
+    # freq 39.068736491408
+    # modAmt 6.0
+    # modDur 1.90434
+    # sinFreqAtk 0.04708
+    # sinFreqRls 0.10048
+    # sinFreqCrv "-2 -4 0"
+    # sinRls 0.414849
+    # sinCrv 0.0
+    # mix 0.75
+    # pulseModPow 3.51657
+    # pulseWidth 0.46565
+    # pulseDur 0.01941
+    # bbPassBw 3.0
+    # rev1Mix 0.0
+    # rev2Mix 0.0
+    # hpffreq 41
+    # gain (1.48 * globalGain)
+    # orbit 1
+))
+
+do -- foudre de terrain %3
+  setcps 0.96
+  all id
+  let thisGain = 1
+  d1 $ -- kick
+    listen (cF 1 "87") $
+    degOffsetBy (1/3) (cF 0 "16") $
+    whenmod "<8 18>" "<6 15>"
+    ((|*| modAmt "1 0.6 2 0.8") . (|* gain 0.94)) $
+    (|<| amp "0.1@0.5 [[~@0.5 0.2] <0.2 [~@0.5 0.2]>]") $
+    s "Sd_fab_kickReverb"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 0.01246
+      # rls 0.8 -- 6.0
+      # crv "-2 -12.0 -2"
+      # freq 39.068736491408
+      # modAmt 6.0
+      # modDur 1.90434
+      # sinFreqAtk 0.04708
+      # sinFreqRls 0.10048
+      # sinFreqCrv "-2 -4 0"
+      # sinRls 0.414849
+      # sinCrv 0.0
+      # mix 0.75
+      # pulseModPow 3.51657
+      # pulseWidth 0.46565
+      # pulseDur 0.01941
+      # bbPassBw 3.0
+      # rev1Mix 0.0
+      # rev2Mix 0.0
+      # hpffreq 60 -- 41
+      # gain (1.48 * thisGain * globalGain)
+      # orbit 1
+  d2 $ -- snare
+    listen (cF 1 "88") $
+    degOffsetBy (1/4) (cF 0 "17") $
+    whenmod 8 6
+    (listen "0 1") $
+    someCyclesBy 0.18
+    (swingBy (2/6) 3) $
+    ghost' 0.33 $
+    (|<| amp "0.1@0.5 [0.2@2 [~@2 0.3]]@0.5 0.3@0.5") $
+    s "Sd_fab_bambouJox"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 0.0001
+      # rls 0.1
+      # crv "-4.0"
+      # rngDelStn 0.0
+      # rngStn 0.01
+      # rngStruct 0.175
+      # rngBrightness 0.625
+      # rngDamping 0.4
+      # rngAccent 0.02
+      # rngStretch 0.5
+      # rngPos 0.15
+      # rngLoss 0.915
+      # resMix 1.0
+      # decaytimea 13.0
+      # feedBack 1.8
+      # fxMix 0.8
+      # gain (1.02 * thisGain * globalGain)
+  d3 $ -- hihat
+    listen (cF 1 "89") $
+    degOffsetBy (1/4) (cF 0 "18") $
+    someCyclesBy 0.7
+    ((swingBy (4/6) 3) . (|* gain 1.06)) $
+    (# pan (range 0.3 0.7 $ fast "<2 5> 4 3" cosine)) $
+    (<| amp "[0.2@0.5 0.3(<1 <1 2>>, 4)]*3") $
+    s "Sd_fab_cheurley"
+      # begin 0.0
+      # end 1.0
+      # sustain "0.03 <1.0 0.42>"
+      # atk 0.0
+      # rls "<0.3 0.14> [0.14 <0.07 0.98>]"
+      # crv "-4.0"
+      # freq 234
+      # modffrqAdd "-1.2999999523163"
+      # modffrqAmt 0.1
+      # frq 0.0042
+      # revmix 0.98
+      # revmixmod 0.3
+      # revroom 1.0
+      # revdamp 0.01
+      # revLpfFreq 4500.0
+      # preDecay 0.3
+      # hpfreq 867.0
+      # bandfreq 1200.0
+      # bandrq 1.0
+      # banddb "-27.0"
+      # distoMix 1.0
+      # mod2freq 450.0
+      # a 0.003
+      # c 3.13
+      # m 0.0019
+      # xi 0.71
+      # mul 42.6
+      # add 0.0
+      # lagTime 0.01
+      # mix 0.15
+      # carfreq 232.0
+      # modfreq 0.7
+      # pmindex 0.32
+      # modphase 0.14
+      # mul1 34.0
+      # add1 0.0
+      # gain (0.76 * thisGain * globalGain)
+  d4 silence
+  d5 $ -- bass
+    listen (cF 1 "91") $
+    degOffsetBy (5/3) (cF 0 "20") $
+    sometimesBy 0.24
+    ((|+ distoSel (smooth "0.24 0.4")) . (|* gain 0.9)) $
+    whenmod "<12 10>" "<10 7>"
+    ((|+ filterMix (slow 2 $ slow "4 6" $ smooth "0 1")) . (|* filterFreq (rangex 0.5 5 $ slow 2 $ sine))) $
+    foldEvery [4, 3]
+    (|+ pulseCrv (smooth "0 -10")) $
+    (*| amp "{[0.3@0.5 1@2](2, <5 5 3>)}%1.5") $
+    s "Sd_fab_doubleBass"
+      # amp 0.2
+      # begin 0.0
+      # end 1.0
+      # sustain 1
+      # atk 0.4
+      # rls "<0.48 0.98>"
+      # crv "-4.0"
+      # accelerate "<0 0 0 0.125>"
+      # freq 52 -- 34
+      # envmodLev1 0
+      # envmodLev2 1.0
+      # envmodLev3 0.5
+      # envmodLev4 0.73
+      # envmodLev5 0.0
+      # envmodLev "[0.5 1](3, 2)"
+      # envmodTime1 0.72
+      # envmodTime2 0.151
+      # envmodTime3 0.5
+      # envmodTime4 1
+      # envmodTime "2 <2 0.22>" -- 1.0
+      # envmodCurve1 "-4.0"
+      # envmodCurve2 8.3
+      # envmodCurve3 "-30"
+      # envmodCurve4 "2 <2 32.0>"
+      # pulseFreqInterval 1.4
+      # pulseAtk 0.3
+      # pulseCrv "-4.0"
+      # sinFreqInterval 0.03
+      # sinFreqDiv 7.0
+      # distoSel 0
+      # filterMix 0
+      # filterFreq 220.0
+      # filterModFreq 10.2
+      # filterModAmt 20.0
+      # filterRes 0.7
+      # hpffreq 62.0
+      # gain (1.28 * thisGain * globalGain)
+      # orbit 2
+  d6 silence
+
+d4 $ -- spectral
+  listen (cF 1 "90") $
+  degOffsetBy (7/6) (cF 0 "19") $
+  sometimesBy 0.24
+  (listen 0) $
+  (<| amp "~ 0.3? [<0.2 ~> 0.3]") $
+  s "Sd_fab_ambiance1"
+    # begin 0.0
+    # end 1.0
+    # sustain 0.6
+    # atk ("0.4 0.14" + (slow "0.5 2" (sine * 2 - 1)))
+    # rls 0.6
+    # crv "-2.0"
+    # freq "597 634"
+    # ratioOffset (0.12 + (slow 2 sine)) -- "<1.12 0.12>"
+    # envFolAtk 0.01
+    # envFolRls 0.0031
+    # foldTreshold 0.93
+    # formantAmt 1.770794
+    # formantatk "<0 0.3 0.8>"
+    # formantRls 0.8
+    # formantCrv "-4.0"
+    # formantCarrFreqMin 1
+    # formantCarrFreqMax 30.0
+    # formantLag 0.924
+    # sinAmt 1.05
+    # sinAtk 0.4
+    # sinRls 7.0
+    # sinCrv "2.0"
+    # filterLag 0.98
+    # revMix "<1.0 0>"
+    # revTime 8.0
+    # revEarlyRefLev 0.0012
+    # revTailLev 0.9
+    # hpffreq 35.0
+    # gain (0.88 * globalGain)
+    # orbit 2
+
+d1 $ -- kick
+  listen (cF 1 "87") $
+  degOffsetBy (1/3) (cF 0 "16") $
+  fast "[1 2] 2 1 1" $
+  ((|*| modAmt "[1 0.6 1]@2 2 1.4") . (|* gain 0.94)) $
+  (|<| amp "0.1@0.5 [0.2@0.25 [0.1 0.2]@0.25]") $
+  s "Sd_fab_kickReverb"
+    # begin 0.0
+    # end 1.0
+    # sustain 1.0
+    # atk 0.01246
+    # rls 0.8
+    # crv "-8 -12 -14"
+    # freq 39.068736491408
+    # modAmt 6 -- "3.27" -- 6
+    # modDur 1.90434
+    # sinFreqAtk 0.04708
+    # sinFreqRls 0.10048
+    # sinFreqCrv "-2 -4 0"
+    # sinRls 0.414849
+    # sinCrv 0.0
+    # mix 0.75
+    # pulseModPow 3.51657
+    # pulseWidth 0.46565
+    # pulseDur 0.01941
+    # bbPassBw 3.0
+    # rev1Mix 0.0
+    # rev2Mix 0.0
+    # hpffreq 71
+    # gain (1.6 * globalGain)
+    # orbit 1
+
+all id
+
+do -- boss of sandales %5
+  setcps 0.36
+  all id
+  let thisGain = 1
+      chut = sometimesBy 0.11 (listen 0)
+  d1 $ -- kick low
+    listen (cF 1 "87") $
+    degOffsetBy (1/3) (cF 0 "16") $
+    chut $
+    sometimesBy 0.24
+    (listen 0) $
+    swingBy (2/5) 5 $
+    slowSqueeze "1 <1 1 2>" $
+    (<| amp "[[<~@2 ~> 0.6] 0.4 0.6@0.5]*2") $
+    s "Sd_fab_softkick2"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # rls 0.18
+      # crv "-6"
+      # freq 48
+      # accelerate 21.82
+      # lpgVca 0.899
+      # lpgVcaDur 0.0012
+      # lpgRes 2.5
+      # lpgRls 0.079
+      # lpgCrv 4
+      # hpffreq 58
+      # gain (0.74 * thisGain * globalGain)
+  d2 $ -- kick hi
+    listen (cF 1 "88") $
+    degOffsetBy (1/3) (cF 0 "17") $
+    chut $
+    (|* filterMix "1 0.93 <1 0.95> 1 0.94 1 0.95 1") $
+    fast 2 $
+    slowSqueeze "2 2" $
+    (<| amp "[0.4 0.6](5, 5)") $
+    s "Sd_fab_kickSourd"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 1e-05
+      # rls 0.18
+      # crv "-4.0"
+      # freq 48.2
+      # mod1Start 12
+      # mod1End 1
+      # mod1Dur 0.012
+      # mod2Start 113
+      # mod2End 0.1
+      # mod2Dur 0.014 -- "0.014 ! 0.000014"
+      # envmodAtk 0.002
+      # envmodRls 0.1426
+      # envmodCrv "-14.0"
+      # modSel 0.3
+      # hiShelfSlope1 0.198
+      # hiShelfSlope2 0.92
+      # hiShelfGain 6.0
+      # filterFreqModSel 0.1
+      # filterMix 1
+      # hpffreq 96
+      # gain (0.96 * thisGain * globalGain)
+      # orbit 2
+  d3 $ -- snare
+    listen (cF 1 "89") $
+    degOffsetBy (1/3) (cF 0 "18") $
+    chut $
+    ((3/5) ~>) $
+    someCyclesBy 0.3
+    (# atk "0.001 <0.34 0.001> 0.34") $
+    fast "<4 2> 4" $
+    (|<| amp "0.2([3 4], 5)") $
+    s "Sd_fab_clickTambourin"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 0.001
+      |<| rls (fast "<1 2 0.5>" "<1 <0.1 1>>")
+      # crv "4.0"
+      # freq 1144
+      # accelerate 13
+      # envmodLev1 0
+      # envmodLev2 "1 0"
+      # envmodLev3 0.7
+      # envmodLev4 0.62
+      # envmodLev 1.73
+      # envmodTime1 0.002
+      # envmodTime2 0.2
+      # envmodTime3 0.32
+      # envmodTime 1.0
+      # envmodCurve "-6.0"
+      # modamt 1.0
+      # freqMaxFactor 1.0
+      # inPow1 122.0
+      # inPreGain 18.0
+      # res1 0.24
+      # overdrive 0.0
+      # type1 2.0
+      # selFilter 0.3
+      # inPow2 22.0
+      # res2 0.96
+      # type2 2.0
+      # strMix 0.09
+      # strthreshold 0.3
+      # strdur 0.12
+      # structpow 0.82
+      # brightness 0.48
+      # filtMix 0.931
+      # gain (0.97 * thisGain * globalGain)
+  d4 $ -- hihat
+    listen (cF 1 "90") $
+    degOffsetBy (1/3) (cF 0 "19") $
+    chut $
+    sometimesBy 0.24
+    (listen 0) $
+    fast 4 $
+    (# pan (range 0.11 0.89 $ fast 32 cosine)) $
+    (<| envmodTime1 "[0 0.5 0.1]*3") $
+    s "Sd_fab_cymbalz"
+      # amp 0.2
+      # begin 0.0
+      # end 1.0
+      # sustain 0.12
+      # atk "<0.01 0.2>"
+      # rls 1.4 -- "<0.012 1.4>"
+      # crv "-4 -14.0"
+      # freq (smooth ("100 89" * 1.28))
+      # envmodLev1 0.0
+      # envmodLev2 1.0
+      # envmodLev3 1.0
+      # envmodLev4 1.0
+      # envmodLev5 1.0
+      # envmodLev 1.0
+      # envmodTime2 1.2
+      # envmodTime3 0.2
+      # envmodTime4 0.27
+      # envmodTime 1.0
+      # envmodCurve "-4.0"
+      # noisePow "0.257 2"
+      # comb1 260.0
+      # comb2 240.0
+      # comb3 323.0
+      # combDcy 3.0
+      # freqShift1 33.0
+      # freqShift2 74.0
+      # freqShift3 83.0
+      # freqShift2Mix 0.0
+      # lpfEnd 2000.0
+      # lpfSwTime 0.2
+      # reverbMix 0.5
+      # gain (0.8 * thisGain * globalGain)
+  d5 $ -- bass
+    listen (cF 1 "91") $
+    degOffsetBy (1/3) (cF 0 "20") $
+    ((4/10) <~) $
+    (|<| amp "[0.2 0.4](3, 5)") $
+    s "Sd_fab_basson"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 0.01
+      # rls 1.3
+      # crv "-4.0"
+      # freq 82
+      # accelerate "0 0 <13 13 13 0> 0"
+      # envmodLev1 0.0
+      # envmodLev2 1.0
+      # envmodLev3 1.0
+      # envmodLev4 0.0
+      # envmodLev "1 1 19"
+      # envmodTime1 0.001
+      # envmodTime2 0.2
+      # envmodTime3 0.32
+      # envmodTime 1
+      # envmodCurve "-14.0"
+      # sinOctDown 10
+      # sinAtk 0.12
+      # sinDecay 1.0
+      # sinPhase 0
+      # sinhpf 70.0
+      # textureAtk 0.3701
+      # textureRls 1
+      # textureFreq "110 110 56"
+      # textureDisto "23 123 23 <23 123>" -- 23
+      # textureFfreqOffset 10.1
+      # textureRq 0.98
+      # texturehpf 20.0
+      # filterMix 1.0
+      # filterfreq "132 132 212" -- 132
+      # flterFreqModRate "[1.8@0.4 ~] <2.24 [2.24 0.3]> 2.24"
+      |<| filterFreqModAmt "320 <150 <342 150>> 150" -- 150
+      # filterRes "0.98 0.4 0.3" -- 0.4
+      # revMix "0.003 <0.03 0.3> 0.3" -- 0.3
+      # revRt60 6.0
+      # revlowFreq 4200.0
+      # revlowRatio 0.25
+      # revhiFreq 8400.0
+      # revhiRatio 0.75
+      # revearlyDiffusion 0.015
+      # revlateDiffusion 0.5
+      # revmodRate 0.52
+      # revmodDepth 0.93
+      # sinAmp 3.0
+      # textureAmp 0.2
+      # hpf 74
+      # gain (0.88 * thisGain * globalGain)
+      # orbit 2
+  d6 $ -- ambiance
+    listen (cF 1 "92") $
+    degOffsetBy (1/3) (cF 0 "21") $
+    (# pan (fast ("2 0.5 1.5" * 3) $ range 0.21 0.79 $ sine)) $
+    slow 2 $
+    (<| freq ("631 346 214@0.5" * 2)) $
+    s "Sd_fab_ambiance"
+      # amp 0.4
+      # begin 0.0
+      # end 1.0
+      # legato 1.8
+      # atk 0.01
+      # rls 0.7
+      # crv "-2"
+      # feedbackAmt 0.199
+      # feedbackLag 0.8
+      # ringsStructureMod 0.12
+      # ringsStructureModRate 0.12
+      # ringsStructureLag 0.07
+      # ringsPosiiotnLag 0.08
+      # hpffreq 35.0
+      # gain (1 * thisGain * globalGain)
+      # orbit 2
+
+globalGain = 1

@@ -2141,6 +2141,12 @@ let only = (hush >>)
     delayBase = pF "delayBase"
     textureMix = pF "textureMix"
     textureHpf = pF "textureHpf"
+    --
+    feedbackLag = pF "feedbackLag"
+    ringsStructureMod = pF "ringsStructureMod"
+    ringsStructureModRate = pF "ringsStructureModRate"
+    ringsStructureLag = pF "ringsStructureLag"
+    ringsPosiiotnLag = pF "ringsPosiiotnLag"
 :}
 
 :{
