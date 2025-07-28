@@ -588,11 +588,12 @@ do -- boss of sandales %5
       # lpgRls 0.079
       # lpgCrv 4
       # hpffreq 58
-      # gain (0.74 * thisGain * globalGain)
+      # gain (0.735 * thisGain * globalGain)
   d2 $ -- kick hi
     listen (cF 1 "88") $
     degOffsetBy (1/3) (cF 0 "17") $
     chut $
+    (# pan (range 0.24 0.76 $ fast "[8 12] 16" cosine)) $
     (|* filterMix "1 0.93 <1 0.95> 1 0.94 1 0.95 1") $
     fast 2 $
     slowSqueeze "2 2" $
@@ -621,7 +622,7 @@ do -- boss of sandales %5
       # filterFreqModSel 0.1
       # filterMix 1
       # hpffreq 96
-      # gain (0.96 * thisGain * globalGain)
+      # gain (0.955 * thisGain * globalGain)
       # orbit 2
   d3 $ -- snare
     listen (cF 1 "89") $
@@ -710,6 +711,8 @@ do -- boss of sandales %5
       # lpfEnd 2000.0
       # lpfSwTime 0.2
       # reverbMix 0.5
+      -- # hpf 1200
+      -- # hpq 0.1
       # gain (0.8 * thisGain * globalGain)
   d5 $ -- bass
     listen (cF 1 "91") $
@@ -765,7 +768,7 @@ do -- boss of sandales %5
       # sinAmp 3.0
       # textureAmp 0.2
       # hpf 74
-      # gain (0.88 * thisGain * globalGain)
+      # gain (0.87 * thisGain * globalGain)
       # orbit 2
   d6 $ -- ambiance
     listen (cF 1 "92") $
@@ -788,7 +791,29 @@ do -- boss of sandales %5
       # ringsStructureLag 0.07
       # ringsPosiiotnLag 0.08
       # hpffreq 35.0
-      # gain (1 * thisGain * globalGain)
+      # gain (0.99 * thisGain * globalGain)
       # orbit 2
+
+d1 $ -- kick low
+  listen (cF 1 "87") $
+  degOffsetBy (1/3) (cF 0 "16") $
+  swingBy (2/5) 5 $
+  slowSqueeze "1 <3 6>" $
+  (<| amp "[~@0.5 0.6 [~@0.5 0.6]]*2") $
+  s "Sd_fab_softkick2"
+    # begin 0.0
+    # end 1.0
+    # sustain 1.0
+    # rls 0.18
+    # crv "-6"
+    # freq 48
+    # accelerate 21.82
+    # lpgVca 0.899
+    # lpgVcaDur 0.0012
+    # lpgRes 2.5
+    # lpgRls 0.079
+    # lpgCrv 4
+    # hpffreq 58
+    # gain (0.735 * globalGain)
 
 globalGain = 1
