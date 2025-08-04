@@ -2147,6 +2147,19 @@ let only = (hush >>)
     ringsStructureModRate = pF "ringsStructureModRate"
     ringsStructureLag = pF "ringsStructureLag"
     ringsPosiiotnLag = pF "ringsPosiiotnLag"
+    --
+    ratiosFact = pF "ratiosFact"
+    rongsStruct = pF "rongsStruct"
+    rongsStretch = pF "rongsStretch"
+    filterTransLag = pF "filterTransLag"
+    filterFreqMod = pF "filterFreqMod"
+    filterFreqLag = pF "filterFreqLag"
+    spread = pF "spread"
+    --
+    gateRate = pF "gateRate"
+    gateDur = pF "gateDur"
+    gateLag = pF "gateLag"
+    sweepDur = pF "sweepDur"
 :}
 
 :{
