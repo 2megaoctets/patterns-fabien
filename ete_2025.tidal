@@ -1170,7 +1170,7 @@ do -- derreck basic %5
   let thisGain = 1
   d1 $ -- ambiance
     listen (cF 1 "87") $
-    degOffsetBy (1/7) (cF 0 "16") $
+    degOffsetBy (4/5) (cF 0 "16") $
     (|* freq (fast 4 $ smooth "1 2")) $
     ((|<| amp "[0.3 0.4](2, 3) [0.3@2 0.4](2, 3)@1.5") $
     s "Sd_fab_ambiance2")
@@ -1192,11 +1192,11 @@ do -- derreck basic %5
       # filterFreqLag 0.0001
       # spread 1
       # hpffreq 165.0
-      # gain (1.3 * thisGain * globalGain)
+      # gain (1.28 * thisGain * globalGain)
   d2 $ -- bass
     listen (cF 1 "88") $
-    degOffsetBy (1/7) (cF 0 "17") $
-    someCyclesBy 0.24
+    degOffsetBy (3/5) (cF 0 "17") $
+    someCyclesBy 0.4
     ((# bpfFreq "24 31") . (# bpfRq 0.02)) $
     whenmod ("<15 20 24>" * "<1 0.5>") ("<14 18 21>" * "<1 0.5>")
     (|+ granul 0.1) $
@@ -1241,7 +1241,7 @@ do -- derreck basic %5
       # gain (0.96 * thisGain * globalGain)
   d3 $ -- hi hat
     listen (cF 1 "89") $
-    degOffsetBy (1/7) (cF 0 "18") $
+    degOffsetBy (2/5) (cF 0 "18") $
     (# pan (range 0.14 0.86 $ fast ("[[6 3] | [6 8]]" * 0.25) rand)) $
     ghost' 0.3 $
     (|<| amp "[0.1 0.2]*5") $
@@ -1266,7 +1266,7 @@ do -- derreck basic %5
       # envmodTime3 0.05
       # envmodTime4 0.02
       # envmodTime5 0.005
-      |<| envmodTime ("0.31 0.24 0.5 0.46 0.34" * 2)
+      |<| envmodTime ("0.31 0.24 0.5 0.46 0.34" * 2.8)
       # envmodCurve "-4.0 4 -8 -12 -8"
       # noisePow 0.17
       # combSwTime 0.38
@@ -1278,6 +1278,101 @@ do -- derreck basic %5
       # snapSel 0.85
       # snapPow "<8 [6 8]>@2 2 22"
       # hpffreq 20.0
-      # gain 1.08
+      # gain (0.94 * thisGain * globalGain)
+  d4 $ -- kick
+    listen (cF 1 "90") $
+    degOffsetBy (1/5) (cF 0 "19") $
+    someCyclesBy 0.14
+    ((# envmodLev "[0.3 0.95] 0.3 0.95") . (# sinhpf 73)) $
+    someCyclesBy 0.35
+    ((|+ noiseFiltFreqMax (slow "<2 3 1>" $ smooth "0 14678")) . (|* noiseDecay "[0.5 1 0.2 1@2]*2.5")) $
+    within (0.25, 0.75) (swingBy (4/5) 2) $
+    (<| amp "0.3(6, 4)@4 [0.2 0.3]") $
+    s "Sd_fab_kickoff"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk "0.01 0.01 <0.01 0.03 !>"
+      # rls 0.7
+      # crv "-4.0"
+      # freq 35
+      # envmodLev1 0.0
+      # envmodLev2 1.0
+      # envmodLev3 1.0
+      # envmodLev4 0.46
+      # envmodLev "0.95 0.3 0.95"
+      # envmodTime1 0.0006
+      # envmodTime2 0.2
+      # envmodTime3 0.32
+      # envmodTime "2.4 2.8 2.6 2.8 3"
+      # envmodCurve "-4.0"
+      # delaytime 0.0
+      # formantDecay 0.27
+      # threshold 0.4
+      # noiseFiltFreqMin 30.0
+      # noiseFiltFreqMax 240.0
+      # noiseDecay 0.32
+      # clickRes 0.9
+      # softsatAtk 0.1
+      # softsatRls 0.12
+      # sat 4.0
+      # sinOctDown 2.0
+      # sinAtk 0.02
+      # sinDecay 1.4
+      # sinPhase 0.0
+      # sinhpf 68
+      # formantAmp 0.6
+      # softsatAmp 0
+      # sinAmp 2
+      # noiseAmp 0.5
+      # clickAmp 0.025
+      # gain (0.88 * thisGain * globalGain)
+  d5 $ -- snare
+    listen (cF 1 "91") $
+    degOffsetBy (7/5) (cF 0 "20") $
+    ghost' 0.3 $
+    someCyclesBy 0.39
+    (swingBy (3/5) 3) $
+    someCycles
+    (within (0.5, 1) (listen 0)) $
+    fast 2 $
+    (<| amp "~@0.5 <0.3 [~ 0.3]>@0.5 <0.4 [~ 0.4 ~]>@1.5") $
+    s "Sd_fab_clickTambourin"
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 0.01
+      # rls 0.2
+      # crv "-4.0"
+      # freq 520
+      # envmodLev1 0.26
+      # envmodLev2 1
+      # envmodLev3 0.7
+      # envmodLev4 0.2
+      # envmodLev 1
+      # envmodTime1 0.001
+      # envmodTime2 0.8
+      # envmodTime3 0.32
+      # envmodTime 0.04 -- 4.0
+      # envmodCurve "-6.0"
+      # modamt 0.6
+      # freqMaxFactor 0.3
+      # inPow1 1
+      # inPreGain 0.6
+      # res1 0.924
+      # overdrive 3.4
+      # type1 2.0
+      # selFilter 0.003
+      # inPow2 32.0
+      # res2 1.96
+      # type2 (fast "2 4" "<0 1.0>")
+      # strMix 0.559
+      # strthreshold 0.993
+      # strdur 0.512
+      # structpow 0.0082
+      # brightness 0.48
+      # filtMix 0
+      # gain (0.86 * thisGain * globalGain)
+  d6 silence
 
 globalGain = 1
