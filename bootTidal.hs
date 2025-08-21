@@ -2160,6 +2160,16 @@ let only = (hush >>)
     gateDur = pF "gateDur"
     gateLag = pF "gateLag"
     sweepDur = pF "sweepDur"
+    --
+    env1Delay = pF "env1Delay"
+    env2CircleTime = pF "env2CircleTime"
+    envSel = pF "envSel"
+    noiseModPow = pF "noiseModPow"
+    noiseLag = pF "noiseLag"
+    pulsePw = pF "pulsePw"
+    rhpfFreqModAmt = pF "rhpfFreqModAmt"
+    --
+    sigFoldGain = pF "sigFoldGain"
 :}
 
 :{

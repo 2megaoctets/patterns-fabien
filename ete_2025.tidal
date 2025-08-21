@@ -21,7 +21,7 @@ do -- c'est pas du livecoding gna gna gna %4
     somecyclesBy 0.26
     (|+ modPhaseCrv (smooth "<-12 -20 12>")) $
     whenmod "<16 18>" "<14 16>"
-    ((|* atk 3) . (|+ crv 12) . (|* gain 1.3). (# hpffreq 50)) $
+    ((|* atk 3) . (|+ crv 12) . (|* gain 1.3). (# hpffreq 62)) $
     someCyclesBy 0.28
     (|+ modfreq (range "-0.75" 120 $ slow 4 rand)) $
     (<| amp "0.5 [0.3@1.5 <0.5 [<~@0.5 ~@0.5 ~@0.25> 0.5]> _]") $
@@ -818,7 +818,7 @@ d1 $ -- kick low
 
 all id
 
-all (outside 3.5 (spread ($) [((# speed 0.5) . (|* rls "0.1 0.02 0.06")), slowSqueeze "2 3"]))
+all (outside 3.5 (spreadf [((# speed 0.5) . (|* rls "0.1 0.02 0.06")), slowSqueeze "2 3"]))
 
 do -- dance hall inclusive %7
   setcps 0.4
@@ -1229,7 +1229,7 @@ do -- derreck basic %5
   d2 $ -- snare
     listen (cF 1 "88") $
     degOffsetBy (3/5) (cF 0 "17") $
-     ghost' 0.3 $
+    ghost' 0.3 $
     someCyclesBy 0.3
     (swingBy (3/5) 3) $
     someCycles
@@ -1521,5 +1521,165 @@ d3 $ -- hi hat
     # snapPow "<8 [6 8]>@2 2 22"
     # hpffreq 20.0
     # gain (0.94 * globalGain)
+
+all id
+
+do -- peganum guarana %6
+  setcps 0.53
+  all id
+  let thisGain = 1
+  d1 $ -- bass
+    listen (cF 1 "91") $
+    degOffsetBy (1/6) (cF 0 "20") $
+    someCycles
+    (|* freqStart (fast 2 $ smooth "1 0.25 [1 2]")) $
+    ((|* bpfFreq (slow 2 $ smooth "0.5 0.2 1 0.8 1")) . (|+ bpfRq (fast 4 $ smooth "-0.25 1.7"))) $
+    (|*| freq "[1 0.5 [1 2] 0.5]@2 ~@0.5") $
+    s "Sd_fab_textureGresille2"
+      |<| amp "[0.23 0.3](3, 5)@6 <0.23 ~>"
+      # begin 0
+      # end 1
+      # sustain 1.0
+      # freqStart 32
+      # sweepDur "<2.8 1.4>"
+      # atk 0.13
+      # rls 0.5
+      # crv "1.0"
+      # envmodLev1 0.2
+      # envmodLev2 0.98
+      # envmodLev3 0
+      # envmodLev4 0.6
+      # envmodLev5 0.9
+      # envmodLev 1
+      # envmodTime1 1
+      # envmodTime2 0.75
+      # envmodTime3 0.2
+      # envmodTime4 0.7
+      # envmodTime 0.3
+      # envmodCurve 10
+      # bpfFreq 9210
+      # bpfRq 0.3
+      # granul (slow 2 "0.13 0.3 0.13*2")
+      # delayBase 0.006
+      # distoSel 0.78
+      # textureMix (fast 2 "1 0")
+      # textureHpf 60.0
+      # sigFoldGain 12
+      # distoMix (slow 1.25 sine)
+      # hpffreq 20.0
+      # gain (0.96 * thisGain * globalGain)
+  d2 $ -- hi hat
+    listen (cF 1 "89") $
+    degOffsetBy (2/6) (cF 0 "18") $
+    (# pan (range 0.19 0.81 $ fast (scramble 4 "2 3 6 4") cosine)) $
+    (|<| amp "[0.2 0.24 0.3]*3") $
+    s "Sd_stochadiet5"
+      # attack 0.021
+      # release 0.018
+      # begin 0
+      # end 1
+      |<| freq (fast 6 "<80 180> 80 180")
+      # speed 1
+      # sustain 1
+      # filtSpeed 1
+      # filtCenter 20
+      # sdm 1.91
+      # modFreq 20
+      # filtBw 18
+      # gain (0.92 * thisGain * globalGain)
+  d3 $ -- kick
+    listen (cF 1 "87") $
+    degOffsetBy (4/6) (cF 0 "16") $
+    someCyclesBy 0.11
+    ((# atk "0.1 0.2") . (# rls "0.11 0.6") . (# accelerate "-0.3") . (|* gain "1 0.86")) $
+    someCyclesBy 0.38
+    ((|* sinFreqModAmt "2 0.5 <1.6 1> 1 1.2")) $
+    every 2
+    ("0.666 0 0.333" ~>) $
+    linger 0.5 $
+    slowSqueeze "1 3 1" $
+    (|<| amp "0.4 [[0.6 ~] [0.4 0.6]]@2") $
+    s "Sd_fab_kickout" 
+      # begin 0.0
+      # end 1.0
+      # sustain 1.0
+      # atk 0.0082
+      # rls 0.3
+      # crv "2.0"
+      # freq 83
+      # speed 1.2
+      # mod1Atk 0.6
+      # mod1Rls 0.0000453
+      # mod1Crv "-111.22"
+      # mod1CircleTime 0
+      # mod2Threshold 0.9927
+      # mod2LagTime 0.001023
+      # modFold 0.76
+      # sinFreqModAmt 3
+      # sinFreqModCrv "-8.0"
+      # noiseAmt 2.64
+      # noiseDur 0.08128
+      # pulseDur 0.0021
+      # distSel 0.45
+      # lowShelfFreq 84.0
+      # lowShelfSlope 0.002
+      # lowshelfDb 3
+      # clickDb "-19.5"
+      # clickModAmt 6.0
+      # subDb 10
+      # subFreqModDur 0.913
+      # hiShelfFreq 64.0
+      # hiShelfSlope 0.6
+      # hiShelfDb 1.5
+      # hpffreq 104
+      # gain (0.91 * thisGain * globalGain)
+      # orbit 1
+  d4 $ -- clap
+    listen (cF 1 "88") $
+    degOffsetBy (3/6) (cF 0 "17") $
+    (fast "2 3") $
+    (<| amp "~@0.5 0.93?0.18") $
+    s "Sd_stochadiet5"
+      # attack 0.1
+      # release 0.08
+      # begin 0
+      # end 1
+      # speed 1
+      # sustain 1
+      # filtSpeed 1
+      # filtCenter 20
+      # sdm "<10.12 [100, 20.91]>"
+      # modFreq "[10.09, 0.09]"
+      # filtBw 12
+      # gain 0.61
+  d5 $ -- gutter (randSeed = 8)
+    listen (cF 1 "90") $
+    degOffsetBy (1/6) (cF 0 "19") $
+    (*| dt (fast 3 "2 6 0.2")) $
+    s "Sd_gutter"
+      # amp 0.8
+      # begin 0.0
+      # end 1.0
+      # attack 0.01
+      # sustain 0.493 -- 0.93
+      # release 0.3 -- 0.8
+      # freq 321.58
+      # speed 0.19
+      # accelerate "2.27 0.1 -1"
+      # gamma 0.419182
+      # omega 1.1123
+      # c 0.00343
+      # dt 0.12
+      # singlegain 0.799
+      # smoothing 1.926
+      # gains1 0.74
+      # gains2 0.85
+      # freqs1 0.002125
+      # qs1 0.1
+      # freqs2 1.30126
+      # qs2 0.074
+      # hpf 110
+      # gain (0.98 * thisGain * globalGain)
+  d6 silence
 
 globalGain = 1
