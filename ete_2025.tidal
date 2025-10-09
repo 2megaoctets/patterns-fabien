@@ -2198,7 +2198,7 @@ all (hurry "2@0.5 1.2 0.75" . (|* rls "<0.1 0.01>") . (|* gain 0.94))
 
 all (iter 7 . fastGap "2 1")
 
-do -- 40000 metres carres sur 3 niveaux %7
+do -- 40000 metres carres sur 3 ou 4 niveaux %7
   setcps 0.43
   all id
   let thisGain = 1
@@ -2256,6 +2256,7 @@ do -- 40000 metres carres sur 3 niveaux %7
       # hpffreq 55
       # spread 0.94
       # gain (0.84 * thisGain * globalGain)
+      # orbit 2
   d2 $ -- kick lo
     listen (cF 1 "87") $
     degOffsetBy (2/7) (cF 0 "16") $
@@ -2283,6 +2284,7 @@ do -- 40000 metres carres sur 3 niveaux %7
       # hpffreq 50
       # spread 0.0
       # gain (1 * thisGain * globalGain)
+      # orbit 1
   d3 $ -- hi hat
     listen (cF 1 "90") $
     degOffsetBy (4/7) (cF 0 "19") $
@@ -2319,6 +2321,7 @@ do -- 40000 metres carres sur 3 niveaux %7
       # reverbMix 0.0
       # distort 3
       # gain (0.52 * thisGain * globalGain)
+      # orbit 0
   d4 $ -- bass 2
     listen (cF 1 "91") $
     degOffsetBy (5/7) (cF 0 "20") $
@@ -2362,6 +2365,7 @@ do -- 40000 metres carres sur 3 niveaux %7
       # spread 0.32
       # hpf 56
       # gain (0.56 * thisGain * globalGain)
+      # orbit 2
   d5 $ -- perc
     listen (cF 1 "89") $
     degOffsetBy (3/7) (cF 0 "18") $
@@ -2406,6 +2410,7 @@ do -- 40000 metres carres sur 3 niveaux %7
       # filtMix 0
       # spread 0
       # gain (0.9 * thisGain * globalGain)
+      # orbit 0
   d6 $ -- kick hi
     listen (cF 1 "88") $
     degOffsetBy (6/7) (cF 0 "17") $
@@ -2435,6 +2440,7 @@ do -- 40000 metres carres sur 3 niveaux %7
       # hpffreq 20
       # hpf 66
       # gain (1.14 * thisGain * globalGain)
+      # orbit 1
 
 d3 $ -- hi hat
   listen (cF 1 "90") $
