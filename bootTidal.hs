@@ -2141,6 +2141,35 @@ let only = (hush >>)
     delayBase = pF "delayBase"
     textureMix = pF "textureMix"
     textureHpf = pF "textureHpf"
+    --
+    feedbackLag = pF "feedbackLag"
+    ringsStructureMod = pF "ringsStructureMod"
+    ringsStructureModRate = pF "ringsStructureModRate"
+    ringsStructureLag = pF "ringsStructureLag"
+    ringsPosiiotnLag = pF "ringsPosiiotnLag"
+    --
+    ratiosFact = pF "ratiosFact"
+    rongsStruct = pF "rongsStruct"
+    rongsStretch = pF "rongsStretch"
+    filterTransLag = pF "filterTransLag"
+    filterFreqMod = pF "filterFreqMod"
+    filterFreqLag = pF "filterFreqLag"
+    spread = pF "spread"
+    --
+    gateRate = pF "gateRate"
+    gateDur = pF "gateDur"
+    gateLag = pF "gateLag"
+    sweepDur = pF "sweepDur"
+    --
+    env1Delay = pF "env1Delay"
+    env2CircleTime = pF "env2CircleTime"
+    envSel = pF "envSel"
+    noiseModPow = pF "noiseModPow"
+    noiseLag = pF "noiseLag"
+    pulsePw = pF "pulsePw"
+    rhpfFreqModAmt = pF "rhpfFreqModAmt"
+    --
+    sigFoldGain = pF "sigFoldGain"
 :}
 
 :{
