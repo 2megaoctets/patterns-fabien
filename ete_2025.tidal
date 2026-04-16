@@ -18,15 +18,17 @@ do -- c'est pas du livecoding gna gna gna %4
   d1 $ -- kick low
     listen (cF 1 "87") $
     degOffsetBy (1/4) (cF 0 "16") $
+    contrastBy (>) (|* gain 1) (|* gain 0.86) (modPhaseAtk 0.0004) $
+    contrastBy (>) (|* gain 1) (|* gain 1.14) (modPhaseAtk 0.12) $
     somecyclesBy 0.26
     (|+ modPhaseCrv (smooth "<-12 -20 12>")) $
     whenmod "<16 18>" "<14 16>"
-    ((|* atk 3) . (|+ crv 12) . (|* gain 1.3). (# hpffreq 62)) $
+    ((|* atk 3) . (|+ crv 12) . (|* gain 1.3) . (# hpffreq 62) . (# nCompthreshold "-28")) $
     someCyclesBy 0.28
     (|+ modfreq (range "-0.75" 120 $ slow 4 rand)) $
     (<| amp "0.5 [0.3@1.5 <0.5 [<~@0.5 ~@0.5 ~@0.25> 0.5]> _]") $
     s "Sd_fab_softkick1"
-      # begin 0.0
+      # begin 0
       # end 1.0
       # sustain 1
       # atk 0.1
@@ -35,9 +37,9 @@ do -- c'est pas du livecoding gna gna gna %4
       # freq 50
       # modfreq 340 -- 120
       # modPhaseAmt 12 -- 0.4
-      # modPhaseAtk 0.0001 -- "0.0001 <0.0001 0.01>"
+      # modPhaseAtk (0.0001 + (range 0 0.26 $ cF 0 "70"))
       # modPhaseRls "0.008 <0.001 0.008>"
-      # modPhaseCrv 18.0
+      # modPhaseCrv (18.0 * (rangex 1 0.00125 $ cF 0 "70"))
       # delaySin 0
       # clickMix 0.3
       # noiseDec 0.6
@@ -45,7 +47,12 @@ do -- c'est pas du livecoding gna gna gna %4
       # distoMix 1.0
       # eqMix 0.52
       # hpffreq 58 -- 50
-      # gain (0.96 * thisGain * globalGain)
+      # gain (0.94 * thisGain * globalGain)
+      # nCompslope 0
+      # nCompthreshold "-18"
+      # nCompattack 0.001
+      # nComprelease 0.8
+      # nCompstereomode 0
       # orbit 1
   d2 $ -- kick hi
     listen (cF 1 "88") $
@@ -71,11 +78,11 @@ do -- c'est pas du livecoding gna gna gna %4
       # envmodRls 0.82
       # envmodCrv "-6.0"
       # noiseamt 0
-      # parLag 0.002
+      # parLag (0.0002 + (range 0 0.6 $ cF 0 "71"))
       # parDecay 2.39
-      # snapAmt 0.35
+      # snapAmt (0.35 * (range 1 0.0125 $ cF 0 "71"))
       # hiShelfFreq 241.0
-      # hiShelfSlope 0.4
+      # hiShelfSlope (0.4 * (range 1 2.5 $ cF 0 "71"))
       # hiShelfDb 20
       # membrane2Amt 0
       # hpffreq 94 -- 44
@@ -105,15 +112,20 @@ do -- c'est pas du livecoding gna gna gna %4
       # envmodTime1 0.0004
       # envmodTime2 0.004
       # envmodTime3 0.0004
-      # envmodTime 1 -- "<10 1>"
-      # envmodCurve "-4.0"
-      # freqOffset 120.0
+      # envmodTime (1 * (rangex 1 10 $ cF 0 "72"))
+      # envmodCurve ("-4.0" * (range 1 10 $ cF 0 "72"))
+      # freqOffset (120.0 * (rangex 1 4 $ cF 0 "72"))
       # noiseThr 0.21
       # noisePow 20
       # brfRq 0.33
       # mix 0.46 -- "<0.78 0.46>"
-      # gain (0.65 * thisGain * globalGain)
-      # orbit 2
+      # gain (0.62 * thisGain * globalGain)
+      # nCompslope 0
+      # nCompthreshold "-22"
+      # nCompattack 0.01
+      # nComprelease 0.6
+      # nCompstereomode 0
+      # orbit 0
   d4 $ -- hi hat
     listen (cF 1 "90") $
     degOffsetBy (6/4) (cF 0 "19") $
@@ -127,7 +139,7 @@ do -- c'est pas du livecoding gna gna gna %4
       # end 1.0
       # sustain 0.022
       # atk 0.1
-      # rls 0.001
+      # rls (0.001 + (range 0.0 8 $ cF 0 "73"))
       # crv "-8.0"
       # envmodLev1 0.0
       # envmodLev2 10.0
@@ -153,7 +165,13 @@ do -- c'est pas du livecoding gna gna gna %4
       # snapSel 0
       # snapPow 2.0
       # hpffreq 20.0
-      # gain (0.97 * thisGain * globalGain)
+      # gain ((0.97 * thisGain * globalGain) * (rangex 1 0.835 $ cF 0 "73"))
+      # nCompslope 0
+      # nCompthreshold "-26"
+      # nCompattack 0.001
+      # nComprelease 2
+      # nCompstereomode 0
+      # orbit 0
   d5 $ -- ambiance
     listen (cF 1 "91") $
     degOffsetBy (7/4) (cF 0 "20") $
@@ -168,7 +186,7 @@ do -- c'est pas du livecoding gna gna gna %4
       # rls 1
       # crv 2
       # freq 86
-      # ratioOffset 1.1
+      # ratioOffset (1.1 * (range 1 10 $ cF 0 "74"))
       # envFolAtk 0.1
       # envFolRls 0.9
       # foldTreshold 1
@@ -190,6 +208,7 @@ do -- c'est pas du livecoding gna gna gna %4
       # revTailLev 0.29
       # hpffreq 35.0
       # gain (1.04 * thisGain * globalGain)
+      # orbit 2
   d6 $ -- bass
     listen (cF 1 "92") $
     degOffsetBy (2/4) (cF 0 "21") $
@@ -206,21 +225,26 @@ do -- c'est pas du livecoding gna gna gna %4
       # sustain 0.6
       # atk 0.3
       # rls 0.8
-      # crv "-2.0"
+      # crv ("-2.0" - (range 0 28 $ cF 0 "75"))
       # freq 30
       # envmodLev1 0.0
       # envmodLev2 1.0
       # envmodLev3 0.16
       # envmodLev4 1.0
-      # envmodLev "0.2 0.85"
+      # envmodLev ("0.2 0.85" * (range 1 3 $ cF 0 "76"))
       # envmodTime1 0.0004
       # envmodTime2 0.004
       # envmodTime3 0.0004
       # envmodTime 0.12
       # envmodCurve "-4.0"
-      # fxMix 0.4
+      # fxMix (0.4 * (range 1 0.0125 $ cF 0 "77"))
       # hpffreq 112 -- 92
       # gain (0.9 * thisGain * globalGain)
+      # nCompslope 0
+      # nCompthreshold "-19"
+      # nCompattack 0.001
+      # nComprelease 2
+      # nCompstereomode 0
       # orbit 2
 
 d3 $ -- snare
@@ -243,20 +267,27 @@ d3 $ -- snare
     # envmodTime1 0.0004
     # envmodTime2 0.004
     # envmodTime3 0.0004
-    # envmodTime 0.21 -- "<10 1>"
-    # envmodCurve "-24.0"
-    # freqOffset 14
+    # envmodTime (0.21 * (rangex 1 10 $ cF 0 "72"))
+    # envmodCurve ("-24.0" * (range 1 10 $ cF 0 "72"))
+    # freqOffset (14 * (rangex 1 4 $ cF 0 "72"))
     # noiseThr 0.521
     # noisePow 12
     # brfRq 0.33
     # mix 0.46 -- "<0.78 0.46>"
     # gain (0.58 * globalGain)
-    # orbit 2
+    # nCompslope 0
+    # nCompthreshold "-22"
+    # nCompattack 0.01
+    # nComprelease 0.6
+    # nCompstereomode 0
+    # orbit 0
 
 do
   d1 $ -- kick low
     listen (cF 1 "87") $
     degOffsetBy (1/4) (cF 0 "16") $
+    contrastBy (>) (|* gain 1) (|* gain 0.9) (modPhaseAtk 0.0004) $
+    -- fast "[1 2] 1.25 0.75" $
     whenmod "<16 18>" "<14 16>"
     ((|* atk 3) . (|+ crv 12) . (|* gain 1.3)) $
     (fast 2 . (|* gain 0.94)) $
@@ -271,9 +302,9 @@ do
       # freq 50
       # modfreq 340
       # modPhaseAmt 12 -- 0.4
-      # modPhaseAtk 0.0001 -- "0.0001 <0.0001 0.01>"
+      # modPhaseAtk (0.0001 + (range 0.0 0.26 $ cF 0 "70"))
       # modPhaseRls "0.008 <0.001 0.008>"
-      # modPhaseCrv 18.0
+      # modPhaseCrv (18.0 * (rangex 1 0.00125 $ cF 0 "70"))
       # delaySin 0
       # clickMix 0.3
       # noiseDec 0.6
@@ -282,6 +313,11 @@ do
       # eqMix 0.52
       # hpffreq 58
       # gain (0.96 * globalGain)
+      # nCompslope 0
+      # nCompthreshold "-18"
+      # nCompattack 0.001
+      # nComprelease 0.8
+      # nCompstereomode 0
       # orbit 1
   d2 silence
 
@@ -589,6 +625,7 @@ do -- boss of sandales %5
       # lpgCrv 4
       # hpffreq 58
       # gain (0.74 * thisGain * globalGain)
+      # orbit 1
   d2 $ -- kick hi
     listen (cF 1 "88") $
     degOffsetBy (2/5) (cF 0 "17") $
@@ -623,7 +660,7 @@ do -- boss of sandales %5
       # filterMix 1
       # hpffreq 96
       # gain (0.94 * thisGain * globalGain)
-      # orbit 2
+      # orbit "<1 1 2 1 2>"
   d3 $ -- snare
     listen (cF 1 "89") $
     degOffsetBy (3/5) (cF 0 "18") $
@@ -714,6 +751,7 @@ do -- boss of sandales %5
       -- # hpf 1200
       -- # hpq 0.1
       # gain (0.81 * thisGain * globalGain)
+      # orbit 0
   d5 $ -- bass
     listen (cF 1 "92") $
     degOffsetBy (6/5) (cF 0 "21") $
@@ -1576,6 +1614,7 @@ do -- peganum guarana %6
       # distoMix (slow 1.25 sine)
       # hpffreq 20.0
       # gain (0.96 * thisGain * globalGain)
+      # orbit 2
   d2 $ -- hi hat
     listen (cF 1 "89") $
     degOffsetBy (2/6) (cF 0 "18") $
@@ -1595,6 +1634,7 @@ do -- peganum guarana %6
       # modFreq 20
       # filtBw 18
       # gain (0.93 * thisGain * globalGain)
+      # orbit 0
   d3 $ -- kick
     listen (cF 1 "87") $
     degOffsetBy (4/6) (cF 0 "16") $
@@ -1660,6 +1700,7 @@ do -- peganum guarana %6
       # modFreq "[10.09, 0.09]"
       # filtBw 12
       # gain 0.62
+      # orbit 0
   d5 $ -- gutter (randSeed = 8)
     listen (cF 1 "90") $
     degOffsetBy (5/6) (cF 0 "19") $
@@ -1688,6 +1729,7 @@ do -- peganum guarana %6
       # qs2 0.074
       # hpf 110
       # gain (0.98 * thisGain * globalGain)
+      # orbit 2
   d6 silence
 
 d3 $ -- kick
@@ -1767,6 +1809,7 @@ d5 $ -- gutter (randSeed = 8)
     # qs2 0.074
     # hpf 110
     # gain (0.94 * globalGain)
+    # orbit 2
 
 all id
 
@@ -1832,6 +1875,7 @@ do -- dj bienveillant %5
       # spread 1.0
       # hpffreq 60.0
       # gain (1.02 * thisGain * globalGain)
+      # orbit 0
   d2 $ -- bass
     listen (cF 1 "92") $
     degOffsetBy (4/5) (cF 0 "21") $
@@ -1882,6 +1926,7 @@ do -- dj bienveillant %5
       # spread 0.24
       # hpffreq 60.0
       # gain (0.9 * thisGain * globalGain)
+      # orbit 2
   d3 $ -- kick hi
     listen (cF 1 "88") $
     degOffsetBy (2/5) (cF 0 "17") $
@@ -1924,6 +1969,7 @@ do -- dj bienveillant %5
       # spread 0.132
       # hpf 50
       # gain (0.92 * thisGain * globalGain)
+      # orbit 1
   d4 $ -- hi hat
     listen (cF 1 "91") $
     degOffsetBy (6/5) (cF 0 "20") $
@@ -1955,6 +2001,7 @@ do -- dj bienveillant %5
       # brfRq 0.33
       # mix 0.946
       # gain (0.76 * thisGain * globalGain)
+      # orbit 0
   d5 $ -- kick lo
     listen (cF 1 "87") $
     degOffsetBy (1/5) (cF 0 "16") $
@@ -1987,6 +2034,7 @@ do -- dj bienveillant %5
       # hpffreq 20.0
       # hpf 66
       # gain (0.96 * thisGain * globalGain)
+      # orbit 1
   d6 $ -- snare
     listen (cF 1 "89") $
     degOffsetBy (4/5) (cF 0 "18") $
@@ -2012,6 +2060,7 @@ do -- dj bienveillant %5
       # feedBack 1.8
       # fxMix 0.8
       # gain 0.73
+      # orbit 0
 
 d3 $ -- kick hi
   listen (cF 1 "88") $
@@ -2057,6 +2106,7 @@ d3 $ -- kick hi
     # spread 0.132
     # hpf 50
     # gain (0.92 * globalGain)
+    # orbit 1
 
 do
   d2 $ -- bass
@@ -2110,6 +2160,7 @@ do
       # spread 0.24
       # hpffreq 60.0
       # gain (0.9 * globalGain)
+      # orbit 2
   d7 $ -- bass lo
     listen (cF 1 "93") $
     degOffsetBy (7/5) (cF 0 "22") $
@@ -2155,6 +2206,7 @@ do
       # spread 0.081
       # hpf 64
       # gain (0.78 * globalGain)
+      # orbit 2
 
  d4 $ -- hi hat
   listen (cF 1 "91") $
@@ -2189,6 +2241,7 @@ do
     # brfRq 0.33
     # mix 0.946
     # gain (0.76 * globalGain)
+    # orbit 0
 
 all id
 
@@ -2478,6 +2531,7 @@ d3 $ -- hi hat
     # reverbMix 0.0
     # distort 3
     # gain (0.52 * globalGain)
+    # orbit 0
 
 d6 $ -- kick hi
   listen (cF 1 "88") $
@@ -2510,5 +2564,6 @@ d6 $ -- kick hi
     # hpffreq 20
     # hpf 66
     # gain (1.14 * globalGain)
+    # orbit 1
 
 globalGain = 1
