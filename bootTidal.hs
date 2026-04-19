@@ -1453,6 +1453,24 @@ let only = (hush >>)
     warpsvgain = pF "warpsvgain"
     warpseasteregg = pI "warpseasteregg"
     --
+    dCompratio = pF "dCompratio"
+    dCompthreshold = pF "dCompthreshold"
+    dCompattack = pF "dCompattack"
+    dComprelease = pF "dComprelease"
+    dCompmakeup = pF "dCompmakeup"
+    dCompautomakeup = pI "dCompautomakeup"
+    --
+    nCompslope = pF "nCompslope"
+    nCompthreshold = pF "nCompthreshold"
+    nCompattack = pF "nCompattack"
+    nComprelease = pF "nComprelease"
+    nCompstereomode = pI "nCompstereomode"
+    --
+    fCompratio = pF "fCompratio"
+    fCompthreshold = pF "nCompthreshold"
+    fCompattack = pF "nCompattack"
+    fComprelease = pF "nComprelease"
+    --
     sdm = pF "sdm"
     repeats = pF "repeats"
     --
