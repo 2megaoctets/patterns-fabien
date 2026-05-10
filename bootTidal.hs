@@ -1466,11 +1466,6 @@ let only = (hush >>)
     nComprelease = pF "nComprelease"
     nCompstereomode = pI "nCompstereomode"
     --
-    fCompratio = pF "fCompratio"
-    fCompthreshold = pF "nCompthreshold"
-    fCompattack = pF "nCompattack"
-    fComprelease = pF "nComprelease"
-    --
     sdm = pF "sdm"
     repeats = pF "repeats"
     --

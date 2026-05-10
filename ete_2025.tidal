@@ -326,6 +326,8 @@ all id
 all (compress (2/6, 4/6))
 
 all (append (
+  listen (cF 1 "87") $
+  degOffsetBy (1/3) (cF 0 "16") $
   mtrigger 4 $
   fast 3 $
   (|<| amp "<[0.1@0.5 0.2] [0.1@0.5 0.2] [0.1@2 0.2]>") $
@@ -337,7 +339,7 @@ all (append (
     # rls 0.8 -- 6.0
     # crv "-2 -12.0 -2"
     # freq 39.068736491408
-    # modAmt 6.0
+    # modAmt (6.0 * (rangex 1 4 $ cF 0 "70"))
     # modDur 1.90434
     # sinFreqAtk 0.04708
     # sinFreqRls 0.10048
@@ -347,9 +349,9 @@ all (append (
     # mix 0.75
     # pulseModPow 3.51657
     # pulseWidth 0.46565
-    # pulseDur 0.01941
-    # bbPassBw 3.0
-    # rev1Mix 0.0
+    # pulseDur (0.01941 * (rangex 1 1.4 $ cF 0 "70"))
+    # bbPassBw (3.0 * (rangex 1 0.85 $ cF 0 "70"))
+    # rev1Mix (0.0 + (range 0 0.8 $ cF 0 "70"))
     # rev2Mix 0.0
     # hpffreq 41
     # gain (1.48 * globalGain)
@@ -374,7 +376,7 @@ do -- foudre de terrain %3
       # rls 0.8 -- 6.0
       # crv "-2 -12.0 -2"
       # freq 39.068736491408
-      # modAmt (6.0 * (rangex 1 4 $ cF 0 "74"))
+      # modAmt (6.0 * (rangex 1 4 $ cF 0 "70"))
       # modDur 1.90434
       # sinFreqAtk 0.04708
       # sinFreqRls 0.10048
@@ -384,9 +386,9 @@ do -- foudre de terrain %3
       # mix 0.75
       # pulseModPow 3.51657
       # pulseWidth 0.46565
-      # pulseDur (0.01941 * (rangex 1 1.4 $ cF 0 "75"))
-      # bbPassBw (3.0 * (rangex 1 0.85 $ cF 0 "75"))
-      # rev1Mix (0.0 + (range 0 0.8 $ cF 0 "75"))
+      # pulseDur (0.01941 * (rangex 1 1.4 $ cF 0 "70"))
+      # bbPassBw (3.0 * (rangex 1 0.85 $ cF 0 "70"))
+      # rev1Mix (0.0 + (range 0 0.8 $ cF 0 "70"))
       # rev2Mix 0.0
       # hpffreq 60 -- 41
       # gain (1.48 * thisGain * globalGain)
@@ -404,26 +406,35 @@ do -- foudre de terrain %3
       # begin 0.0
       # end 1.0
       # sustain 1.0
-      # atk 0.0001
-      # rls 0.1
+      # atk (0.0001 * (rangex 1 500 $ cF 0 "71"))
+      -- # atk 0.0001
+      # rls (0.1 * (rangex 1 4 $ cF 0 "71"))
       # crv "-4.0"
       # rngDelStn 0.0
       # rngStn 0.01
       # rngStruct 0.175
-      # rngBrightness 0.625
+      # rngBrightness (0.625 + (range 0.0 0.15 $ cF 0 "71"))
       # rngDamping 0.4
       # rngAccent 0.02
-      # rngStretch 0.5
+      # rngStretch (0.5 - (range 0.0 0.12 $ cF 0 "71"))
       # rngPos 0.15
       # rngLoss 0.915
-      # resMix 1.0
-      # decaytimea 13.0
+      # resMix (1.0 - (range 0.0 1 $ cF 0 "71"))
+      # decaytimea 13
       # feedBack 1.8
       # fxMix 0.8
-      # gain (1.02 * thisGain * globalGain)
+      # gain ((1.02 * thisGain * globalGain) * (rangex 1 0.88 $ cF 0 "71"))
+      # nCompslope (1/8)
+      # nCompthreshold "-31"
+      # nCompattack 0.001
+      # nComprelease 0.2
+      # nCompstereomode 0
+      # orbit 0
   d3 $ -- hi hat
     listen (cF 1 "89") $
     degOffsetBy (4/3) (cF 0 "18") $
+    contrastBy (>) (|* gain 1) (|* gain 0.89) (mod2freq 2500) $
+    contrastBy (>) (|* gain 1) (|* gain 1.11) (mod2freq 7000) $
     someCyclesBy 0.7
     ((swingBy (4/6) 3) . (|* gain 1.06)) $
     (# pan (range 0.3 0.7 $ fast "<2 5> 4 3" cosine)) $
@@ -432,9 +443,9 @@ do -- foudre de terrain %3
       # begin 0.0
       # end 1.0
       # sustain "0.03 <1.0 0.42>"
-      # atk 0.0
-      # rls "<0.3 0.14> [0.14 <0.07 0.98>]"
-      # crv "-4.0"
+      # atk (0.0 + (range 0.0 0.42 $ cF 0 "72"))
+      # rls ("<0.3 0.14> [0.14 <0.07 0.98>]" * (rangex 1 10 $ cF 0 "72"))
+      # crv ("-4.0" * (rangex 1 0.0625 $ cF 0 "72"))
       # freq 234
       # modffrqAdd "-1.2999999523163"
       # modffrqAmt 0.1
@@ -450,15 +461,15 @@ do -- foudre de terrain %3
       # bandrq 1.0
       # banddb "-27.0"
       # distoMix 1.0
-      # mod2freq 450.0
+      # mod2freq (450.0 * (rangex 1 180 $ cF 0 "72"))
       # a 0.003
       # c 3.13
-      # m 0.0019
+      # m 0.0019 
       # xi 0.71
       # mul 42.6
       # add 0.0
       # lagTime 0.01
-      # mix 0.15
+      # mix (0.15 * (rangex 1 6 $ cF 0 "72"))
       # carfreq 232.0
       # modfreq 0.7
       # pmindex 0.32
@@ -466,6 +477,12 @@ do -- foudre de terrain %3
       # mul1 34.0
       # add1 0.0
       # gain (0.76 * thisGain * globalGain)
+      -- # nCompslope 0
+      # nCompthreshold "-20"
+      # nCompattack 0.001
+      # nComprelease 0.1
+      # nCompstereomode 0
+      # orbit 0
   d4 silence
   d5 $ -- bass
     listen (cF 1 "91") $
@@ -481,10 +498,10 @@ do -- foudre de terrain %3
       # amp 0.2
       # begin 0.0
       # end 1.0
-      # sustain (1 * (range 1 0.25 $ cF 0 "73"))
-      # atk 0.4
-      # rls ("<0.48 0.98>" * (range 1 0.0625 $ cF 0 "73"))
-      # crv ("-4.0" * (range 1 "-4" $ cF 0 "73"))
+      # sustain (1 * (rangex 1 1.125 $ cF 0 "75"))
+      # atk (0.4 * (rangex 1 1.3 $ cF 0 "75"))
+      # rls "<0.48 0.98>"
+      # crv ("-4.0" * (range 1 "-8" $ cF 0 "75"))
       # accelerate "<0 0 0 0.125>"
       # freq 52 -- 34
       # envmodLev1 0
@@ -498,23 +515,28 @@ do -- foudre de terrain %3
       # envmodTime3 0.5
       # envmodTime4 1
       # envmodTime "2 <2 0.22>" -- 1.0
-      # envmodCurve1 "-4.0"
+      # envmodCurve1 ("-4.0" * (rangex 1 20 $ cF 0 "75"))
       # envmodCurve2 8.3
       # envmodCurve3 "-30"
-      # envmodCurve4 "2 <2 32.0>" 
+      # envmodCurve4 "2 <2 32.0>"
       # pulseFreqInterval 1.4
-      # pulseAtk 0.3
+      # pulseAtk (0.3 * (rangex 1 2 $ cF 0 "74"))
       # pulseCrv "-4.0"
       # sinFreqInterval 0.03
-      # sinFreqDiv 7.0
-      # distoSel 0
-      # filterMix (0 + (range 0 1 $ cF 0 "70"))
-      # filterFreq (220.0 * (rangex 1 10 $ cF 0 "71"))
+      # sinFreqDiv (7.0 * (rangex 1 2.0833333333333332e-2 $ cF 0 "76"))
+      # distoSel (0 + (range 0 0.6 $ cF 0 "77"))
+      # filterMix 0
+      # filterFreq 220.0
       # filterModFreq 10.2
       # filterModAmt 20.0
-      # filterRes (0.7 * (rangex 1 8 $ cF 0 "72"))
+      # filterRes 0.7
       # hpffreq 62.0
-      # gain (1.28 * thisGain * globalGain)
+      # gain (1.28 * thisGain * globalGain * (rangex 1 0.86 $ cF 0 "77"))
+      # nCompslope 0
+      # nCompthreshold "-26"
+      # nCompattack 0.001
+      # nComprelease 2
+      # nCompstereomode 0
       # orbit 2
   d6 silence
 
@@ -527,12 +549,12 @@ d4 $ -- spectral
   s "Sd_fab_ambiance1"
     # begin 0.0
     # end 1.0
-    # sustain 0.6
+    # sustain (0.6 * (rangex 1 4 $ cF 0 "73"))
     # atk ("0.4 0.14" + (slow "0.5 2" (sine * 2 - 1)))
     # rls 0.6
-    # crv "-2.0"
+    # crv "-2.0" 
     # freq "597 634"
-    # ratioOffset (0.12 + (slow 2 sine)) -- "<1.12 0.12>"
+    # ratioOffset ((0.12 + (slow 2 sine)) * (rangex 1 10 $ cF 0 "73"))
     # envFolAtk 0.01
     # envFolRls 0.0031
     # foldTreshold 0.93
@@ -546,14 +568,15 @@ d4 $ -- spectral
     # sinAmt 1.05
     # sinAtk 0.4
     # sinRls 7.0
-    # sinCrv "2.0"
+    # sinCrv ("2.0" * (range 1 "-20" $ cF 0 "73"))
     # filterLag 0.98
     # revMix "<1.0 0>"
     # revTime 8.0
-    # revEarlyRefLev 0.0012
+    # revEarlyRefLev (0.0012 + (range 0 0.6 $ cF 0 "73"))
+    -- # revEarlyRefLev 0.0012
     # revTailLev 0.9
     # hpffreq 35.0
-    # gain (0.88 * globalGain)
+    # gain (0.88 * globalGain * (rangex 1 0.87 $ cF 0 "73"))
     # orbit 2
 
 d1 $ -- kick
@@ -570,7 +593,7 @@ d1 $ -- kick
     # rls 0.8
     # crv "-8 -12 -14"
     # freq 39.068736491408
-    # modAmt 6 -- "3.27" -- 6
+    # modAmt (6 * (rangex 1 4 $ cF 0 "70"))
     # modDur 1.90434
     # sinFreqAtk 0.04708
     # sinFreqRls 0.10048
@@ -580,9 +603,9 @@ d1 $ -- kick
     # mix 0.75
     # pulseModPow 3.51657
     # pulseWidth 0.46565
-    # pulseDur 0.01941
-    # bbPassBw 3.0
-    # rev1Mix 0.0
+    # pulseDur (0.01941 * (rangex 1 1.4 $ cF 0 "70"))
+    # bbPassBw (3.0 * (rangex 1 0.85 $ cF 0 "70"))
+    # rev1Mix (0.0 + (range 0 0.8 $ cF 0 "70"))
     # rev2Mix 0.0
     # hpffreq 71
     # gain (1.6 * globalGain)
