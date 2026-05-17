@@ -497,7 +497,7 @@ do -- foudre de terrain %3
     s "Sd_fab_doubleBass"
       # amp 0.2
       # begin 0.0
-      # end 1.0
+      # end 1.0 
       # sustain (1 * (rangex 1 1.125 $ cF 0 "75"))
       # atk (0.4 * (rangex 1 1.3 $ cF 0 "75"))
       # rls "<0.48 0.98>"
@@ -514,16 +514,17 @@ do -- foudre de terrain %3
       # envmodTime2 0.151
       # envmodTime3 0.5
       # envmodTime4 1
-      # envmodTime "2 <2 0.22>" -- 1.0
-      # envmodCurve1 ("-4.0" * (rangex 1 20 $ cF 0 "75"))
+      # envmodTime "2 <2 0.22>"
+      # envmodCurve1 "-4.0"
       # envmodCurve2 8.3
       # envmodCurve3 "-30"
       # envmodCurve4 "2 <2 32.0>"
       # pulseFreqInterval 1.4
       # pulseAtk (0.3 * (rangex 1 2 $ cF 0 "74"))
-      # pulseCrv "-4.0"
+      # pulseCrv "-4.0" -- * (rangex 1 0.0625 $ cF 0 "75"))
       # sinFreqInterval 0.03
       # sinFreqDiv (7.0 * (rangex 1 2.0833333333333332e-2 $ cF 0 "76"))
+      -- # sinFreqDiv (7.0 * (select (range 0 1 $ cF 0 "76") [1, 0.112, 0.066, 0.033, 0.0165, 8.25e-3]))
       # distoSel (0 + (range 0 0.6 $ cF 0 "77"))
       # filterMix 0
       # filterFreq 220.0
