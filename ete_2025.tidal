@@ -1945,7 +1945,7 @@ all (slowSqueeze "2 3 2" . hurry 2 . (|* rls 0.12))
 
 all (iter "4 2" . hurry "1.25 0.5" . gap "[10 [10 5]]@2 1@0.5" . (|* gain 0.94))
 
-all (swingBy "0.6@0.5 0.8 0.6" "2.5@0.5 5 2.5" . linger 0.5 . iter "<2 5 1>" . wedge (2/10) (s "~"))
+-- all (swingBy "0.6@0.5 0.8 0.6" "2.5@0.5 5 2.5" . linger 0.5 . iter "<2 5 1>" . wedge (2/10) (s "~"))
 
 do -- dj bienveillant %5
   setcps 0.41
